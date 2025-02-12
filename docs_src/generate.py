@@ -78,6 +78,9 @@ def show_file(file, language="yaml"):
 env.globals["show_file"] = show_file
 
 
+# Other variables
+env.globals["repo"] = repo
+
 # Generate documentation files
 def gen_doc_file(source_file):
     with open(f"{out_dir}/{source_file}.md", "w") as f:
