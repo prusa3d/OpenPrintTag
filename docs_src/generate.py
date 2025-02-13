@@ -23,7 +23,7 @@ from tables import *
 def region_type_transform(cell, row):
     result = cell
     if "max_length" in row:
-        result = f"{result}:{row["max_length"]}"
+        result = f"{result}:{row['max_length']}"
 
     return f"`{result}`"
 
