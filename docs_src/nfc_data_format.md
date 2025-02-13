@@ -4,6 +4,46 @@
 - [Concise Binary Object Representation (CBOR)](https://cbor.io/)
 
 ## Overall structure
+<table class="packet-structure">
+   <tr>
+      <td colspan=7>NDEF message</td>
+   </tr>
+   <tr>
+      <td colspan=7>NDEF record</td>
+   </tr>
+   <tr>
+      <td rowspan=3>Record header</td>
+      <td colspan=6>Record payload</td>
+   </tr>
+   <tr>
+      <td>Meta region</td>
+      <td colspan=3>Main region</td>
+      <td colspan=2>Auxiliary region</td>
+   </tr>
+   <tr>
+      <td>Meta section</td>
+      <td>Main section</td>
+      <td>Main section signature</td>
+      <td class="unused">Unused space</td>
+      <td>Auxiliary section</td>
+      <td class="unused">Unused space</td>
+   </tr>
+</table>
+<style>
+   .packet-structure tbody {
+      border: 2px solid black;
+   }
+   .packet-structure td {
+      vertical-align: top;
+      text-align: center;
+      border: 1px solid black;
+      border-left: 2px solid black;
+      border-right: 2px solid black;
+   }
+   .packet-structure .unused {
+      opacity: 50%;
+   }
+</style>
 
 - The top layer format of the NFC chip is an NDEF message.
 - The message has an **NDEF record** of MIME type **application/vnd.prusa3d.mat.nfc**.
