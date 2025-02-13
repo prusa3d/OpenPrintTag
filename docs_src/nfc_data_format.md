@@ -1,4 +1,10 @@
 # NFC Data Format Specification
+## Used standards
+- [NFC Data Exchange Format (NDEF)](https://nfc-forum.org/build/specifications/data-exchange-format-ndef-technical-specification/)
+- [Concise Binary Object Representation (CBOR)](https://cbor.io/)
+
+## Overall structure
+
 - The top layer format of the NFC chip is an NDEF message.
 - The message has an **NDEF record** of MIME type **application/vnd.prusa3d.mat.nfc**.
    - The material record should be the first one within the message. Adding further records is allowed.
