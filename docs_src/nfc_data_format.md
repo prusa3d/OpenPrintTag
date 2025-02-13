@@ -62,7 +62,7 @@
          - Immediately follows the main section, still part of the main region.
          - Presence determined by the `signed` field in the main section.
          - If present, the signature **MUST** be encoded as CBOR byte string.
-         - We **heavily recommend using ecdsa secp256k1** signature encoded in the DER format (and then in CBOR).
+         - We **heavily recommend using ecdsa secp256k1 sha256 DER** signature.
             - Having the same signature type everywhere enables optimizations for firmware developers.
       1. **Auxiliary section** (optional, CBOR map)
          - Positioned at the beginning of the auxiliary region.
