@@ -19,13 +19,13 @@
   type: int
   unit: bytes
   description:
-    - Offset of the aux region, relative to the NDEF payload start.
-    - If not present, the tag does not have an aux section.
+    - Offset of the auxiliary region, relative to the NDEF payload start.
+    - Omitting this field means that the auxiliary region is not present.
 
 - key: 3
   name: aux_region_size
   type: int
   unit: bytes
   description:
-    - Allocation size of the aux region.
+    - Allocation size of the auxiliary region.
     - If not specified, the region (if present) spans till the next region or payload end.
