@@ -24,14 +24,15 @@
 
 - key: 7
   name: PA
-  description: Polyamide (Nylon)
+  description: Polyamide (nylon)
 
 - key: 8
   name: HIPS
-  description: High Impact Polystyrene
+  description: High impact polystyrene
 
 - key: 9
   name: CPE
+  description: Copolyester
 
 - key: 10
   name: PVA

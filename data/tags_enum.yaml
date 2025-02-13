@@ -1,15 +1,18 @@
 - key: 0
   name: matte
+  description: Matte color (not glossy)
 
 - key: 1
   name: silk
+  description: Glossy, smooth
 
 - key: 2
   name: pearl
+  description: Very glossy, metallic-like, smooth, shiny
 
 - key: 3
   name: pastel
-  description: Pastel color
+  description: Soft, muted color
 
 - key: 4
   name: translucent
@@ -23,7 +26,7 @@
 
 - key: 6
   name: glitter
-  descrption: Contains glittery particles
+  description: Contains glittery particles
 
 - key: 7
   name: carbon_fiber
@@ -36,14 +39,16 @@
 - key: 9
   name: multicolor
   description:
-    - The filament has been co-extruded from multiple colors
+    - Co-extruded from multiple colors
     - Do not confuse with `rainbow` and `mystic`
 
 - key: 10
   name: dual_color
+  description: Co-extruded from two colors
 
 - key: 11
   name: triple_color
+  description: Co-extruded from three colors
 
 - key: 12
   name: rainbow
