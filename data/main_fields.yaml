@@ -131,94 +131,93 @@
   type: number
   unit: mm
   example: 2.75
+  category: fdm
   description:
     - Diameter of the filament, in mm.
     - If not present, 1.75 mm is assumed.
-    - FDM only.
 
 - key: 18
   name: is_abrasive
   type: bool
+  category: fdm
   description:
     - Whether the filament is abrasive and requires hardened nozzle.
-    - FDM only.
-
 - key: 19
   name: requires_filtration
   type: bool
+  category: fdm
   description:
     - Whether the filament generates unsafe fumes during printing and requires a filtration system.
-    - FDM only.
 
 - key: 20
   name: min_nozzle_diameter
   type: number
   example: 0.4
+  category: fdm
   description:
     - Filaments can contain particles that would clog smaller nozzles.
     - This field specifies minimum nozzle diameter recommended for printing this material.
-    - FDM only.
 
 - key: 21
   name: print_temperature
   type: int
   unit: °C
   example: 210
+  category: fdm
   description:
     - Recommended nozzle tempeature for printing.
-    - FDM only.
 
 - key: 22
   name: preheat_temperature
   type: int
   unit: °C
   example: 170
+  category: fdm
   description:
     - Recommended nozzle tempeature for preheating/loadcell bed leveling.
     - Should be large enough for the material to get soft, but not low enough for it no to drip out of the nozzle.
-    - FDM only.
 
 - key: 23
   name: bed_temperature
   type: int
   unit: °C
   example: 60
+  category: fdm
   description:
     - Recommended heatbed tempeature.
-    - FDM only.
 
 - key: 24
   name: min_chamber_temperature
   type: int
   unit: °C
   example: 10
+  category: fdm
   description:
     - Minimum recommended temperature of the chamber.
-    - FDM only.
 
 - key: 25
   name: max_chamber_temperature
   type: int
   unit: °C
   example: 50
+  category: fdm
   description:
     - Maximum recommended temperature of the chamber.
-    - FDM only.
 
 - key: 26
   name: chamber_temperature
   type: int
   unit: °C
   example: 20
+  category: fdm
   description:
     - Ideal chamber temperature for printing.
-    - FDM only.
 
 - key: 27
   name: container_width
   type: int
   unit: mm
   example: 75
+  category: fdm
   description:
     - Width of the filament spool. Can be useful to know for spool holders, dryboxes and such.
-    - FDM only.

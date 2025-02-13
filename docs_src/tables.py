@@ -42,7 +42,7 @@ class Column(typing.NamedTuple):
     transform_ext: any = None
 
 
-def generate_table(yaml_file: str, columns: typing.List[Column]):
+def generate_table(yaml_file: str, columns: typing.List[Column], filter: any = None):
     src = open(yaml_file, "r")
     data = yaml.safe_load(src)
 
@@ -61,6 +61,9 @@ def generate_table(yaml_file: str, columns: typing.List[Column]):
     tgt.write("\n")
 
     for row in data:
+        if filter and not filter(row):
+            continue
+
         tgt.write("|")
         for col in columns:
             cell = row.get(col.field, None)

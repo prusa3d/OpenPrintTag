@@ -92,7 +92,10 @@
    1. This section can possibly be locked by the manufacturer.
 
 ### Fields list
-{{ fields_table("main_fields") }}
+{{ fields_table("main_fields", "") }}
+
+### Field list (FDM-specific)
+{{ fields_table("main_fields", "fdm") }}
 
 #### `material_class` items
 {{ enum_table("material_class_enum") }}

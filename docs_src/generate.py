@@ -43,7 +43,7 @@ enum_columns = [
     Column(field="description", title="Description"),
 ]
 
-env.globals["fields_table"] = lambda file: generate_table(f"{data_dir}/{file}.yaml", cbor_region_columns)
+env.globals["fields_table"] = lambda file, category=None: generate_table(f"{data_dir}/{file}.yaml", cbor_region_columns, lambda row: (category is None) or row.get("category", "") == category)
 env.globals["enum_table"] = lambda file: generate_table(f"{data_dir}/{file}.yaml", enum_columns)
 
 # Examples support
