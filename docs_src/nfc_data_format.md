@@ -83,7 +83,7 @@
    - Main region is always present. If the offset is not specified, the region starts right after the meta section.
    - Auxiliary region is optional (although heavily recommended). Its presence is indicated by the `aux_region_offset` field.
 
-### Fields list
+### Field list
 {{ fields_table("meta_fields") }}
 
 ## Main section
@@ -91,7 +91,7 @@
 1. Contains material information that does not change during the material lifetime.
    1. This section can possibly be locked by the manufacturer.
 
-### Fields list
+### Field list
 {{ fields_table("main_fields", "") }}
 
 ### Field list (FDM-specific)
@@ -108,7 +108,7 @@
 
 ## Auxiliary section
 
-### Fields list
+### Field list
 {{ fields_table("aux_fields") }}
 
 ## Notes & recommendations
