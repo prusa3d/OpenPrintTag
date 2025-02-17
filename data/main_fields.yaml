@@ -104,7 +104,7 @@
     - The stored value is without the "Pantone " prefix.
 
 - key: 14
-  name: opacity
+  name: transmission_distance
   type: number
   example: 6.6
   unit: HueForge TD

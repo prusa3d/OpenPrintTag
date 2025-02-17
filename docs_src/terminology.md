@@ -29,7 +29,7 @@ Specifies the looks and feel of the filament.
 
 Properties:
 - Color (RGB/RAL/Pantone/...)
-- Opacity
+- Transmission distance
 - Tags (matte, glitter, rainbow, conductive, ...).
 
 ## Material container

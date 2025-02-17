@@ -11,7 +11,7 @@ data:
     manufactured_date: 1739371290
     netto_full_weight: 1000
     empty_container_weight: 100
-    opacity: 0.2
+    transmission_distance: 0.2
     print_temperature: 210
     preheat_temperature: 170
     bed_temperature: 60
