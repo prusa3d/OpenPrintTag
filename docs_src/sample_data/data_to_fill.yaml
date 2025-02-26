@@ -1,6 +1,6 @@
 data:
   main:
-    material_class: FDM
+    material_class: FFF
     brand: Prusament
     material_type: PLA
     material_name: PLA Galaxy Black

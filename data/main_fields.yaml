@@ -8,7 +8,7 @@
   type: enum
   required: true
   description: Type of the material
-  example: FDM
+  example: FFF
   items_file: material_class_enum.yaml
 
 - key: 2
@@ -137,7 +137,7 @@
   type: number
   unit: mm
   example: 2.75
-  category: fdm
+  category: fff
   description:
     - Diameter of the filament, in mm.
     - If not present, 1.75 mm is assumed.
@@ -145,13 +145,13 @@
 - key: 18
   name: is_abrasive
   type: bool
-  category: fdm
+  category: fff
   description:
     - Whether the filament is abrasive and requires hardened nozzle.
 - key: 19
   name: requires_filtration
   type: bool
-  category: fdm
+  category: fff
   description:
     - Whether the filament generates unsafe fumes during printing and requires a filtration system.
 
@@ -159,7 +159,7 @@
   name: min_nozzle_diameter
   type: number
   example: 0.4
-  category: fdm
+  category: fff
   description:
     - Filaments can contain particles that would clog smaller nozzles.
     - This field specifies minimum nozzle diameter recommended for printing this material.
@@ -169,7 +169,7 @@
   type: int
   unit: °C
   example: 210
-  category: fdm
+  category: fff
   description:
     - Recommended nozzle tempeature for printing.
 
@@ -178,7 +178,7 @@
   type: int
   unit: °C
   example: 170
-  category: fdm
+  category: fff
   description:
     - Recommended nozzle tempeature for preheating/loadcell bed leveling.
     - Should be large enough for the material to get soft, but not low enough for it no to drip out of the nozzle.
@@ -188,7 +188,7 @@
   type: int
   unit: °C
   example: 60
-  category: fdm
+  category: fff
   description:
     - Recommended heatbed tempeature.
 
@@ -197,7 +197,7 @@
   type: int
   unit: °C
   example: 10
-  category: fdm
+  category: fff
   description:
     - Minimum recommended temperature of the chamber.
 
@@ -206,7 +206,7 @@
   type: int
   unit: °C
   example: 50
-  category: fdm
+  category: fff
   description:
     - Maximum recommended temperature of the chamber.
 
@@ -215,7 +215,7 @@
   type: int
   unit: °C
   example: 20
-  category: fdm
+  category: fff
   description:
     - Ideal chamber temperature for printing.
 
@@ -224,6 +224,6 @@
   type: int
   unit: mm
   example: 75
-  category: fdm
+  category: fff
   description:
     - Width of the filament spool. Can be useful to know for spool holders, dryboxes and such.

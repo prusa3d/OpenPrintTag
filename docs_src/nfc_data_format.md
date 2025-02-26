@@ -94,8 +94,8 @@
 ### Field list
 {{ fields_table("main_fields", "") }}
 
-### Field list (FDM-specific)
-{{ fields_table("main_fields", "fdm") }}
+### Field list (FFF-specific)
+{{ fields_table("main_fields", "fff") }}
 
 #### `material_class` items
 {{ enum_table("material_class_enum") }}

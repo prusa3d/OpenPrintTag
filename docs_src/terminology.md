@@ -35,7 +35,7 @@ Properties:
 ## Material container
 > For example: Prusament 1kg filament spool
 
-- FDM: Also called "Filament spool type" or "Filament material container"
+- FFF: Also called "Filament spool type" or "Filament material container"
 
 Container type/shape the materials are stored in/on.
 
@@ -50,7 +50,7 @@ A specific material put in a specific container.
 Properties:
 - Material
 - Container
-- (FDM) Diameter, tolerance
+- (FFF) Diameter, tolerance
 
 
 ## Material package instance
