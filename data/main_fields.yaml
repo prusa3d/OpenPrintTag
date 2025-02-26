@@ -26,15 +26,21 @@
   description: Brand of the material
   example: Prusament
 
+- key: 28
+  name: brand_specific_material_id
+  type: int
+  requried: true
+  description:
+    - Together with brand uniquely identifies each material
+
 - key: 4
-  name: brand_specific_name
+  name: material_name
   required: true
   type: string
   max_length: 31
   example: PLA Galaxy Black
   description:
     - Brand-specific material display string/identifier.
-    - The pair (brand, brand_specific_name) identifiquely identifies each material.
     - In the UI, brand + name should be displayed together, for example "Prusament PLA Galaxy Black" 
 
 - key: 5

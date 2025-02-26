@@ -3,7 +3,8 @@ data:
     material_class: FDM
     brand: Prusament
     material_type: PLA
-    brand_specific_name: PLA Galaxy Black
+    material_name: PLA Galaxy Black
+    brand_specific_material_id: 1
     tags: [glitter]
     color_rgb: 0x3D3E3D
     color_pantone: 19-0000 TPX
