@@ -1,0 +1,16 @@
+data:
+  main:
+    material_class: FFF
+    brand: Prusament
+    material_type: PLA
+    brand_specific_material_id: 1
+    tags: [glitter]
+    color_rgb: 0x3D3E3D
+    netto_full_weight: 1000
+    transmission_distance: 0.2
+    print_temperature: 210
+    preheat_temperature: 170
+    bed_temperature: 60
+    max_chamber_temperature: 40
+    chamber_temperature: 20
+    container_width: 75
