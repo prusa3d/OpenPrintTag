@@ -12,6 +12,7 @@ parser.add_argument("-c", "--config-file", type=str, default=default_config_file
 parser.add_argument("-r", "--show-region-info", action=argparse.BooleanOptionalAction, default=False, help="Print information about regions")
 parser.add_argument("-u", "--show-root-info", action=argparse.BooleanOptionalAction, default=False, help="Print general info about the NFC tag")
 parser.add_argument("-d", "--show-data", action=argparse.BooleanOptionalAction, default=False, help="Parse and print region data")
+parser.add_argument("-b", "--show-raw-data", action=argparse.BooleanOptionalAction, default=False, help="Print raw region data (HEX)")
 parser.add_argument("-m", "--show-meta", action=argparse.BooleanOptionalAction, default=False, help="By default, --show-data hides the meta region. Enabling this option will print it, too.")
 parser.add_argument("-a", "--show-all", action=argparse.BooleanOptionalAction, default=False, help="Apply all --show options")
 parser.add_argument("-v", "--validate", action=argparse.BooleanOptionalAction, default=False, help="Check that the data are valid")
@@ -71,6 +72,15 @@ if args.show_data:
             data[name] = region.read()
 
     output["data"] = data
+    
+if args.show_raw_data:
+    data = {}
+
+    for name, region in record.regions.items():
+        if args.show_meta or name != "meta":
+            data[name] = region.memory.hex()
+
+    output["raw_data"] = data
 
 if args.validate:
     for name, region in record.regions.items():
