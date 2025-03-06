@@ -1,6 +1,7 @@
 import yaml
 import os
 
+
 class Field:
     key: int
     name: str
@@ -19,6 +20,7 @@ class BoolField(Field):
 
     def encode(self, data):
         return int(data)
+
 
 class IntField(Field):
     def decode(self, data):
@@ -50,7 +52,8 @@ class StringField(Field):
         result = str(data)
         assert len(result) <= self.max_len
         return result
-    
+
+
 class EnumField(Field):
     items_by_key: dict[str, int]
     items_by_name: dict[int, str]
@@ -77,7 +80,7 @@ class EnumField(Field):
 
     def encode(self, data):
         return self.items_by_name[data]
-    
+
 
 class EnumArrayField(Field):
     items_by_key: dict[str, int]
@@ -111,7 +114,7 @@ class EnumArrayField(Field):
 
     def encode(self, data):
         assert type(data) is list
-        
+
         result = []
         for item in data:
             result.append(self.items_by_name[item])
@@ -126,7 +129,7 @@ field_types = {
     "string": StringField,
     "enum": EnumField,
     "enum_array": EnumArrayField,
-    "timestamp": IntField
+    "timestamp": IntField,
 }
 
 
@@ -185,8 +188,7 @@ class Fields:
             result[field.key] = field.encode(value)
 
         return result
-    
+
     def validate(self, decoded_data):
         for field in self.required_fields:
             assert field.name in decoded_data, f"Missing required field '{field.name}'"
-        

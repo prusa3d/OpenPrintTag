@@ -48,7 +48,6 @@ if args.show_region_info or args.show_root_info:
 
                 region_info["signature_valid"] = region.verify_signature(lambda signature, data: key.verify(signature, data, sigdecode=ecdsa.util.sigdecode_der))
 
-        
         regions_info[name] = region_info
 
     if args.show_region_info:
@@ -72,7 +71,7 @@ if args.show_data:
             data[name] = region.read()
 
     output["data"] = data
-    
+
 if args.show_raw_data:
     data = {}
 

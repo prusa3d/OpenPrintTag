@@ -20,12 +20,14 @@ args = {}
 # Tables support
 from tables import *
 
+
 def region_type_transform(cell, row):
     result = cell
     if "max_length" in row:
         result = f"{result}:{row['max_length']}"
 
     return f"`{result}`"
+
 
 cbor_region_columns = [
     Column(field="name", title="Name", transform=lambda x: f"`{x}`"),
@@ -80,6 +82,7 @@ env.globals["show_file"] = show_file
 
 # Other variables
 env.globals["repo"] = repo
+
 
 # Generate documentation files
 def gen_doc_file(source_file):

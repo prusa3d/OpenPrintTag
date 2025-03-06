@@ -16,7 +16,7 @@ class Region:
 
     def __init__(self, offset: int, memory: memoryview, fields: Fields):
         assert type(memory) is memoryview
-        
+
         self.offset = offset
         self.memory = memory
         self.fields = fields
@@ -29,7 +29,7 @@ class Region:
             "size": len(self.memory),
             "used_size": self.used_size(),
         }
-    
+
     def used_size(self):
         data_io = io.BytesIO(self.memory)
         cbor2.load(data_io)
@@ -42,7 +42,7 @@ class Region:
         self.memory[:] = bytearray(len(self.memory))
         encoded = cbor2.dumps(self.fields.encode(data))
         assert len(encoded) <= len(self.memory), f"Data of size {len(encoded)} does not fit into region of size {len(self.memory)}"
-        self.memory[0:len(encoded)] = encoded
+        self.memory[0 : len(encoded)] = encoded
 
     def sign(self, sign_f):
         used_size = self.used_size()
@@ -51,7 +51,7 @@ class Region:
         memory_len = len(self.memory)
 
         assert used_size + signature_len <= memory_len, f"Signature doesn't fit in the region ({used_size} + {signature_len} > {memory_len})"
-        self.memory[used_size:used_size + signature_len] = signature
+        self.memory[used_size : used_size + signature_len] = signature
 
     def verify_signature(self, verify_f):
         used_size = self.used_size()
@@ -59,9 +59,10 @@ class Region:
         return verify_f(signature, self.memory[:used_size])
 
     def signature_size(self):
-        data_io = io.BytesIO(self.memory[self.used_size():])
+        data_io = io.BytesIO(self.memory[self.used_size() :])
         cbor2.load(data_io)
         return data_io.tell()
+
 
 class Record:
     data: memoryview
@@ -77,7 +78,7 @@ class Record:
 
     def __init__(self, config_file: str, data: memoryview):
         assert type(data) is memoryview
-        
+
         self.data = data
 
         self.config_dir = os.path.dirname(config_file)

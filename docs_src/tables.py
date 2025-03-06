@@ -25,15 +25,16 @@ def required_transform(data: any):
     match data:
         case True:
             return "❗"
-        
+
         case False | None:
             return ""
-        
+
         case "recommended":
             return "❕"
-        
+
         case _:
             assert False, f"Unknown required value '{data}'"
+
 
 class Column(typing.NamedTuple):
     field: str
