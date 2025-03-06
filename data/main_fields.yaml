@@ -35,13 +35,12 @@
 
 - key: 4
   name: material_name
-  required: true
   type: string
   max_length: 31
   example: PLA Galaxy Black
   description:
     - Brand-specific material display string/identifier.
-    - In the UI, brand + name should be displayed together, for example "Prusament PLA Galaxy Black" 
+    - In the UI, brand + name should be displayed together, for example "Prusament PLA Galaxy Black"
 
 - key: 5
   name: brand_config_version
