@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser(prog="nfc_initialize", description="Initializes
 parser.add_argument("-c", "--config-file", type=str, default=default_config_file, help="YAML file with the fields configuration")
 parser.add_argument("-s", "--size", type=int, required=True, help="Available space on the NFC tag in bytes")
 parser.add_argument("-d", "--aux-region", type=int, help="Allocate auxiliar region of the provided size in bytes.")
-parser.add_argument("-b", "--block-size", type=int, default=4, help="Block size of the chip. The regions are aligned with the blocks.")
+parser.add_argument("-b", "--block-size", type=int, default=4, help="Block size of the chip. The regions are aligned with the blocks. 1 = no align")
 
 args = parser.parse_args()
 
@@ -45,10 +45,12 @@ payload = bytearray(payload_size)
 metadata = dict()
 meta_fields = Fields.from_file(os.path.join(config_dir, config.meta_fields))
 
+
 def write_section(offset: int, data: dict):
     encoded = cbor2.dumps(data)
     enc_len = len(encoded)
     payload[offset : offset + enc_len] = encoded
+    return enc_len
 
 
 def align_region_offset(offset: int, align_up: bool = True):
@@ -66,10 +68,13 @@ def align_region_offset(offset: int, align_up: bool = True):
         return offset - misalignment
 
 
-# Prepare main region
-main_region_offset = align_region_offset(max_meta_section_size)
-metadata["main_region_offset"] = main_region_offset
-write_section(main_region_offset, dict())
+# Determine main region offset
+# If we are not aligning, we don't need to write the main region offset, it will be directly after the meta region
+main_region_offset = 0
+if args.block_size > 1:
+    # We don't know the meta section actual size, because it is deteremined by how the main_region_offset is encoded - we have to assume maximum
+    main_region_offset = align_region_offset(max_meta_section_size)
+    metadata["main_region_offset"] = main_region_offset
 
 # Prepare aux region
 if args.aux_region is not None:
@@ -78,7 +83,12 @@ if args.aux_region is not None:
     write_section(aux_region_offset, dict())
 
 # Prepare meta section
-write_section(0, meta_fields.encode(metadata))
+meta_section_size = write_section(0, meta_fields.encode(metadata))
+if main_region_offset == 0:
+    main_region_offset = meta_section_size
+
+# Write main region
+write_section(main_region_offset, dict())
 
 # Create the NDEF record
 ndef_record = ndef.Record(config.mime_type, "", payload)
