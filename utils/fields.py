@@ -1,5 +1,6 @@
 import yaml
 import os
+import numpy
 
 
 class Field:
@@ -32,10 +33,17 @@ class IntField(Field):
 
 class NumberField(Field):
     def decode(self, data):
-        return float(data)
+        num = float(data)
+        return int(num) if num.is_integer() else round(num, 3)
 
     def encode(self, data):
-        return float(data)
+        # If the number is whole, encode it as int - CBOR does that way more efficiently
+        # If it is decimal, store it as half-precision float, which should be plenty for all use cases here
+        num = float(data)
+        encoded = int(num) if num.is_integer() else float(numpy.float16(num))
+        diff = abs(num - encoded)
+        assert diff < 1e-3, f"Lost precision during encoding {num}: {diff}"
+        return encoded
 
 
 class StringField(Field):

@@ -40,13 +40,13 @@ class Region:
 
     def write(self, data):
         self.memory[:] = bytearray(len(self.memory))
-        encoded = cbor2.dumps(self.fields.encode(data))
+        encoded = cbor2.dumps(self.fields.encode(data), canonical=True)
         assert len(encoded) <= len(self.memory), f"Data of size {len(encoded)} does not fit into region of size {len(self.memory)}"
         self.memory[0 : len(encoded)] = encoded
 
     def sign(self, sign_f):
         used_size = self.used_size()
-        signature = cbor2.dumps(sign_f(self.memory[0:used_size]))
+        signature = cbor2.dumps(sign_f(self.memory[0:used_size]), canonical=True)
         signature_len = len(signature)
         memory_len = len(self.memory)
 
