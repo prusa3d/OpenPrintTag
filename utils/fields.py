@@ -17,10 +17,10 @@ class Field:
 
 class BoolField(Field):
     def decode(self, data):
-        return int(data)
+        return bool(data)
 
     def encode(self, data):
-        return int(data)
+        return bool(data)
 
 
 class IntField(Field):
