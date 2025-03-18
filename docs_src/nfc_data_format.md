@@ -60,7 +60,7 @@
             - The only situation where this region needs to be updated would be when the container is being repurposed.
       1. **Main section signature** (optional, CBOR byte string)
          - Immediately follows the main section, still part of the main region.
-         - Presence determined by the `signed` field in the main section.
+         - Presence determined by the `is_signed` field in the main section.
          - If present, the signature **MUST** be encoded as CBOR byte string.
          - We **heavily recommend using ecdsa secp256k1 sha256 DER** signature.
             - Having the same signature type everywhere enables optimizations for firmware developers.

@@ -37,7 +37,7 @@ if args.show_region_info or args.show_root_info:
         region_info = region.info_dict()
         payload_used_size += region.used_size()
 
-        if region.read().get("signed", False):
+        if region.read().get("is_signed", False):
             signature_size = region.signature_size()
             region_info["signature_size"] = signature_size
             payload_used_size += signature_size

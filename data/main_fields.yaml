@@ -50,7 +50,7 @@
     - If not present, `0` is assumed
 
 - key: 6
-  name: signed
+  name: is_signed
   type: bool
   description:
     - If true, denotes that the main section is signed.
