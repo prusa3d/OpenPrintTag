@@ -10,4 +10,6 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.9.9
     hooks:
-    - id: ruff-format
+      - id: ruff-format
+
+exclude: ^utils/cbor2_local/

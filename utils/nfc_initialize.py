@@ -2,7 +2,7 @@
 
 import argparse
 import ndef
-import cbor2
+import cbor2_local as cbor2
 import os
 import sys
 import types
