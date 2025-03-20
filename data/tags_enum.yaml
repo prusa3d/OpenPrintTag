@@ -73,3 +73,7 @@
 - key: 17
   name: abrasive
   description: Filament requires abrasive resistant nozzle
+
+- key: 18
+  name: flexible
+  description: The filament is flexible, might require special care for extrusion/retractions, different ramming, ...
