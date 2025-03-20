@@ -4,7 +4,6 @@ import yaml
 import cbor2
 import io
 import types
-import itertools
 
 from fields import Fields
 

@@ -2,7 +2,6 @@ import shutil
 import os
 import jinja2
 import subprocess
-import itertools
 
 from vars import *
 
