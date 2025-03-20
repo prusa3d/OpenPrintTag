@@ -17,7 +17,7 @@ max_meta_section_size = 8
 parser = argparse.ArgumentParser(prog="nfc_initialize", description="Initializes an 'empty' (with no static or aux data) NFC tag to be used as a Prusa Material tag.\n" + "The resulting bytes to be written on the tag are returned to stdout.")
 parser.add_argument("-c", "--config-file", type=str, default=default_config_file, help="YAML file with the fields configuration")
 parser.add_argument("-s", "--size", type=int, required=True, help="Available space on the NFC tag in bytes")
-parser.add_argument("-d", "--aux-region", type=int, help="Allocate auxiliar region of the provided size in bytes.")
+parser.add_argument("-a", "--aux-region", type=int, help="Allocate auxiliar region of the provided size in bytes.")
 parser.add_argument("-b", "--block-size", type=int, default=4, help="Block size of the chip. The regions are aligned with the blocks. 1 = no align")
 
 args = parser.parse_args()
