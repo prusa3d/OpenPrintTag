@@ -65,3 +65,11 @@
 - key: 15
   name: marble
   description: Imitates marble
+
+- key: 16
+  name: requires_filtration
+  description: Relases unsafe particles/fumes during printing and requires a HEPA filter
+
+- key: 17
+  name: abrasive
+  description: Filament requires abrasive resistant nozzle

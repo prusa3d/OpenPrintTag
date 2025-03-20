@@ -141,18 +141,9 @@
     - Diameter of the filament, in mm.
     - If not present, 1.75 mm is assumed.
 
-- key: 18
-  name: is_abrasive
-  type: bool
-  category: fff
-  description:
-    - Whether the filament is abrasive and requires hardened nozzle.
-- key: 19
-  name: requires_filtration
-  type: bool
-  category: fff
-  description:
-    - Whether the filament generates unsafe fumes during printing and requires a filtration system.
+# Removed 18
+
+# Removed 19
 
 - key: 20
   name: min_nozzle_diameter
