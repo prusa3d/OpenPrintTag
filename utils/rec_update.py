@@ -12,10 +12,12 @@ parser.add_argument("update_data", help="YAML file with instructions how to upda
 parser.add_argument("-c", "--config-file", type=str, default=default_config_file, help="Record configuration YAML file")
 parser.add_argument("-s", "--sign-ecdsa", type=str, help="If specified, signs the main region using the provided PEM key")
 parser.add_argument("--clear", action=argparse.BooleanOptionalAction, default=False, help="If set, the regions mentioned in the YAML file will be cleared rather than updated")
+parser.add_argument("--indefinite-containers", action=argparse.BooleanOptionalAction, default=True, help="Encode CBOR containers as indefinite (using stop code instead of specifying length)")
 
 args = parser.parse_args()
 
 record = Record(args.config_file, memoryview(bytearray(sys.stdin.buffer.read())))
+record.encode_indefinite_containers = args.indefinite_containers
 
 update_data = yaml.safe_load(open(args.update_data, "r"))
 for region_name, update_data in update_data.get("data", dict()).items():

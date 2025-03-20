@@ -4,6 +4,7 @@ import yaml
 import cbor2_local as cbor2
 import io
 import types
+import typing
 
 from fields import Fields
 
@@ -12,10 +13,12 @@ class Region:
     memory: memoryview
     offset: int
     fields: Fields
+    record: typing.Any
 
-    def __init__(self, offset: int, memory: memoryview, fields: Fields):
+    def __init__(self, record, offset: int, memory: memoryview, fields: Fields):
         assert type(memory) is memoryview
 
+        self.record = record
         self.offset = offset
         self.memory = memory
         self.fields = fields
@@ -39,13 +42,13 @@ class Region:
 
     def write(self, data):
         self.memory[:] = bytearray(len(self.memory))
-        encoded = cbor2.dumps(self.fields.encode(data), canonical=True)
+        encoded = cbor2.dumps(self.fields.encode(data), canonical=True, indefinite_containers=self.record.encode_indefinite_containers)
         assert len(encoded) <= len(self.memory), f"Data of size {len(encoded)} does not fit into region of size {len(self.memory)}"
         self.memory[0 : len(encoded)] = encoded
 
     def sign(self, sign_f):
         used_size = self.used_size()
-        signature = cbor2.dumps(sign_f(self.memory[0:used_size]), canonical=True)
+        signature = cbor2.dumps(sign_f(self.memory[0:used_size]), canonical=True, indefinite_containers=self.record.encode_indefinite_containers)
         signature_len = len(signature)
         memory_len = len(self.memory)
 
@@ -74,6 +77,8 @@ class Record:
     aux_region: Region = None
 
     regions: dict[str, Region] = None
+
+    encode_indefinite_containers: bool = False
 
     def __init__(self, config_file: str, data: memoryview):
         assert type(data) is memoryview
@@ -117,7 +122,7 @@ class Record:
 
         meta_io = io.BytesIO(self.payload)
         cbor2.load(meta_io)
-        self.meta_region = Region(0, self.payload[0 : meta_io.tell()], Fields.from_file(os.path.join(self.config_dir, self.config.meta_fields)))
+        self.meta_region = Region(self, 0, self.payload[0 : meta_io.tell()], Fields.from_file(os.path.join(self.config_dir, self.config.meta_fields)))
         metadata = self.meta_region.read()
 
         main_region_offset = metadata.get("main_region_offset", len(self.meta_region.memory))
@@ -135,7 +140,7 @@ class Record:
             if size is None:
                 size = list(filter(lambda a: a > offset, region_stops))[0] - offset
 
-            return Region(offset, self.payload[offset : offset + size], Fields.from_file(os.path.join(self.config_dir, fields)))
+            return Region(self, offset, self.payload[offset : offset + size], Fields.from_file(os.path.join(self.config_dir, fields)))
 
         self.main_region = create_region(main_region_offset, main_region_size, self.config.main_fields)
         self.regions = {"meta": self.meta_region, "main": self.main_region}
