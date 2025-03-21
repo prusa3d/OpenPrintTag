@@ -40,10 +40,18 @@ class NumberField(Field):
         # If the number is whole, encode it as int - CBOR does that way more efficiently
         # If it is decimal, store it as half-precision float, which should be plenty for all use cases here
         num = float(data)
-        encoded = int(num) if num.is_integer() else float(numpy.float16(num))
-        diff = abs(num - encoded)
-        assert diff < 1e-3, f"Lost precision during encoding {num}: {diff}"
-        return encoded
+        if num.is_integer():
+            return int(num)
+
+        encoded = float(numpy.float16(num))
+        if abs(num - encoded) < 1e-3:
+            return encoded
+
+        encoded = float(numpy.float32(num))
+        if abs(num - encoded) < 1e-3:
+            return encoded
+
+        assert False, f"Cannot reasonably encode decimal"
 
 
 class StringField(Field):
