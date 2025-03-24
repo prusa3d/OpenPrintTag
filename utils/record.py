@@ -14,6 +14,7 @@ class Region:
     offset: int
     fields: Fields
     record: typing.Any
+    is_corrupt: bool = False
 
     def __init__(self, record, offset: int, memory: memoryview, fields: Fields):
         assert type(memory) is memoryview
@@ -23,21 +24,33 @@ class Region:
         self.memory = memory
         self.fields = fields
 
-        assert len(self.memory) > 0
+        if len(self.memory) == 0:
+            self.is_corrupt = True
 
     def info_dict(self):
-        return {
+        result = {
             "offset": self.offset,
             "size": len(self.memory),
             "used_size": self.used_size(),
         }
 
+        if self.is_corrupt:
+            result["is_corrupt"] = True
+
+        return result
+
     def used_size(self):
+        if len(self.memory) == 0:
+            return 0
+
         data_io = io.BytesIO(self.memory)
         cbor2.load(data_io)
         return data_io.tell()
 
     def read(self):
+        if len(self.memory) == 0:
+            return {}
+
         return self.fields.decode(cbor2.loads(self.memory))
 
     def write(self, data):
@@ -140,7 +153,12 @@ class Record:
             if size is None:
                 size = list(filter(lambda a: a > offset, region_stops))[0] - offset
 
-            return Region(self, offset, self.payload[offset : offset + size], Fields.from_file(os.path.join(self.config_dir, fields)))
+            result = Region(self, offset, self.payload[offset : offset + size], Fields.from_file(os.path.join(self.config_dir, fields)))
+
+            if len(result.memory) != size:
+                result.is_corrupt = True
+
+            return result
 
         self.meta_region = create_region(0, None, self.config.meta_fields)
         self.main_region = create_region(main_region_offset, main_region_size, self.config.main_fields)
