@@ -19,6 +19,7 @@ parser.add_argument("-c", "--config-file", type=str, default=default_config_file
 parser.add_argument("-s", "--size", type=int, required=True, help="Available space on the NFC tag in bytes")
 parser.add_argument("-a", "--aux-region", type=int, help="Allocate auxiliar region of the provided size in bytes.")
 parser.add_argument("-b", "--block-size", type=int, default=4, help="Block size of the chip. The regions are aligned with the blocks. 1 = no align")
+parser.add_argument("-m", "--meta-region", type=int, default=None, help="Meta region allocation size. If not specified, the meta region will only take minimum size required.")
 
 args = parser.parse_args()
 
@@ -69,12 +70,13 @@ def align_region_offset(offset: int, align_up: bool = True):
 
 
 # Determine main region offset
-# If we are not aligning, we don't need to write the main region offset, it will be directly after the meta region
-main_region_offset = 0
-if args.block_size > 1:
-    # We don't know the meta section actual size, because it is deteremined by how the main_region_offset is encoded - we have to assume maximum
-    main_region_offset = align_region_offset(max_meta_section_size)
+if (args.block_size > 1) or (args.meta_region is not None):
+    # If we don't know the meta section actual size (because it is deteremined by how the main_region_offset is encoded), we have to assume maximum
+    main_region_offset = align_region_offset(args.meta_region or max_meta_section_size)
     metadata["main_region_offset"] = main_region_offset
+else:
+    # If we are not aligning, we don't need to write the main region offset, it will be directly after the meta region
+    main_region_offset = 0
 
 # Prepare aux region
 if args.aux_region is not None:
