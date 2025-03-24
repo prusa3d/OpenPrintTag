@@ -122,10 +122,10 @@ class Record:
 
         meta_io = io.BytesIO(self.payload)
         cbor2.load(meta_io)
-        self.meta_region = Region(self, 0, self.payload[0 : meta_io.tell()], Fields.from_file(os.path.join(self.config_dir, self.config.meta_fields)))
-        metadata = self.meta_region.read()
+        meta_section_size = meta_io.tell()
+        metadata = Region(self, 0, self.payload[0:meta_section_size], Fields.from_file(os.path.join(self.config_dir, self.config.meta_fields))).read()
 
-        main_region_offset = metadata.get("main_region_offset", len(self.meta_region.memory))
+        main_region_offset = metadata.get("main_region_offset", meta_section_size)
         main_region_size = metadata.get("main_region_size")
 
         aux_region_offset = metadata.get("aux_region_offset")
@@ -142,6 +142,7 @@ class Record:
 
             return Region(self, offset, self.payload[offset : offset + size], Fields.from_file(os.path.join(self.config_dir, fields)))
 
+        self.meta_region = create_region(0, None, self.config.meta_fields)
         self.main_region = create_region(main_region_offset, main_region_size, self.config.main_fields)
         self.regions = {"meta": self.meta_region, "main": self.main_region}
 
