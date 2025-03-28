@@ -24,6 +24,11 @@ class Region:
         self.memory = memory
         self.fields = fields
 
+        try:
+            cbor2.load(io.BytesIO(self.memory))
+        except cbor2.CBORError:
+            self.is_corrupt = True
+
         if len(self.memory) == 0:
             self.is_corrupt = True
 
@@ -40,7 +45,7 @@ class Region:
         return result
 
     def used_size(self):
-        if len(self.memory) == 0:
+        if self.is_corrupt:
             return 0
 
         data_io = io.BytesIO(self.memory)
@@ -48,7 +53,7 @@ class Region:
         return data_io.tell()
 
     def read(self):
-        if len(self.memory) == 0:
+        if self.is_corrupt:
             return {}
 
         return self.fields.decode(cbor2.loads(self.memory))
