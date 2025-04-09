@@ -1,6 +1,7 @@
 import yaml
 import os
 import numpy
+import uuid
 
 
 class Field:
@@ -156,6 +157,14 @@ class BytesField(Field):
             assert False, f"Cannot encode type {type(data)} to bytes"
 
 
+class UUIDField(Field):
+    def decode(self, data):
+        return str(uuid.UUID(bytes=data))
+
+    def encode(self, data):
+        return uuid.UUID(data).bytes
+
+
 field_types = {
     "bool": BoolField,
     "int": IntField,
@@ -165,6 +174,7 @@ field_types = {
     "enum_array": EnumArrayField,
     "timestamp": IntField,
     "bytes": BytesField,
+    "uuid": UUIDField,
 }
 
 
