@@ -86,4 +86,13 @@ if args.validate:
         region.fields.validate(region.read())
 
 
-yaml.safe_dump(output, stream=sys.stdout)
+def yaml_hex_bytes_representer(dumper: yaml.SafeDumper, data: bytes):
+    return dumper.represent_str("0x" + data.hex())
+
+
+class InfoDumper(yaml.SafeDumper):
+    pass
+
+
+InfoDumper.add_representer(bytes, yaml_hex_bytes_representer)
+yaml.dump(output, stream=sys.stdout, Dumper=InfoDumper)

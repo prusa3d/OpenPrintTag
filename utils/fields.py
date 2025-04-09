@@ -138,6 +138,24 @@ class EnumArrayField(Field):
         return result
 
 
+class BytesField(Field):
+    def decode(self, data):
+        return data
+
+    def encode(self, data):
+        if isinstance(data, bytes):
+            return data
+
+        elif isinstance(data, str):
+            return data.encode("utf-8")
+
+        elif isinstance(data, int):
+            return data.to_bytes(64, "little").rstrip(b"\x00")
+
+        else:
+            assert False, f"Cannot encode type {type(data)} to bytes"
+
+
 field_types = {
     "bool": BoolField,
     "int": IntField,
@@ -146,6 +164,7 @@ field_types = {
     "enum": EnumField,
     "enum_array": EnumArrayField,
     "timestamp": IntField,
+    "bytes": BytesField,
 }
 
 
