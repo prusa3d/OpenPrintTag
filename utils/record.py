@@ -15,6 +15,7 @@ class Region:
     fields: Fields
     record: typing.Any
     is_corrupt: bool = False
+    canonical: bool = True  # Encode the CBOR canonically (order the map entries)
 
     def __init__(self, record, offset: int, memory: memoryview, fields: Fields):
         assert type(memory) is memoryview
@@ -60,13 +61,13 @@ class Region:
 
     def write(self, data):
         self.memory[:] = bytearray(len(self.memory))
-        encoded = cbor2.dumps(self.fields.encode(data), canonical=True, indefinite_containers=self.record.encode_indefinite_containers)
+        encoded = cbor2.dumps(self.fields.encode(data), canonical=self.record.canonical, indefinite_containers=self.record.encode_indefinite_containers)
         assert len(encoded) <= len(self.memory), f"Data of size {len(encoded)} does not fit into region of size {len(self.memory)}"
         self.memory[0 : len(encoded)] = encoded
 
     def sign(self, sign_f):
         used_size = self.used_size()
-        signature = cbor2.dumps(sign_f(self.memory[0:used_size]), canonical=True, indefinite_containers=self.record.encode_indefinite_containers)
+        signature = cbor2.dumps(sign_f(self.memory[0:used_size]), canonical=self.record.canonical, indefinite_containers=self.record.encode_indefinite_containers)
         signature_len = len(signature)
         memory_len = len(self.memory)
 
