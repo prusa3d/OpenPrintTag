@@ -8,7 +8,7 @@ data:
     tags: [glitter]
     color_rgb: 0x3D3E3D
     color_pantone: 19-0000 TPX
-    color_ral: RAL 8019
+    color_ral: 8019
     manufactured_date: 1739371290
     netto_full_weight: 1000
     empty_container_weight: 100
@@ -19,3 +19,4 @@ data:
     max_chamber_temperature: 40
     chamber_temperature: 20
     container_width: 75
+    instance_uuid: 473bb8cd-e129-45b8-9fcf-da1c3add9c47
