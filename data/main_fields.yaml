@@ -27,6 +27,12 @@
   description: Brand of the material
   example: Prusament
 
+- key: 32
+  name: brand_specific_package_id
+  type: bytes
+  description:
+    - Brand-specific identifier of the package (product ID)
+
 - key: 28
   name: brand_specific_material_id
   type: bytes
