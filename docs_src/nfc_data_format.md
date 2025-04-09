@@ -77,6 +77,27 @@
 1. `timestamp` fields are encoded as UNIX timestamp integers
 1. `❗` means required, `❕` means recommended
 1. CBOR maps and arrays should be encoded as indefinite containers
+1. `bytes` and `uuid` types are encoded as CBOR byte string
+
+### UUIDs
+The specification optionally employs [UUIDs](https://en.wikipedia.org/wiki/Universally_unique_identifier) to uniquely identify various entities referenced in the data.
+Because UUIDs are expected to take more space, manufacturers can use their brand-specific IDs instead.
+
+In that case, the UUIDs can be derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3). All UUIDs and numbers are hashed in the binary form, all strings (and bytes) are hashed including the terminating `\0`.
+
+| UID | Derviation formula | Namespace (`N`) |
+| --- | --- | --- |
+| `brand_uuid` | `N + brand` | `5269dfb7-1559-440a-85be-aba5f3eff2d2` |
+| `material_uuid` | `N + brand_uuid + brand_specific_material_id` | `616fc86d-7d99-4953-96c7-46d2836b9be9` |
+| `package_uuid` | `N + brand_uuid + brand_specific_package_id` | `6f7d485e-db8d-4979-904e-a231cd6602b2` |
+| `instance_uuid` | `N + brand_uid + brand_specific_instance_id` | `ce836047-24e6-49d5-b3e6-3c910c4dfc87` |
+| `instance_uuid` | `N + brand_uid + nfc_tag_uid` | `31062f81-b5bd-4f86-a5f8-46367e841508` |
+
+
+For example:
+<!-- Generated using generate_uuid_examples.py -->
+* `brand = "Prusament"` → `brand_uid = "2b2ef3a4-8717-574e-976b-251eea76b074"`
+* `brand_uuid = "2b2ef3a4-8717-574e-976b-251eea76b074"`, `brand_specific_material_id = 0x01` → `material_uuid = "cda45901-c06b-57a7-a4e4-7d1e7a9c6fa2"`
 
 ## Meta section
 1. CBOR map, keys are integers.
