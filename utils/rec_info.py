@@ -95,4 +95,4 @@ class InfoDumper(yaml.SafeDumper):
 
 
 InfoDumper.add_representer(bytes, yaml_hex_bytes_representer)
-yaml.dump(output, stream=sys.stdout, Dumper=InfoDumper)
+yaml.dump(output, stream=sys.stdout, Dumper=InfoDumper, sort_keys=False)
