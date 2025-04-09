@@ -1,7 +1,8 @@
 - key: 0
-  name: uid
-  type: number
-  description: UID of the package instance. If not provided, UID of the NFC tag is used.
+  name: brand_specific_instance_id
+  type: bytes
+  description:
+    - Brand-specific identifier of the package instance.
 
 - key: 1
   name: material_class
@@ -28,7 +29,7 @@
 
 - key: 28
   name: brand_specific_material_id
-  type: int
+  type: bytes
   requried: true
   description:
     - Together with brand uniquely identifies each material
