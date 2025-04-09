@@ -4,6 +4,13 @@
   description:
     - Brand-specific identifier of the package instance.
 
+- key: 31
+  name: instance_uuid
+  type: uuid
+  description:
+    - Unique identifier of the package instance.
+    - If not specified, can be deduced from `brand_uuid` + `brand_specific_instance_id` or NFC tag UID. See UUID section for more details.
+
 - key: 1
   name: material_class
   type: enum
@@ -27,11 +34,25 @@
   description: Brand of the material
   example: Prusament
 
+- key: 29
+  name: brand_uuid
+  type: uuid
+  description:
+    - Universally unique identifier of the brand
+    - If not specified, can be deduced from the `brand` string. See UUID section for more details.
+
 - key: 32
   name: brand_specific_package_id
   type: bytes
   description:
     - Brand-specific identifier of the package (product ID)
+
+- key: 33
+  name: package_uuid
+  type: uuid
+  description:
+    - Universally unique identifier of the package (product)
+    - If not specified, can be deduced from `brand_uuid` + `brand_specific_package_id`. See UUID section for more details.
 
 - key: 28
   name: brand_specific_material_id
@@ -39,6 +60,13 @@
   requried: true
   description:
     - Together with brand uniquely identifies each material
+
+- key: 30
+  name: material_uuid
+  type: uuid
+  description:
+    - Universally unique identifier of the material
+    - If not specified, can be deduced from `brand_uuid` + `brand_specific_material_id`. See UUID section for more details.
 
 - key: 4
   name: material_name
