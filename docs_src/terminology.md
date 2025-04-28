@@ -20,22 +20,12 @@ Properties:
 - Name (PLA Galaxy Black)
 - Material type (PLA)
 - Color (#000000)
-- Printing parameters
-
-## Material color
-> For example: Galaxy Black
-
-Specifies the looks and feel of the filament.
-
-Properties:
-- Color (RGB/RAL/Pantone/...)
 - Transmission distance
-- Tags (matte, glitter, rainbow, conductive, ...).
+- Tags (matte, glitter, rainbow, conductive, ...)
+- Printing parameters
 
 ## Material container
 > For example: Prusament 1kg filament spool
-
-- FFF: Also called "Filament spool type" or "Filament material container"
 
 Container type/shape the materials are stored in/on.
 
