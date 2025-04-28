@@ -116,14 +116,16 @@
   description: Weight of the empty container
 
 - key: 11
-  name: color_rgb
+  name: color_argb
   type: int
   required: true
-  unit: 0xRRGGBB
+  unit: 0xAARRGGBB
   example: "0xFF0000"
   description:
     - Color of the material in the RGB format.
     - For UI purposes
+    - We expect that people will forget to specify the A channel and leave it to zero. For this reason, A == 0 should be interpreted as full opacity.
+    - Fully transparent filament should thus be encoded with at least single value of transparency, for example 0x01000000
 
 - key: 12
   name: color_ral

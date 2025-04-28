@@ -5,7 +5,7 @@ data:
     material_type: PLA
     brand_specific_material_id: 1
     tags: [glitter]
-    color_rgb: 0x3D3E3D
+    color_argb: 0x3D3E3D
     netto_full_weight: 1000
     transmission_distance: 0.2
     print_temperature: 210
