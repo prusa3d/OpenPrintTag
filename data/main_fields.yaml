@@ -15,7 +15,6 @@
   name: material_class
   type: enum
   required: true
-  description: Type of the material
   example: FFF
   items_file: material_class_enum.yaml
 
@@ -25,6 +24,9 @@
   required: true
   items_file: material_type_enum.yaml
   example: PLA
+  description:
+    - Coarse classification of the material
+    - Useful for determining default parameters for preheat an such that are not explicitly specified in the data.
 
 - key: 3
   name: brand
