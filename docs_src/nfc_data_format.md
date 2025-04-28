@@ -119,6 +119,9 @@ For example:
 ### Field list (FFF-specific)
 {{ fields_table("main_fields", "fff") }}
 
+### Field list (SLA-specific)
+{{ fields_table("main_fields", "sla") }}
+
 #### `material_class` items
 {{ enum_table("material_class_enum") }}
 
