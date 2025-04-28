@@ -32,6 +32,10 @@
   name: carbon_fiber
   description: Contains carbon fibers
 
+- key: 20
+  name: glass_fiber
+  description: Contains glass fibers
+
 - key: 8
   name: glow
   description: Glows in the dark
@@ -55,15 +59,15 @@
   description: Transitions between colors as the filament is extruded
 
 - key: 13
-  name: wood
+  name: imitates_wood
   description: Imitates wood
 
 - key: 14
-  name: metal
+  name: imitates_metal
   description: Imitates metal
 
 - key: 15
-  name: marble
+  name: imitates_marble
   description: Imitates marble
 
 - key: 16
@@ -72,8 +76,32 @@
 
 - key: 17
   name: abrasive
-  description: Filament requires abrasive resistant nozzle
+  description: The material requires abrasive resistant nozzle
 
 - key: 18
   name: flexible
-  description: The filament is flexible, might require special care for extrusion/retractions, different ramming, ...
+  description: The material is flexible, might require special care for extrusion/retractions, different ramming, ...
+
+- key: 19
+  name: blend
+  description: Contains significant amount of additives that affect slicing profiles
+
+- key: 21
+  name: self_extinguishing
+  description:
+    - The material is self-extinguishing. This does not mean that the material is not flammable, just that burning it requires more energy than it produces.
+    - That means that the material  if you stop adding more energy, it stops burning on its own.
+
+- key: 22
+  name: conductive
+  description:
+    - The material can conduct electricity. This does not imply that it must have low resistances.
+    - Common "conductive" material have resistances in the range of kiloohms per 10 cm of 1.75mm filament.
+
+- key: 23
+  name: tungsten
+  description: The material contains Tungsten (useful for radiation shielding).
+
+- key: 24
+  name: paramagnetic
+  description: The material has paramagnetic properties, meaining that it is (weakly) attracted to magnets.
