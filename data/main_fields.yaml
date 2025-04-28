@@ -1,15 +1,51 @@
-- key: 0
-  name: brand_specific_instance_id
-  type: bytes
-  description:
-    - Brand-specific identifier of the package instance.
-
 - key: 31
   name: instance_uuid
   type: uuid
   description:
     - Unique identifier of the package instance.
     - If not specified, can be deduced from `brand_uuid` + `brand_specific_instance_id` or NFC tag UID. See UUID section for more details.
+
+- key: 33
+  name: package_uuid
+  type: uuid
+  description:
+    - Universally unique identifier of the package (product)
+    - If not specified, can be deduced from `brand_uuid` + `brand_specific_package_id`. See UUID section for more details.
+
+- key: 30
+  name: material_uuid
+  type: uuid
+  description:
+    - Universally unique identifier of the material
+    - If not specified, can be deduced from `brand_uuid` + `brand_specific_material_id`. See UUID section for more details.
+
+- key: 29
+  name: brand_uuid
+  type: uuid
+  description:
+    - Universally unique identifier of the brand
+    - If not specified, can be deduced from the `brand` string. See UUID section for more details.
+
+
+- key: 0
+  name: brand_specific_instance_id
+  type: bytes
+  description:
+    - Brand-specific identifier of the package instance.
+
+- key: 32
+  name: brand_specific_package_id
+  type: bytes
+  description:
+    - Brand-specific identifier of the package (product ID)
+
+- key: 28
+  name: brand_specific_material_id
+  type: bytes
+  requried: true
+  description:
+    - Together with brand uniquely identifies each material
+
 
 - key: 1
   name: material_class
@@ -28,48 +64,6 @@
     - Coarse classification of the material
     - Useful for determining default parameters for preheat an such that are not explicitly specified in the data.
 
-- key: 3
-  name: brand
-  type: string
-  max_length: 31
-  required: true
-  description: Brand of the material
-  example: Prusament
-
-- key: 29
-  name: brand_uuid
-  type: uuid
-  description:
-    - Universally unique identifier of the brand
-    - If not specified, can be deduced from the `brand` string. See UUID section for more details.
-
-- key: 32
-  name: brand_specific_package_id
-  type: bytes
-  description:
-    - Brand-specific identifier of the package (product ID)
-
-- key: 33
-  name: package_uuid
-  type: uuid
-  description:
-    - Universally unique identifier of the package (product)
-    - If not specified, can be deduced from `brand_uuid` + `brand_specific_package_id`. See UUID section for more details.
-
-- key: 28
-  name: brand_specific_material_id
-  type: bytes
-  requried: true
-  description:
-    - Together with brand uniquely identifies each material
-
-- key: 30
-  name: material_uuid
-  type: uuid
-  description:
-    - Universally unique identifier of the material
-    - If not specified, can be deduced from `brand_uuid` + `brand_specific_material_id`. See UUID section for more details.
-
 - key: 4
   name: material_name
   type: string
@@ -78,6 +72,14 @@
   description:
     - Brand-specific material display string/identifier.
     - In the UI, brand + name should be displayed together, for example "Prusament PLA Galaxy Black"
+
+- key: 3
+  name: brand
+  type: string
+  max_length: 31
+  required: true
+  description: Brand of the material
+  example: Prusament
 
 - key: 5
   name: brand_config_version
