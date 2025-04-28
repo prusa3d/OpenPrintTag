@@ -93,7 +93,13 @@
   type: bool
   description:
     - If true, denotes that the main section is signed.
-    - The signature key is to be dediced from the combination of `brand` and `brand_config_version`
+    - The signature key is specified by `brand_config_version`
+
+- key: 38
+  name: write_protection
+  type: enum
+  items_file: write_protection_enum.yaml
+  description: Indicates whether the tag is write protected (everything except aux section, that one should be always writable). See the "Write protection" section.
 
 - key: 7
   name: manufactured_date

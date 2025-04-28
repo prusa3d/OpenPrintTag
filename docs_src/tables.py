@@ -18,7 +18,7 @@ def default_transform(data: any):
             return "<br>".join(str(x) for x in data)
 
         case _:
-            return str(data)
+            return str(data).replace("\n", "<br>")
 
 
 def required_transform(data: any):

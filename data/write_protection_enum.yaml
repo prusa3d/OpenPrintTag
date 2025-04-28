@@ -1,0 +1,11 @@
+- key: 0
+  name: "no"
+  description: The tag is not write protected.
+
+- key: 1
+  name: irreversible
+  description: The tag is irreversibly protected against writing.
+
+- key: 2
+  name: protect_page_unlockable
+  description: The tag is write-protected using the `PROTECT PAGE` command (SLIX2-specific) and is unlockable with a password that is located somewhere on the container.

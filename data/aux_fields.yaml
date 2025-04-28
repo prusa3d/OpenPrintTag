@@ -3,3 +3,10 @@
   type: number
   unit: g
   description: Amount of material that was used up from the container
+
+- key: 1
+  name: workgroup
+  type: string
+  max_length: 8
+  description:
+    - Workgroup identifier, used for detecting first usage of the material. See the "write protection" section.
