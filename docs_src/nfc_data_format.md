@@ -135,7 +135,10 @@ For example:
 ## Auxiliary section
 
 ### Field list
-{{ fields_table("aux_fields") }}
+{{ fields_table("aux_fields", "") }}
+
+### Field list (SLA-specific)
+{{ fields_table("aux_fields", "sla") }}
 
 ## Notes & recommendations
    1. **The NDEF record shall not be split into multiple NDEF record chunks.**

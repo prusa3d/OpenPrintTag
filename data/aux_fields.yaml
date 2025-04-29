@@ -10,3 +10,11 @@
   max_length: 8
   description:
     - Workgroup identifier, used for detecting first usage of the material. See the "write protection" section.
+
+- key: 2
+  name: last_stir_time
+  category: sla
+  type: timestamp
+  description:
+    - Timestamp when the resin was last stirred.
+    - Resins that have not been used for some time should be stirred before printing.
