@@ -293,3 +293,10 @@
   unit: mPa·s
   description: Viscosity of the material at 60 °C
   category: sla
+
+- key: 39
+  name: container_volumetric_capacity
+  type: number
+  unit: ml (cm³)
+  category: sla
+  description: Maximum amount of material the container can hold.
