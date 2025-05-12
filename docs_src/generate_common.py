@@ -56,7 +56,9 @@ def show_example(prompt, language="yaml"):
     nice_prompt = prompt.replace(">", "").replace(" | ", "\n> | ")
     r.write(f"> ```bash\n>{nice_prompt}\n> ```\n\n")
 
-    output = subprocess.run(prompt.replace(">", f"python3 {utils_dir}/"), shell=True, stdout=subprocess.PIPE, check=False, cwd=dir)
+    prompt = prompt.replace(">", f"python3 {utils_dir}/")
+    prompt = prompt.replace("--config-file=", f"--config-file={os.path.abspath(data_dir)}/")
+    output = subprocess.run(prompt, shell=True, stdout=subprocess.PIPE, check=False, cwd=dir)
 
     r.write(f"```{language}\n{output.stdout.decode()}\n```\n")
 
