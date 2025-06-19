@@ -2,10 +2,9 @@
 
 This repository contains specification, documentation and utility scripts for the Prusa Material Data Format.
 
-**This is a "raw" repository, you can access the compiled documentation here:**
-* https://prusamaterials.danol.cz (Github pages will be used once we go public)
-* User: prusa
-* Password: tvrdimzenejsem
+**This is a "raw" repository, you can access the compiled documentation on https://specs.prusa3d.tech/nfc**
+
+(or use generate_docs.sh to generate a website into the docs folder)
 
 To generate documentation (to the `docs` directory), run:
 ```python
