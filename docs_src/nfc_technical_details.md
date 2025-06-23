@@ -6,6 +6,8 @@
 - [Concise Binary Object Representation (CBOR)](https://cbor.io/)
 
 ## Notes & recommendations
+   1. The standard was designed with ICODE SLIX2 320 B tag in mind, but it should be compatible with all NFC-V tags.
+      - Smaller tags might not fit all features/data the Prusa Material standard offers. It is up to the manufacturers to decide what data they want to provide in that case.
    1. **The NDEF record shall not be split into multiple NDEF record chunks.**
       - Splitting the record would break the "virtual space" of the payload and would complicate implementation.
    1. We recommend to **expand the payload of the NDEF record so that the whole available memory of the NFC tag is used.**
@@ -14,6 +16,9 @@
    1. The meta section allows the manufacturers to configure the payload structure so that it fits their purposes and the used NFC tag specifics:
       1. The auxiliary region can be adjusted or even omitted, based on the NFC tag available memory.
          - It is not specified that the auxiliary region must be after the main region. Auxiliary region can possibly be located **before** the main region, if the meta section says so. We however recommend **putting the main region before the auxiliary region**, so that it can be protected together with the NDEF header.
+   1. **AFI**: We recommend setting the AFI register to 0 and locking/password protecting it.
+   1. **DSFID**: The DSFID register is reserved for future use. It shall be set to 0 and locked/password protected.
+   1. **EAS**: Implementing EAS is up to each manufacturer discretion. We again recommend locking/password protecting it.
 
 ## Write protection
 The Prusa NFC standards offers these options also considers ways to prevent the tags from being overwritten by malicious actors.
