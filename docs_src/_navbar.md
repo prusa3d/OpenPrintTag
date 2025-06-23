@@ -1,4 +1,5 @@
 - [Home](/)
 - [Terminology](/terminology)
-- [NFC specification](/nfc_data_format)
+- [Data format](/nfc_data_format)
+- [Technical details](/nfc_technical_details)
 - [Examples](/examples)
