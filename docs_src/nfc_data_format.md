@@ -83,10 +83,9 @@
 1. `bytes` and `uuid` types are encoded as CBOR byte string
 
 ### UUIDs
-The specification optionally employs [UUIDs](https://en.wikipedia.org/wiki/Universally_unique_identifier) to uniquely identify various entities referenced in the data.
-Because UUIDs are expected to take more space, manufacturers can use their brand-specific IDs instead.
+Each entity referenced in the data can be identified by a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). The UUID MAY be explicitly specified through a `XX_uuid`, however that might not be desirable due to space constraints. As an alternative, the following algorithm defines a way to derive UUIDs from other fields.
 
-In that case, the UUIDs can be derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3). All UUIDs and numbers are hashed in the binary form, all strings (and bytes) are hashed including the terminating `\0`.
+UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3), according to the following table. UUIDs are hashed in the binary form, strings are encoded as UTF-8. `+` represents binary concatenation.
 
 | UID | Derviation formula | Namespace (`N`) |
 | --- | --- | --- |
@@ -98,9 +97,26 @@ In that case, the UUIDs can be derived from the brand-specific IDs using UUIDv5 
 
 
 For example:
-<!-- Generated using generate_uuid_examples.py -->
-* `brand = "Prusament"` → `brand_uid = "2b2ef3a4-8717-574e-976b-251eea76b074"`
-* `brand_uuid = "2b2ef3a4-8717-574e-976b-251eea76b074"`, `brand_specific_material_id = 0x01` → `material_uuid = "cda45901-c06b-57a7-a4e4-7d1e7a9c6fa2"`
+{% python %}
+def generate_uuid(namespace, *args):
+   import uuid
+   return uuid.uuid5(uuid.UUID(namespace), b"".join(args))
+
+brand_namespace = "5269dfb7-1559-440a-85be-aba5f3eff2d2"
+brand = "Prusament"
+brand_uuid = generate_uuid(brand_namespace, brand.encode("utf-8"))
+print(f"brand_uuid = {brand_uuid}")
+
+material_namespace = "616fc86d-7d99-4953-96c7-46d2836b9be9"
+brand_specific_material_id = (1234).to_bytes(4, "little")
+material_uuid = generate_uuid(material_namespace, brand_uuid.bytes, brand_specific_material_id)
+print(f"material_uuid = {material_uuid}")
+{% endpython %}
+
+UUIDs MAY thus be omitted from the in most cases. In the case that a brand changes its name, it SHOULD add `brand_uuid` field with the original UUID whenever the new brand name is used:
+1. `brand = Prusament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (not present, can be automatically computed)
+1. Brand gets renamed to `Pepament`
+1. `brand = Pepament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (present in the data)
 
 ## Meta section
 1. CBOR map, keys are integers.
