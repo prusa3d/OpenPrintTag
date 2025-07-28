@@ -265,6 +265,24 @@
   description:
     - Width of the filament spool. Can be useful to know for spool holders, dryboxes and such.
 
+- key: 40
+  name: container_outer_diameter
+  type: int
+  unit: mm
+  example: 200
+  category: fff
+  description:
+    - Diameter of the spool. Can be useful to know for spool holders, dryboxes and such.
+
+- key: 41
+  name: container_hole_diameter
+  type: int
+  unit: mm
+  example: 52
+  category: fff
+  description:
+    - Diameter of the center hole of the spool.
+
 - key: 34
   name: viscosity_18c
   type: number
