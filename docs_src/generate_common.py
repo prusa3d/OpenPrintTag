@@ -1,6 +1,9 @@
 import shutil
 import os
+import sys
 import jinja2
+import jinja2.ext
+import jinja2.nodes
 import subprocess
 
 from vars import *
@@ -48,6 +51,32 @@ env.globals["fields_table"] = lambda file, category=None: generate_table(f"{data
 env.globals["enum_table"] = lambda file: generate_table(f"{data_dir}/{file}.yaml", enum_columns)
 
 # Examples support
+
+
+class PythonCodeExtension(jinja2.ext.Extension):
+    tags = {"python"}
+
+    def parse(self, parser):
+        next(parser.stream)
+        body = parser.parse_statements(["name:endpython"], drop_needle=True)
+        return jinja2.nodes.CallBlock(self.call_method("_render"), [], [], body)
+
+    def _render(self, caller):
+        code = caller()
+        result = f"> ```python\n> {code.strip().replace('\n', '\n> ')}\n> ```\n"
+
+        out_buf = io.StringIO()
+        old_stdout = sys.stdout
+        sys.stdout = out_buf
+        exec(code)
+        sys.stdout = old_stdout
+
+        result += f"```\n{out_buf.getvalue()}```"
+
+        return result
+
+
+env.add_extension(PythonCodeExtension)
 
 
 def show_example(prompt, language="yaml"):
