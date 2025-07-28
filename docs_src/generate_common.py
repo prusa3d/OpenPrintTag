@@ -60,6 +60,9 @@ def show_example(prompt, language="yaml"):
     prompt = prompt.replace("--config-file=", f"--config-file={os.path.abspath(data_dir)}/")
     output = subprocess.run(prompt, shell=True, stdout=subprocess.PIPE, check=False, cwd=dir)
 
+    if output.returncode != 0:
+        print(f"Error while running '{prompt}'")
+
     r.write(f"```{language}\n{output.stdout.decode()}\n```\n")
 
     return r.getvalue()
