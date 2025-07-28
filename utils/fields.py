@@ -219,7 +219,11 @@ class Fields:
             field = self.fields_by_key.get(key)
             assert field, f"Unknown CBOR key '{key}'"
 
-            result[field.name] = field.decode(value)
+            try:
+                result[field.name] = field.decode(value)
+            except Exception as e:
+                e.add_note(f"Field {key}")
+                raise
 
         return result
 
@@ -230,7 +234,11 @@ class Fields:
             field = self.fields_by_name.get(key)
             assert field, f"Unknown field '{key}'"
 
-            result[field.key] = field.encode(value)
+            try:
+                result[field.key] = field.encode(value)
+            except Exception as e:
+                e.add_note(f"Field {key}")
+                raise
 
         return result
 
