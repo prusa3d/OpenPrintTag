@@ -57,7 +57,7 @@
 - key: 2
   name: material_type
   type: enum
-  required: true
+  category: fff
   items_file: material_type_enum.yaml
   example: PLA
   description:
