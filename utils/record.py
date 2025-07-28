@@ -19,6 +19,7 @@ class Region:
 
     def __init__(self, record, offset: int, memory: memoryview, fields: Fields):
         assert type(memory) is memoryview
+        assert len(memory) <= 512, "Specification prohibits memory regions larger than 512 bytes"
 
         self.record = record
         self.offset = offset

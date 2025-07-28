@@ -74,6 +74,7 @@
 1. Data of all sections in the specification are represented as a CBOR map.
    - Keys of the map are integers. Semantics of the keys are specific to each section.
    - The reader must be able to skip all unknown keys, of any data type.
+   - All data sections must be at most 512 bytes long.
 1. `enum` fields are encoded as an integer, according to the enum field mapping
 1. `enum_array` fields are encoded as CBOR arrays of integers, according to the field mapping
 1. `timestamp` fields are encoded as UNIX timestamp integers
