@@ -140,21 +140,37 @@ class EnumArrayField(Field):
 
 
 class BytesField(Field):
+    max_len: int | None
+
+    def __init__(self, config, config_dir):
+        super().__init__(config, config_dir)
+        self.max_len = config.get("max_length")
+
     def decode(self, data):
-        return data
+        assert isinstance(data, bytes)
+        return {"hex": data.hex()}
 
     def encode(self, data):
         if isinstance(data, bytes):
-            return data
+            result = data
 
         elif isinstance(data, str):
-            return data.encode("utf-8")
+            result = data.encode("utf-8")
 
         elif isinstance(data, int):
             return data.to_bytes(64, "little").rstrip(b"\x00")
 
+        elif isinstance(data, list):
+            result = bytearray(data)
+
+        elif isinstance(data, dict):
+            result = bytearray.fromhex(data["hex"])
+
         else:
             assert False, f"Cannot encode type {type(data)} to bytes"
+
+        assert self.max_len is None or len(result) <= self.max_len
+        return result
 
 
 class UUIDField(Field):
