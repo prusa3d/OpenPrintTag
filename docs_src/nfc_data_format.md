@@ -92,8 +92,8 @@ UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` ha
 | `brand_uuid` | `N + brand` | `5269dfb7-1559-440a-85be-aba5f3eff2d2` |
 | `material_uuid` | `N + brand_uuid + brand_specific_material_id` | `616fc86d-7d99-4953-96c7-46d2836b9be9` |
 | `package_uuid` | `N + brand_uuid + brand_specific_package_id` | `6f7d485e-db8d-4979-904e-a231cd6602b2` |
-| `instance_uuid` | `N + brand_uid + brand_specific_instance_id` | `ce836047-24e6-49d5-b3e6-3c910c4dfc87` |
-| `instance_uuid` | `N + brand_uid + nfc_tag_uid` | `31062f81-b5bd-4f86-a5f8-46367e841508` |
+| `instance_uuid` | `N + brand_uuid + brand_specific_instance_id` | `ce836047-24e6-49d5-b3e6-3c910c4dfc87` |
+| `instance_uuid` | `N + brand_uuid + nfc_tag_uid` | `31062f81-b5bd-4f86-a5f8-46367e841508` |
 
 
 For example:
