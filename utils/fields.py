@@ -213,7 +213,7 @@ class Fields:
             assert field_type, f"Unknown field type '{field_type_str}'"
             field = field_type(row, config_dir)
 
-            assert field.key not in self.fields_by_key
+            assert field.key not in self.fields_by_key, f"Field {field.name} duplicit key {field.key}"
             assert field.name not in self.fields_by_name
 
             self.fields_by_key[field.key] = field
