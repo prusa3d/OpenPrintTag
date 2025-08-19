@@ -89,11 +89,10 @@ UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` ha
 
 | UID | Derviation formula | Namespace (`N`) |
 | --- | --- | --- |
-| `brand_uuid` | `N + brand` | `5269dfb7-1559-440a-85be-aba5f3eff2d2` |
-| `material_uuid` | `N + brand_uuid + brand_specific_material_id` | `616fc86d-7d99-4953-96c7-46d2836b9be9` |
-| `package_uuid` | `N + brand_uuid + brand_specific_package_id` | `6f7d485e-db8d-4979-904e-a231cd6602b2` |
-| `instance_uuid` | `N + brand_uuid + brand_specific_instance_id` | `ce836047-24e6-49d5-b3e6-3c910c4dfc87` |
-| `instance_uuid` | `N + brand_uuid + nfc_tag_uid` | `31062f81-b5bd-4f86-a5f8-46367e841508` |
+| `brand_uuid` | `N + brand_name` | `5269dfb7-1559-440a-85be-aba5f3eff2d2` |
+| `material_uuid` | `N + brand_uuid + material_name` | `616fc86d-7d99-4953-96c7-46d2836b9be9` |
+| `package_uuid` | `N + brand_uuid + gtin` | `6f7d485e-db8d-4979-904e-a231cd6602b2` |
+| `instance_uuid` | `N + brand_uid + nfc_tag_uid` | `31062f81-b5bd-4f86-a5f8-46367e841508` |
 
 
 For example:
@@ -108,15 +107,15 @@ brand_uuid = generate_uuid(brand_namespace, brand_name.encode("utf-8"))
 print(f"brand_uuid = {brand_uuid}")
 
 material_namespace = "616fc86d-7d99-4953-96c7-46d2836b9be9"
-brand_specific_material_id = (1234).to_bytes(4, "little")
-material_uuid = generate_uuid(material_namespace, brand_uuid.bytes, brand_specific_material_id)
+gtin = (1234).to_bytes(4, "little")
+material_uuid = generate_uuid(material_namespace, brand_uuid.bytes, gtin)
 print(f"material_uuid = {material_uuid}")
 {% endpython %}
 
 UUIDs MAY thus be omitted from the in most cases. In the case that a brand changes its name, it SHOULD add `brand_uuid` field with the original UUID whenever the new brand name is used:
-1. `brand = Prusament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (not present, can be automatically computed)
+1. `brand_name = Prusament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (not present, can be automatically computed)
 1. Brand gets renamed to `Pepament`
-1. `brand = Pepament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (present in the data)
+1. `brand_name = Pepament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (present in the data)
 
 ## Meta section
 1. CBOR map, keys are integers.

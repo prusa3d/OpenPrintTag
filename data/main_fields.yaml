@@ -3,28 +3,28 @@
   type: uuid
   description:
     - Unique identifier of the package instance.
-    - If not specified, can be deduced from `brand_uuid` + `brand_specific_instance_id` or NFC tag UID. See UUID section for more details.
+    - If not specified, can be deduced from `brand_uuid` + NFC tag UID. See UUID section for more details.
 
 - key: 33
   name: package_uuid
   type: uuid
   description:
     - Universally unique identifier of the package (product)
-    - If not specified, can be deduced from `brand_uuid` + `brand_specific_package_id`. See UUID section for more details.
+    - If not specified, can be deduced from `brand_uuid` + `gtin`. See UUID section for more details.
 
 - key: 30
   name: material_uuid
   type: uuid
   description:
     - Universally unique identifier of the material
-    - If not specified, can be deduced from `brand_uuid` + `brand_specific_material_id`. See UUID section for more details.
+    - If not specified, can be deduced from `brand_uuid` + `material_name`. See UUID section for more details.
 
 - key: 29
   name: brand_uuid
   type: uuid
   description:
     - Universally unique identifier of the brand
-    - If not specified, can be deduced from the `brand` string. See UUID section for more details.
+    - If not specified, can be deduced from the `brand_name` string. See UUID section for more details.
 
 
 - key: 42
@@ -38,12 +38,14 @@
   type: bytes
   description:
     - Brand-specific identifier of the package instance.
+    - Not much use cases at this moment, possibly just for URL deduction
 
 - key: 32
   name: brand_specific_package_id
   type: bytes
   description:
     - Brand-specific identifier of the package (product ID)
+    - Not much use cases at this moment, possibly just for URL deduction
 
 - key: 28
   name: brand_specific_material_id
@@ -51,6 +53,7 @@
   requried: true
   description:
     - Together with brand uniquely identifies each material
+    - Not much use cases at this moment, possibly just for URL deduction
 
 
 - key: 1
