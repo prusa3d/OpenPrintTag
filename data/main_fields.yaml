@@ -27,6 +27,12 @@
     - If not specified, can be deduced from the `brand` string. See UUID section for more details.
 
 
+- key: 42
+  name: gtin
+  type: number
+  description:
+    - Global Trade Item Number
+
 - key: 0
   name: brand_specific_instance_id
   type: bytes
