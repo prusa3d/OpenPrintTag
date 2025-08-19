@@ -1,5 +1,5 @@
 data:
   main:
-    brand: NOT Prusament
+    brand_name: NOT Prusament
   aux:
     consumed_material: 100

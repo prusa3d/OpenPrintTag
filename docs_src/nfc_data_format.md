@@ -103,8 +103,8 @@ def generate_uuid(namespace, *args):
    return uuid.uuid5(uuid.UUID(namespace), b"".join(args))
 
 brand_namespace = "5269dfb7-1559-440a-85be-aba5f3eff2d2"
-brand = "Prusament"
-brand_uuid = generate_uuid(brand_namespace, brand.encode("utf-8"))
+brand_name = "Prusament"
+brand_uuid = generate_uuid(brand_namespace, brand_name.encode("utf-8"))
 print(f"brand_uuid = {brand_uuid}")
 
 material_namespace = "616fc86d-7d99-4953-96c7-46d2836b9be9"

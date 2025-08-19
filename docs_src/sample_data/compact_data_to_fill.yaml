@@ -1,7 +1,7 @@
 data:
   main:
     material_class: FFF
-    brand: Prusament
+    brand_name: Prusament
     material_type: PLA
     brand_specific_material_id: 1
     tags: [glitter]
