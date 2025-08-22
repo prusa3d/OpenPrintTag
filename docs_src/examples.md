@@ -27,9 +27,3 @@ After initializing the tag, it can be filled with data using `rec_update`.
 Alternative example when we're a bit more tight on the NFC chip size:
 {{ show_file("sample_data/compact_data_to_fill.yaml") }}
 {{ show_example(">nfc_initialize.py --size=128 --aux-region=16 --block-size=1 | >rec_update.py sample_data/compact_data_to_fill.yaml | >rec_info.py --show-all") }}
-
-## Signing a tag
-Updating the tag can optionally include signing the static section using asymmetric cryptography.
-{{ show_file("sample_data/data_to_fill.yaml") }}
-{{ show_file("sample_data/set_signed.yaml") }}
-{{ show_example(">nfc_initialize.py --size=300 --aux-region=32 | >rec_update.py sample_data/data_to_fill.yaml | >rec_update.py sample_data/set_signed.yaml --sign-ecdsa=sample_data/sample_key.pem | >rec_info.py --show-all --verify-ecdsa=sample_data/sample_key.pub") }}

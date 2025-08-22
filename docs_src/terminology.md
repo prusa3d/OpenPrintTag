@@ -5,8 +5,6 @@
 
 Brand/manufacturer of materials, containers and possibly other relevant items.
 
-Brands can have public keys for signing various information about the materials.
-
 ## Material type
 > For example: PLA, PETG, ...
 
@@ -53,7 +51,6 @@ Properties:
 - Material package
 - Batch ID
 - Manufactured date
-- Signature
 
 And possibly some dynamic data:
 - Remaining material

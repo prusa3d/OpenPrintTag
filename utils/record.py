@@ -80,25 +80,6 @@ class Region:
         assert len(encoded) <= len(self.memory), f"Data of size {len(encoded)} does not fit into region of size {len(self.memory)}"
         self.memory[0 : len(encoded)] = encoded
 
-    def sign(self, sign_f):
-        used_size = self.used_size()
-        signature = self.encode(sign_f(self.memory[0:used_size]))
-        signature_len = len(signature)
-        memory_len = len(self.memory)
-
-        assert used_size + signature_len <= memory_len, f"Signature doesn't fit in the region ({used_size} + {signature_len} > {memory_len})"
-        self.memory[used_size : used_size + signature_len] = signature
-
-    def verify_signature(self, verify_f):
-        used_size = self.used_size()
-        signature = cbor2.loads(self.memory[used_size:])
-        return verify_f(signature, self.memory[:used_size])
-
-    def signature_size(self):
-        data_io = io.BytesIO(self.memory[self.used_size() :])
-        cbor2.load(data_io)
-        return data_io.tell()
-
 
 class Record:
     data: memoryview

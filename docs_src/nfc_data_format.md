@@ -25,7 +25,6 @@
    <tr>
       <td>Meta section</td>
       <td>Main section</td>
-      <td>Main section signature</td>
       <td class="unused">Unused space</td>
       <td>Auxiliary section</td>
       <td class="unused">Unused space</td>
@@ -60,12 +59,6 @@
          - Positioned at the beginning of the main region.
          - Intended for static information, not intended to be updated by printers.
             - The only situation where this region needs to be updated would be when the container is being repurposed.
-      1. **Main section signature** (optional, CBOR byte string)
-         - Immediately follows the main section, still part of the main region.
-         - Presence determined by the `is_signed` field in the main section.
-         - If present, the signature **MUST** be encoded as CBOR byte string.
-         - We **heavily recommend using ecdsa secp256k1 sha256 DER** signature.
-            - Having the same signature type everywhere enables optimizations for firmware developers.
       1. **Auxiliary section** (optional, CBOR map)
          - Positioned at the beginning of the auxiliary region.
          - Intended for dynamic information, intended to be updated by the printers.

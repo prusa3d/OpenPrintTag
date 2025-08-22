@@ -94,15 +94,12 @@
   name: brand_config_version
   type: int
   description:
-    - Brands can possible have multiple signature keys and other utility things. This field is an index to a brand-specific array of such configurations.
+    - Identifier of a brand-specific configuration that can be used to derive things like product links.
+    - The configuration itself is not part of the material tag specification and needs to be stored externally.
     - If not present, `0` is assumed
 
 - key: 6
-  name: is_signed
-  type: bool
-  description:
-    - If true, denotes that the main section is signed.
-    - The signature key is specified by `brand_config_version`
+  deprecated: true
 
 - key: 38
   name: write_protection
