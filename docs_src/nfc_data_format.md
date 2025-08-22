@@ -117,6 +117,8 @@ UUIDs MAY thus be omitted from the in most cases. In the case that a brand chang
 1. Brand gets renamed to `Pepament`
 1. `brand_name = Pepament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (present in the data)
 
+NFC tags have a hardcoded UID (referenced as `nfc_tag_uid` in the table above), which can be used for deriving the `instance_uuid`. This is only admissible when the NFC tag is being filled with data for the first time; when reusing the NFC tag for a different material, a new `instance_uuid` MUST be generated and present in the tag to indicate that the package now holds a different material.
+
 ## Meta section
 1. CBOR map, keys are integers.
 1. Allows defining of region offsets (within the NDEF payload) and sizes.
