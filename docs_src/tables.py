@@ -65,6 +65,9 @@ def generate_table(yaml_file: str, columns: typing.List[Column], filter: any = N
         if filter and not filter(row):
             continue
 
+        if row.get("deprecated", False):
+            continue
+
         tgt.write("|")
         for col in columns:
             cell = row.get(col.field, None)

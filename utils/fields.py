@@ -206,6 +206,9 @@ class Fields:
 
     def init_from_yaml(self, yaml, config_dir):
         for row in yaml:
+            if row.get("deprecated", False):
+                continue
+
             field_type_str = row.get("type")
             assert field_type_str, f"Field type not specified '{row}'"
 
