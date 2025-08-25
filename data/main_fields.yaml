@@ -36,6 +36,7 @@
 - key: 0
   name: brand_specific_instance_id
   type: bytes
+  max_length: 16
   description:
     - Brand-specific identifier of the package instance.
     - Not much use cases at this moment, possibly just for URL deduction
@@ -43,6 +44,7 @@
 - key: 32
   name: brand_specific_package_id
   type: bytes
+  max_length: 16
   description:
     - Brand-specific identifier of the package (product ID)
     - Not much use cases at this moment, possibly just for URL deduction
@@ -51,6 +53,7 @@
   name: brand_specific_material_id
   type: bytes
   requried: true
+  max_length: 16
   description:
     - Together with brand uniquely identifies each material
     - Not much use cases at this moment, possibly just for URL deduction

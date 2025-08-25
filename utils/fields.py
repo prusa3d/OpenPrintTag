@@ -144,7 +144,8 @@ class BytesField(Field):
 
     def __init__(self, config, config_dir):
         super().__init__(config, config_dir)
-        self.max_len = config.get("max_length")
+        assert "max_length" in config, f"max_length not specified for '{config['name']}'"
+        self.max_len = config["max_length"]
 
     def decode(self, data):
         assert isinstance(data, bytes)
