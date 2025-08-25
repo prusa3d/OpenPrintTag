@@ -71,7 +71,6 @@
 1. `enum` fields are encoded as an integer, according to the enum field mapping
 1. `enum_array` fields are encoded as CBOR arrays of integers, according to the field mapping
 1. `timestamp` fields are encoded as UNIX timestamp integers
-1. `❗` means required, `❕` means recommended
 1. CBOR maps and arrays should be encoded as indefinite containers
 1. `bytes` and `uuid` types are encoded as CBOR byte string
 

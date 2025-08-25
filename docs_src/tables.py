@@ -21,19 +21,34 @@ def default_transform(data: any):
             return str(data).replace("\n", "<br>")
 
 
-def required_transform(data: any):
-    match data:
-        case True:
-            return "❗"
+def desc_transform(cell: any, row: any):
+    match cell:
+        case None:
+            result = ""
 
-        case False | None:
-            return ""
+        case list():
+            result = "\n".join(str(x) for x in cell)
 
-        case "recommended":
-            return "❕"
+        case str():
+            result = cell
 
         case _:
-            assert False, f"Unknown required value '{data}'"
+            assert False
+
+    match row.get("required"):
+        case True:
+            result += "\n\n**Required field.**"
+
+        case False | None:
+            pass
+
+        case "recommended":
+            result += "\n\n**Recommended field.**"
+
+        case _:
+            assert False
+
+    return result.strip().replace("\n", "<br>")
 
 
 class Column(typing.NamedTuple):

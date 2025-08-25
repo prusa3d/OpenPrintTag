@@ -33,12 +33,11 @@ def region_type_transform(cell, row):
 
 cbor_region_columns = [
     Column(field="name", title="Name", transform=lambda x: f"`{x}`"),
-    Column(field="required", title="R", transform=required_transform),
     Column(field="key", title="Key"),
     Column(field="type", title="Type", transform_ext=region_type_transform),
     Column(field="unit", title="Unit"),
     Column(field="example", title="Example"),
-    Column(field="description", title="Description"),
+    Column(field="description", title="Description", transform_ext=desc_transform),
 ]
 
 enum_columns = [
