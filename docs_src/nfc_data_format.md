@@ -68,6 +68,7 @@
    - Keys of the map are integers. Semantics of the keys are specific to each section.
    - The reader must be able to skip all unknown keys, of any data type.
    - All data sections must be at most 512 bytes long.
+   - All fields MUST follow this specification. Using custom or vendor-specific keys is not permitted (with the exception described in the Aux Region section).
 1. `enum` fields are encoded as an integer, according to the enum field mapping
 1. `enum_array` fields are encoded as CBOR arrays of integers, according to the field mapping
 1. `timestamp` fields are encoded as UNIX timestamp integers
@@ -151,5 +152,19 @@ NFC tags have a hardcoded UID (referenced as `nfc_tag_uid` in the table above), 
 ### Field list
 {{ fields_table("aux_fields", "") }}
 
-### Field list (SLA-specific)
+#### Field list (SLA-specific)
 {{ fields_table("aux_fields", "sla") }}
+
+#### Vendor-specific fields
+Vendor-specific fields not specified in this document are permitted for keys specified by the following table. Vendors may contact the specification authority to be assigned a key range for them to use.
+
+| Min key | Max key | Vendor |
+| --- | --- | --- |
+| 65400 | 65534 | General purpose |
+| 65300 | 65400 | Prusa |
+
+The "General purpose" key region MAY be used by anyone, provided they follow the following rules:
+1. Each general purpose range user MUST assign themselves a unique enough `general_purpose_range_user` value. This is done with no central authority.
+1. The general purpose range MUST be used only by one user at a time, determined by the `general_purpose_range_user` field.
+1. The users MUST ensure that the `general_purpose_range_user` field is set to the value assigned to them for any read or write access to the general purpose range.
+1. The users MUST delete any general purpose range fields present before changing the value of `general_purpose_range_user`.
