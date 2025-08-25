@@ -48,7 +48,6 @@
 
 - The top layer format of the NFC tag is an NDEF message.
 - The message has an **NDEF record** of MIME type **application/vnd.prusa3d.mat.nfc**.
-   - The material record should be the first one within the message. Adding further records is allowed.
    - The payload of the record consists of:
       1. **Meta section** (CBOR map)
          - Always at the beginning of the payload.
@@ -62,6 +61,9 @@
       1. **Auxiliary section** (optional, CBOR map)
          - Positioned at the beginning of the auxiliary region.
          - Intended for dynamic information, intended to be updated by the printers.
+   - The NDEF record MUST NOT be split into multiple NDEF record chunks.
+      - Splitting the record would break the "virtual space" of the payload and would complicate implementation.
+   - The NDEF message MAY contain other NDEF records. The material NDEF record doesn't need to be the first NDEF record in the message.
 - Unused space in the sections (outside of the region CBOR) SHALL NOT contain any meaningful working data. It SHOULD be filled with zeroes on tag initialization, but there are no requirements on upkeeping that afterwards. Users CAN update the regions with smaller data, leaving remnants of the original data behind.
 
 ## Specification common to all sections
