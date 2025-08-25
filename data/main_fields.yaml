@@ -360,3 +360,12 @@
   unit: ml (cm³)
   category: sla
   description: Maximum amount of material the container can hold.
+
+- key: 46
+  name: cure_wavelength
+  type: int
+  unit: nm
+  example: 405
+  category: sla
+  description:
+    - Wavelength of the light the material has been designed to be cured with
