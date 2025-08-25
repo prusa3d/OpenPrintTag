@@ -216,9 +216,11 @@
   type: int
   unit: °C
   example: 210
+  required: true
   category: fff
   description:
     - Recommended nozzle tempeature for printing.
+    - Also used for loading the filament to the nozzle.
 
 - key: 22
   name: preheat_temperature
@@ -226,6 +228,7 @@
   unit: °C
   example: 170
   category: fff
+  required: true
   description:
     - Recommended nozzle tempeature for preheating/loadcell bed leveling.
     - Should be large enough for the material to get soft, but not low enough for it no to drip out of the nozzle.
@@ -236,6 +239,7 @@
   unit: °C
   example: 60
   category: fff
+  required: true
   description:
     - Recommended heatbed tempeature.
 
