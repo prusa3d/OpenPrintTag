@@ -3,3 +3,4 @@
 - [Data format](/nfc_data_format)
 - [Technical details](/nfc_technical_details)
 - [Examples](/examples)
+- [Contributing](/contributing)
