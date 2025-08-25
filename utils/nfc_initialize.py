@@ -20,6 +20,7 @@ parser.add_argument("-s", "--size", type=int, required=True, help="Available spa
 parser.add_argument("-a", "--aux-region", type=int, help="Allocate auxiliar region of the provided size in bytes.")
 parser.add_argument("-b", "--block-size", type=int, default=4, help="Block size of the chip. The regions are aligned with the blocks. 1 = no align")
 parser.add_argument("-m", "--meta-region", type=int, default=None, help="Meta region allocation size. If not specified, the meta region will only take minimum size required.")
+parser.add_argument("-u", "--ndef-uri", type=str, default=None, help="Adds a NDEF record with the specified URI at the beginning of the NDEF message")
 
 args = parser.parse_args()
 
@@ -29,8 +30,15 @@ with open(args.config_file, "r") as f:
 
 assert config.root == "ndef", "nfc_initialize only supports NFC tags"
 
+# Set up preceding NDEF regions
+records = []
+if args.ndef_uri is not None:
+    records.append(ndef.UriRecord(args.ndef_uri))
+
+preceding_records_size = len(b"".join(ndef.message_encoder(records)))
+
 ndef_header_size = 3 + len(config.mime_type)
-payload_size = args.size - ndef_header_size
+payload_size = args.size - ndef_header_size - preceding_records_size
 
 # If the NDEF payload size would exceed 255 bytes, its length cannot be stored in a single byte
 # and NDEF switches to storing the length into 4 bytes
@@ -58,7 +66,7 @@ def align_region_offset(offset: int, align_up: bool = True):
     """Aligns offset to the NDEF block size"""
 
     # We're aligning within the whole tag frame, not just within the NFC payload
-    misalignment = (ndef_header_size + offset) % args.block_size
+    misalignment = (preceding_records_size + ndef_header_size + offset) % args.block_size
     if misalignment == 0:
         return offset
 
@@ -93,15 +101,16 @@ if main_region_offset == 0:
 write_section(main_region_offset, dict())
 
 # Create the NDEF record
-ndef_record = ndef.Record(config.mime_type, "", payload)
-ndef_data = b"".join(ndef.message_encoder([ndef_record]))
+records.append(ndef.Record(config.mime_type, "", payload))
+ndef_data = b"".join(ndef.message_encoder(records))
 
 # Check that we have deduced the ndef header size correctly
-if len(ndef_data) != ndef_header_size + payload_size:
-    sys.exit(f"NDEF record calculated incorrectly: expected size {ndef_header_size + payload_size} ({ndef_header_size} + {payload_size}), but got {len(ndef_data)}")
+expected_size = preceding_records_size + ndef_header_size + payload_size
+if len(ndef_data) != expected_size:
+    sys.exit(f"NDEF record calculated incorrectly: expected size {expected_size} ({preceding_records_size} + {ndef_header_size} + {payload_size}), but got {len(ndef_data)}")
 
 # Check that the payload is where we expect it to be
-assert ndef_data[ndef_header_size:] == payload
+assert ndef_data[preceding_records_size + ndef_header_size :] == payload
 
 # Write the result to the stdout
 sys.stdout.buffer.write(ndef_data)
