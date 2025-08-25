@@ -91,7 +91,9 @@ def show_example(prompt, language="yaml"):
     if output.returncode != 0:
         print(f"Error while running '{prompt}'")
 
+    r.write("<details><summary><b>Commmand output</b></summary>\n\n")
     r.write(f"```{language}\n{output.stdout.decode()}\n```\n")
+    r.write("</details>\n\n")
 
     return r.getvalue()
 
@@ -101,10 +103,13 @@ env.globals["show_example"] = show_example
 
 def show_file(file, language="yaml"):
     r = io.StringIO("")
+
     r.write(f"> ```bash\n> cat {file}\n> ```\n\n")
 
+    r.write("<details><summary><b>Commmand output</b></summary>\n\n")
     with open(f"{dir}/{file}", "r") as f:
         r.write(f"```{language}\n{f.read()}\n```\n")
+    r.write("</details>\n\n")
 
     return r.getvalue()
 
