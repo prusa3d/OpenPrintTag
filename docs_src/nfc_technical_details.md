@@ -11,7 +11,7 @@
    1. **The NDEF record shall not be split into multiple NDEF record chunks.**
       - Splitting the record would break the "virtual space" of the payload and would complicate implementation.
    1. We recommend to **expand the payload of the NDEF record so that the whole available memory of the NFC tag is used.**
-      - The idea is that the factory can fully lock the blocks containing the NDEF  headers and would only the memory pool open. (Possibly write protecting  part of it as well).
+      - The idea is that the factory can fully lock the blocks containing the NDEF  headers and would only keep the memory pool open. (Possibly write protecting  part of it as well).
       - Part of the memory pool is auxiliary section, which we want to be able to write to without having to edit other structures/shuffle things around.
    1. The meta section allows the manufacturers to configure the payload structure so that it fits their purposes and the used NFC tag specifics:
       1. The auxiliary region can be adjusted or even omitted, based on the NFC tag available memory.
