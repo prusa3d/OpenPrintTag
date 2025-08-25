@@ -72,8 +72,9 @@
   items_file: material_type_enum.yaml
   example: PLA
   description:
-    - Coarse classification of the material
+    - Coarse classification of the material.
     - Useful for determining default parameters for preheat an such that are not explicitly specified in the data.
+    - If the material does not match any of the proposed material types, can be left unspecified.
 
 - key: 4
   name: material_name
