@@ -73,8 +73,9 @@
 1. `enum` fields are encoded as an integer, according to the enum field mapping
 1. `enum_array` fields are encoded as CBOR arrays of integers, according to the field mapping
 1. `timestamp` fields are encoded as UNIX timestamp integers
-1. CBOR maps and arrays should be encoded as indefinite containers
-1. `bytes` and `uuid` types are encoded as CBOR byte string
+1. CBOR maps and arrays SHOULD be encoded as indefinite containers
+1. `bytes` and `uuid` types are encoded as CBOR byte string (type 2)
+1. `number` types can be encoded as either unsigned integers (type 0), signed integers (type 1), half floats or floats
 
 ### UUIDs
 Each entity referenced in the data can be identified by a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). The UUID MAY be explicitly specified through a `XX_uuid`, however that might not be desirable due to space constraints. As an alternative, the following algorithm defines a way to derive UUIDs from other fields.
