@@ -52,7 +52,6 @@
 - key: 28
   name: brand_specific_material_id
   type: bytes
-  requried: true
   max_length: 16
   description:
     - Together with brand uniquely identifies each material
