@@ -19,6 +19,10 @@
    1. **AFI**: We recommend setting the AFI register to 0 and locking/password protecting it.
    1. **DSFID**: The DSFID register is reserved for future use. It shall be set to 0 and locked/password protected.
    1. **EAS**: Implementing EAS is up to each manufacturer discretion. We again recommend locking/password protecting it.
+   1. The specification was written in such way so that it wouldn't need explicit versioning.
+      - New keys can easily be introduced without breaking backwards compatibility.
+      - Deprecated keys will never be reused.
+      - If there would be substantial changes to the standard that would break backwards compatibility, a new MIME type will be used for the new format.
 
 ## Write protection
 The Prusa NFC standards offers these options also considers ways to prevent the tags from being overwritten by malicious actors.
