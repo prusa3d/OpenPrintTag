@@ -201,6 +201,24 @@
 
 # Removed 19
 
+- key: 43
+  name: shore_hardness_a
+  type: int
+  example: 95
+  category: fff
+  description:
+    - Hardness of the material on the Shore A hardness scale (suitable for softer materials)
+    - "Note: There is no 1:1 mapping between A and D scales, different materials can have different values on one scale even though they are the same on the other."
+
+- key: 44
+  name: shore_hardness_d
+  type: int
+  example: 30
+  category: fff
+  description:
+    - Hardness of the material on the Shore D hardness scale (suitable for harder materials)
+    - "Note: There is no 1:1 mapping between A and D scales, different materials can have different values on one scale even though they are the same on the other."
+
 - key: 20
   name: min_nozzle_diameter
   type: number
