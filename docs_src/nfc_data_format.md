@@ -149,6 +149,9 @@ UUIDs MAY thus be omitted from the in most cases. In the case that a brand chang
 #### `tags` items
 {{ enum_table("tags_enum") }}
 
+#### `write_protection` items
+{{ enum_table("write_protection_enum") }}
+
 ## Auxiliary section
 
 ### Field list
