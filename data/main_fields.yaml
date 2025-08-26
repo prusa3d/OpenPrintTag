@@ -306,6 +306,16 @@
   description:
     - Diameter of the spool. Can be useful to know for spool holders, dryboxes and such.
 
+- key: 45
+  name: container_inner_diameter
+  type: int
+  unit: mm
+  example: 100
+  category: fff
+  description:
+    - Diameter of the inner cylinder the filament is spooled once.
+    - Equals to the minimum diameter of the filament winding.
+
 - key: 41
   name: container_hole_diameter
   type: int
