@@ -40,6 +40,8 @@ preceding_records_size = len(b"".join(ndef.message_encoder(records)))
 ndef_header_size = 3 + len(config.mime_type)
 payload_size = args.size - ndef_header_size - preceding_records_size
 
+assert payload_size > max_meta_section_size, "There is not enough space even for the meta region"
+
 # If the NDEF payload size would exceed 255 bytes, its length cannot be stored in a single byte
 # and NDEF switches to storing the length into 4 bytes
 if payload_size > 255:
@@ -84,18 +86,25 @@ if (args.block_size > 1) or (args.meta_region is not None):
     metadata["main_region_offset"] = main_region_offset
 else:
     # If we are not aligning, we don't need to write the main region offset, it will be directly after the meta region
-    main_region_offset = 0
+    main_region_offset = None
 
 # Prepare aux region
 if args.aux_region is not None:
+    assert args.aux_region > 4, "Aux region is too small"
+
     aux_region_offset = align_region_offset(payload_size - args.aux_region, align_up=False)
     metadata["aux_region_offset"] = aux_region_offset
     write_section(aux_region_offset, dict())
 
 # Prepare meta section
 meta_section_size = write_section(0, meta_fields.encode(metadata))
-if main_region_offset == 0:
+if main_region_offset is None:
     main_region_offset = meta_section_size
+
+if args.aux_region is not None:
+    assert aux_region_offset - main_region_offset >= 4, "Main region is too small"
+else:
+    assert payload_size - main_region_offset >= 8, "Main region is too small"
 
 # Write main region
 write_section(main_region_offset, dict())
