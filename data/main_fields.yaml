@@ -201,22 +201,10 @@
     - See `secondary_color_0_rgba`
 
 - key: 12
-  name: color_ral
-  type: string
-  max_length: 15
-  example: "200 20 10"
-  description:
-    - Color of the material in the RAL format.
-    - The stored value is without the "RAL " prefix.
+  deprecated: true
 
 - key: 13
-  name: color_pantone
-  type: string
-  max_length: 15
-  example: "3574 U"
-  description:
-    - Color of the material in the Pantone format.
-    - The stored value is without the "Pantone " prefix.
+  deprecated: true
 
 - key: 14
   name: transmission_distance
