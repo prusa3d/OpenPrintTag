@@ -2,4 +2,4 @@ data:
   main:
     brand_name: NOT Prusament
   aux:
-    consumed_material: 100
+    consumed_weight: 100

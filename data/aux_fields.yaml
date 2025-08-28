@@ -1,8 +1,10 @@
 - key: 0
-  name: consumed_material
+  name: consumed_weight
   type: number
   unit: g
-  description: Amount of material that was used up from the container
+  description:
+    - Amount of material that was used up from the container
+    - "`remaining_weight` = `instance_netto_full_weight` - `consumed_weight`"
 
 - key: 1
   name: workgroup

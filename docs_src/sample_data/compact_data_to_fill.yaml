@@ -6,7 +6,7 @@ data:
     brand_specific_material_id: 1
     tags: [glitter]
     primary_color_rgba: [0x3D, 0x3E, 0x3D]
-    netto_full_weight: 1000
+    nominal_netto_full_weight: 1000
     transmission_distance: 0.2
     print_temperature: 210
     preheat_temperature: 170

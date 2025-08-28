@@ -8,7 +8,8 @@ data:
     tags: [glitter]
     primary_color_rgba: [0x3D, 0x3E, 0x3D]
     manufactured_date: 1739371290
-    netto_full_weight: 1000
+    nominal_netto_full_weight: 1000
+    actual_netto_full_weight: 1012
     empty_container_weight: 100
     transmission_distance: 0.2
     print_temperature: 210

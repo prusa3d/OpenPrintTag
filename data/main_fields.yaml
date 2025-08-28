@@ -120,12 +120,25 @@
   type: timestamp
 
 - key: 9
-  name: netto_full_weight
-  required: true
+  name: nominal_netto_full_weight
+  required: recommended
   type: number
   unit: g
   example: 1000
-  description: Weight of the full package of the material, excluding the container
+  description:
+    - Nominal/advertised weight of the full package of the material, excluding the container
+    - The actual netto weight of a spcific package instance can slightly differ and is specified by `actual_netto_full_weight`
+
+- key: 54
+  name: actual_netto_full_weight
+  required: recommended
+  type: number
+  unit: g
+  example: 1012
+  description:
+    - Actual weight of the full package of the material of this specific package instance, excluding the weight of the container.
+    - Can slightly differ from `nominal_netto_full_weight`.
+    - If not present, it is assumed to match `nominal_netto_full_weight`.
 
 - key: 10
   name: empty_container_weight
