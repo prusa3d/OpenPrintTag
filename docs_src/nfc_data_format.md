@@ -81,14 +81,18 @@
 ### UUIDs
 Each entity referenced in the data can be identified by a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). The UUID MAY be explicitly specified through a `XX_uuid`, however that might not be desirable due to space constraints. As an alternative, the following algorithm defines a way to derive UUIDs from other fields.
 
-UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3), according to the following table. UUIDs are hashed in the binary form, strings are encoded as UTF-8. `+` represents binary concatenation.
+UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3), according to the following table.
+* UUIDs are hashed in the binary form.
+* Strings are encoded as UTF-8.
+* Numbers are encoded as decimal strings.
+* `+` represents binary concatenation.
 
 | UID | Derviation formula | Namespace (`N`) |
 | --- | --- | --- |
 | `brand_uuid` | `N + brand_name` | `5269dfb7-1559-440a-85be-aba5f3eff2d2` |
 | `material_uuid` | `N + brand_uuid + material_name` | `616fc86d-7d99-4953-96c7-46d2836b9be9` |
 | `package_uuid` | `N + brand_uuid + gtin` | `6f7d485e-db8d-4979-904e-a231cd6602b2` |
-| `instance_uuid` | `N + brand_uid + nfc_tag_uid` | `31062f81-b5bd-4f86-a5f8-46367e841508` |
+| `instance_uuid` | `N + brand_uuid + nfc_tag_uid` | `31062f81-b5bd-4f86-a5f8-46367e841508` |
 
 
 For example:
@@ -103,8 +107,8 @@ brand_uuid = generate_uuid(brand_namespace, brand_name.encode("utf-8"))
 print(f"brand_uuid = {brand_uuid}")
 
 material_namespace = "616fc86d-7d99-4953-96c7-46d2836b9be9"
-gtin = (1234).to_bytes(4, "little")
-material_uuid = generate_uuid(material_namespace, brand_uuid.bytes, gtin)
+gtin = "1234"
+material_uuid = generate_uuid(material_namespace, brand_uuid.bytes, gtin.encode("utf-8"))
 print(f"material_uuid = {material_uuid}")
 {% endpython %}
 
