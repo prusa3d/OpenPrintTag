@@ -11,7 +11,7 @@ from fields import Fields
 
 class Region:
     memory: memoryview
-    offset: int
+    offset: int  # Offset of the region relative to payload start
     fields: Fields
     record: typing.Any
     is_corrupt: bool = False
@@ -36,7 +36,8 @@ class Region:
 
     def info_dict(self):
         result = {
-            "offset": self.offset,
+            "payload_offset": self.offset,
+            "absolute_offset": self.offset + self.record.payload_offset,
             "size": len(self.memory),
             "used_size": self.used_size(),
         }
@@ -84,6 +85,7 @@ class Region:
 class Record:
     data: memoryview
     payload: memoryview
+    payload_offset: int  # Offset of the payload relative to the NDEF message start
     config: types.SimpleNamespace
     config_dir: str
 
@@ -115,7 +117,8 @@ class Record:
                     if record.type == self.config.mime_type:
                         # We have to create a sub memoryview so that when we update the region, the outer data updates as well
                         end = data_io.tell()
-                        self.payload = data[end - len(record.data) : end]
+                        self.payload_offset = end - len(record.data)
+                        self.payload = data[self.payload_offset : end]
                         assert self.payload == record.data
                         break
 
