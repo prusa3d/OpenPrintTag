@@ -135,16 +135,57 @@
   description: Weight of the empty container
 
 - key: 11
-  name: color_rgba
+  name: primary_color_rgba
   type: bytes
   max_length: 4
   required: recommended
-  unit: "RGB888 | RGBA8888"
+  unit: "RGB888 or RGBA8888"
   example: "[255, 0, 0, 128]"
   description:
-    - Color of the material in the RGB(A) format.
-    - For UI purposes
+    - Primary color of the material in the RGB(A) format, intended for UI purposes.
     - The alpha channel can be left out, in which case the data should have 3 bytes instead of 4 and the color will be considered fully opaque.
+    - If a material doesn't have a single primary color (for example rainbow or coextruded filaments), this field can be null.
+
+- key: 47
+  name: secondary_color_0_rgba
+  type: bytes
+  max_length: 4
+  unit: "RGB888 or RGBA8888"
+  description:
+    - One of secondary colors of the material.
+    - Data format is the same as for `primary_color_rgba`
+
+- key: 48
+  name: secondary_color_1_rgba
+  type: bytes
+  max_length: 4
+  unit: "RGB888 or RGBA8888"
+  description:
+    - See `secondary_color_0_rgba`
+
+- key: 49
+  name: secondary_color_2_rgba
+  type: bytes
+  max_length: 4
+  unit: "RGB888 or RGBA8888"
+  description:
+    - See `secondary_color_0_rgba`
+
+- key: 50
+  name: secondary_color_3_rgba
+  type: bytes
+  max_length: 4
+  unit: "RGB888 or RGBA8888"
+  description:
+    - See `secondary_color_0_rgba`
+
+- key: 51
+  name: secondary_color_4_rgba
+  type: bytes
+  max_length: 4
+  unit: "RGB888 or RGBA8888"
+  description:
+    - See `secondary_color_0_rgba`
 
 - key: 12
   name: color_ral

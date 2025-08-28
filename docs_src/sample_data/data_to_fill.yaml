@@ -6,9 +6,7 @@ data:
     material_name: PLA Galaxy Black
     brand_specific_material_id: 1
     tags: [glitter]
-    color_rgba: [0x3D, 0x3E, 0x3D]
-    color_pantone: 19-0000 TPX
-    color_ral: 8019
+    primary_color_rgba: [0x3D, 0x3E, 0x3D]
     manufactured_date: 1739371290
     netto_full_weight: 1000
     empty_container_weight: 100
