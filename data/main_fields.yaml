@@ -276,14 +276,25 @@
     - This field specifies minimum nozzle diameter recommended for printing this material.
 
 - key: 21
-  name: print_temperature
+  name: min_print_temperature
   type: int
   unit: °C
-  example: 210
+  example: 205
   required: true
   category: fff
   description:
-    - Recommended nozzle tempeature for printing.
+    - Minimum recommended nozzle tempeature for printing.
+    - Also used for loading the filament to the nozzle.
+
+- key: 52
+  name: max_print_temperature
+  type: int
+  unit: °C
+  example: 225
+  required: true
+  category: fff
+  description:
+    - Maximum recommended nozzle tempeature for printing.
     - Also used for loading the filament to the nozzle.
 
 - key: 22
@@ -298,14 +309,24 @@
     - Should be large enough for the material to get soft, but not low enough for it no to drip out of the nozzle.
 
 - key: 23
-  name: bed_temperature
+  name: min_bed_temperature
   type: int
   unit: °C
   example: 60
   category: fff
   required: true
   description:
-    - Recommended heatbed tempeature.
+    - Minimum recommended heatbed tempeature.
+
+- key: 53
+  name: max_bed_temperature
+  type: int
+  unit: °C
+  example: 60
+  category: fff
+  required: true
+  description:
+    - Maximum recommended heatbed tempeature.
 
 - key: 24
   name: min_chamber_temperature
