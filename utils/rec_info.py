@@ -1,8 +1,6 @@
 import argparse
 import sys
 import yaml
-import ecdsa
-import ecdsa.util
 
 from record import Record
 from common import default_config_file
