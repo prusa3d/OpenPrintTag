@@ -14,6 +14,7 @@ parser.add_argument("-b", "--show-raw-data", action=argparse.BooleanOptionalActi
 parser.add_argument("-m", "--show-meta", action=argparse.BooleanOptionalAction, default=False, help="By default, --show-data hides the meta region. Enabling this option will print it, too.")
 parser.add_argument("-a", "--show-all", action=argparse.BooleanOptionalAction, default=False, help="Apply all --show options")
 parser.add_argument("-v", "--validate", action=argparse.BooleanOptionalAction, default=False, help="Check that the data are valid")
+parser.add_argument("-f", "--extra-required-fields", type=str, default=True, help="Check that all fields from the specified YAML file are present in the record")
 
 args = parser.parse_args()
 
@@ -69,6 +70,19 @@ if args.show_raw_data:
 if args.validate:
     for name, region in record.regions.items():
         region.fields.validate(region.read())
+
+if args.extra_required_fields:
+    with open(args.extra_required_fields, "r") as f:
+        req_fields = yaml.safe_load(f)
+
+    for region_name, region_req_fields in req_fields.items():
+        region = record.regions.get(region_name)
+        assert region, f"Missing region {region_name}"
+
+        region_data = region.read()
+
+        for req_field_name in region_req_fields:
+            assert req_field_name in region_data, f"Missing field '{req_field_name}' in region '{region_name}'"
 
 
 def yaml_hex_bytes_representer(dumper: yaml.SafeDumper, data: bytes):
