@@ -1,0 +1,24 @@
+main:
+  - material_class
+  - material_type
+  - brand_name
+  - material_name
+  - gtin
+  - brand_specific_instance_id
+  - primary_color_rgba
+  - empty_container_weight
+  - nominal_netto_full_weight
+  - actual_netto_full_weight
+  - density
+  - min_print_temperature
+  - max_print_temperature
+  - chamber_temperature
+  - min_chamber_temperature
+  - max_chamber_temperature
+  - preheat_temperature
+  - container_outer_diameter
+  - container_inner_diameter
+  - container_width
+  - container_hole_diameter
+  - tags
+  - manufactured_date
