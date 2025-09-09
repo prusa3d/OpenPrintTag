@@ -2,6 +2,7 @@ import yaml
 import os
 import numpy
 import uuid
+import sys
 
 
 class Field:
@@ -13,7 +14,7 @@ class Field:
         self.type_name = config["type"]
         self.key = int(config["key"])
         self.name = str(config["name"])
-        self.required = bool(config.get("required", False))
+        self.required = config.get("required", False)
 
 
 class BoolField(Field):
@@ -198,7 +199,6 @@ field_types = {
 class Fields:
     fields_by_key: dict[int, Field]
     fields_by_name: dict[str, Field]
-    required_fields: list[Field]
 
     def __init__(self):
         self.fields_by_key = dict()
@@ -222,9 +222,6 @@ class Fields:
 
             self.fields_by_key[field.key] = field
             self.fields_by_name[field.name] = field
-
-            if field.required:
-                self.required_fields.append(field)
 
     def from_file(file: str):
         r = Fields()
@@ -263,5 +260,19 @@ class Fields:
         return result
 
     def validate(self, decoded_data):
-        for field in self.required_fields:
-            assert field.name in decoded_data, f"Missing required field '{field.name}'"
+        for field_name, field in self.fields_by_name.items():
+            if field_name in decoded_data:
+                continue
+
+            match field.required:
+                case False:
+                    pass
+
+                case True:
+                    assert False, f"Missing required field '{field.name}'"
+
+                case "recommended":
+                    print(f"Missing recommended field '{field.name}'", file=sys.stderr)
+
+                case _:
+                    assert False, f"Invalid field '{field.name}' 'required' value '{field.required}'"
