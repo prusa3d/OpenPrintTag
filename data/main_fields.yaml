@@ -95,14 +95,6 @@
   description: Brand of the material
   example: Prusament
 
-- key: 5
-  name: brand_config_version
-  type: int
-  description:
-    - Identifier of a brand-specific configuration that can be used to derive things like product links.
-    - The configuration itself is not part of the material tag specification and needs to be stored externally.
-    - If not present, `0` is assumed
-
 - key: 6
   deprecated: true
 
