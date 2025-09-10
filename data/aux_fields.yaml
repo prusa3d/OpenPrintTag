@@ -13,7 +13,7 @@
   description:
     - Workgroup identifier, used for detecting first usage of the material. See the "write protection" section.
 
-- key: 3
+- key: 2
   name: general_purpose_range_user
   type: string
   example: Prusa
@@ -23,7 +23,7 @@
     - MUST be filled if any of the general purpose keys is used.
     - See "Vendor-specific fields"
 
-- key: 2
+- key: 3
   name: last_stir_time
   category: sla
   type: timestamp

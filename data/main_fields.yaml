@@ -1,25 +1,25 @@
-- key: 31
+- key: 0
   name: instance_uuid
   type: uuid
   description:
     - Unique identifier of the package instance.
     - If not specified, can be deduced from `brand_uuid` + NFC tag UID. See UUID section for more details.
 
-- key: 33
+- key: 1
   name: package_uuid
   type: uuid
   description:
     - Universally unique identifier of the package (product)
     - If not specified, can be deduced from `brand_uuid` + `gtin`. See UUID section for more details.
 
-- key: 30
+- key: 2
   name: material_uuid
   type: uuid
   description:
     - Universally unique identifier of the material
     - If not specified, can be deduced from `brand_uuid` + `material_name`. See UUID section for more details.
 
-- key: 29
+- key: 3
   name: brand_uuid
   type: uuid
   description:
@@ -27,14 +27,14 @@
     - If not specified, can be deduced from the `brand_name` string. See UUID section for more details.
 
 
-- key: 42
+- key: 4
   name: gtin
   type: number
   required: recommended
   description:
     - Global Trade Item Number
 
-- key: 0
+- key: 5
   name: brand_specific_instance_id
   type: bytes
   max_length: 16
@@ -42,7 +42,7 @@
     - Brand-specific identifier of the package instance.
     - Not much use cases at this moment, possibly just for URL deduction
 
-- key: 32
+- key: 6
   name: brand_specific_package_id
   type: bytes
   max_length: 16
@@ -50,7 +50,7 @@
     - Brand-specific identifier of the package (product ID)
     - Not much use cases at this moment, possibly just for URL deduction
 
-- key: 28
+- key: 7
   name: brand_specific_material_id
   type: bytes
   max_length: 16
@@ -59,14 +59,14 @@
     - Not much use cases at this moment, possibly just for URL deduction
 
 
-- key: 1
+- key: 8
   name: material_class
   type: enum
   required: true
   example: FFF
   items_file: material_class_enum.yaml
 
-- key: 2
+- key: 9
   name: material_type
   type: enum
   category: fff
@@ -77,7 +77,7 @@
     - Useful for determining default parameters for preheat an such that are not explicitly specified in the data.
     - If the material does not match any of the proposed material types, can be left unspecified.
 
-- key: 4
+- key: 10
   name: material_name
   type: string
   max_length: 31
@@ -87,7 +87,7 @@
     - Brand-specific material display string/identifier.
     - In the UI, brand_name + material_name should be displayed together, for example "Prusament PLA Galaxy Black"
 
-- key: 3
+- key: 11
   name: brand_name
   type: string
   max_length: 31
@@ -95,25 +95,25 @@
   description: Brand of the material
   example: Prusament
 
-- key: 6
+- key: 12
   deprecated: true
 
-- key: 38
+- key: 13
   name: write_protection
   type: enum
   items_file: write_protection_enum.yaml
   description: Indicates whether the tag is write protected (everything except aux section, that one should be always writable). See the "Write protection" section.
 
-- key: 7
+- key: 14
   name: manufactured_date
   type: timestamp
   required: recommended
 
-- key: 8
+- key: 15
   name: expiration_date
   type: timestamp
 
-- key: 9
+- key: 16
   name: nominal_netto_full_weight
   required: recommended
   type: number
@@ -123,7 +123,7 @@
     - Nominal/advertised weight of the full package of the material, excluding the container
     - The actual netto weight of a spcific package instance can slightly differ and is specified by `actual_netto_full_weight`
 
-- key: 54
+- key: 17
   name: actual_netto_full_weight
   required: recommended
   type: number
@@ -134,14 +134,14 @@
     - Can slightly differ from `nominal_netto_full_weight`.
     - If not present, it is assumed to match `nominal_netto_full_weight`.
 
-- key: 10
+- key: 18
   name: empty_container_weight
   required: recommended
   type: number
   unit: g
   description: Weight of the empty container
 
-- key: 11
+- key: 19
   name: primary_color_rgba
   type: bytes
   max_length: 4
@@ -153,7 +153,7 @@
     - The alpha channel can be left out, in which case the data should have 3 bytes instead of 4 and the color will be considered fully opaque.
     - If a material doesn't have a single primary color (for example rainbow or coextruded filaments), this field can be null.
 
-- key: 47
+- key: 20
   name: secondary_color_0_rgba
   type: bytes
   max_length: 4
@@ -162,7 +162,7 @@
     - One of secondary colors of the material.
     - Data format is the same as for `primary_color_rgba`
 
-- key: 48
+- key: 21
   name: secondary_color_1_rgba
   type: bytes
   max_length: 4
@@ -170,7 +170,7 @@
   description:
     - See `secondary_color_0_rgba`
 
-- key: 49
+- key: 22
   name: secondary_color_2_rgba
   type: bytes
   max_length: 4
@@ -178,7 +178,7 @@
   description:
     - See `secondary_color_0_rgba`
 
-- key: 50
+- key: 23
   name: secondary_color_3_rgba
   type: bytes
   max_length: 4
@@ -186,7 +186,7 @@
   description:
     - See `secondary_color_0_rgba`
 
-- key: 51
+- key: 24
   name: secondary_color_4_rgba
   type: bytes
   max_length: 4
@@ -194,13 +194,13 @@
   description:
     - See `secondary_color_0_rgba`
 
-- key: 12
+- key: 25
   deprecated: true
 
-- key: 13
+- key: 26
   deprecated: true
 
-- key: 14
+- key: 27
   name: transmission_distance
   type: number
   example: 6.6
@@ -209,7 +209,7 @@
     - Transmission Distance is a number representing material opacity. Value ranges from 0.1 (least transparent/most opaque) to 100 (most transparent/least opaque)
     - See [Prusa TD values](https://help.prusa3d.com/article/hueforge-filament-transparency-values-and-hexcodes_762314) or [HueForge website](https://shop.thehueforge.com/blogs/news/what-is-hueforge).
 
-- key: 15
+- key: 28
   name: tags
   type: enum_array
   items_file: tags_enum.yaml
@@ -217,7 +217,7 @@
   required: recommended
   description: Properties of the material. Can have multiple tags at once.
 
-- key: 16
+- key: 29
   name: density
   type: number
   unit: mg/cm³
@@ -225,7 +225,7 @@
   required: recommended
   description: Density of the material
 
-- key: 17
+- key: 30
   name: filament_diameter
   type: number
   unit: mm
@@ -239,7 +239,7 @@
 
 # Removed 19
 
-- key: 43
+- key: 31
   name: shore_hardness_a
   type: int
   example: 95
@@ -248,7 +248,7 @@
     - Hardness of the material on the Shore A hardness scale (suitable for softer materials)
     - "Note: There is no 1:1 mapping between A and D scales, different materials can have different values on one scale even though they are the same on the other."
 
-- key: 44
+- key: 32
   name: shore_hardness_d
   type: int
   example: 30
@@ -257,7 +257,7 @@
     - Hardness of the material on the Shore D hardness scale (suitable for harder materials)
     - "Note: There is no 1:1 mapping between A and D scales, different materials can have different values on one scale even though they are the same on the other."
 
-- key: 20
+- key: 33
   name: min_nozzle_diameter
   type: number
   example: 0.4
@@ -267,7 +267,7 @@
     - Filaments can contain particles that would clog smaller nozzles.
     - This field specifies minimum nozzle diameter recommended for printing this material.
 
-- key: 21
+- key: 34
   name: min_print_temperature
   type: int
   unit: °C
@@ -278,7 +278,7 @@
     - Minimum recommended nozzle tempeature for printing.
     - Also used for loading the filament to the nozzle.
 
-- key: 52
+- key: 35
   name: max_print_temperature
   type: int
   unit: °C
@@ -289,7 +289,7 @@
     - Maximum recommended nozzle tempeature for printing.
     - Also used for loading the filament to the nozzle.
 
-- key: 22
+- key: 36
   name: preheat_temperature
   type: int
   unit: °C
@@ -300,7 +300,7 @@
     - Recommended nozzle tempeature for preheating/loadcell bed leveling.
     - Should be large enough for the material to get soft, but not low enough for it no to drip out of the nozzle.
 
-- key: 23
+- key: 37
   name: min_bed_temperature
   type: int
   unit: °C
@@ -310,7 +310,7 @@
   description:
     - Minimum recommended heatbed tempeature.
 
-- key: 53
+- key: 38
   name: max_bed_temperature
   type: int
   unit: °C
@@ -320,7 +320,7 @@
   description:
     - Maximum recommended heatbed tempeature.
 
-- key: 24
+- key: 39
   name: min_chamber_temperature
   type: int
   unit: °C
@@ -329,7 +329,7 @@
   description:
     - Minimum recommended temperature of the chamber.
 
-- key: 25
+- key: 40
   name: max_chamber_temperature
   type: int
   unit: °C
@@ -338,7 +338,7 @@
   description:
     - Maximum recommended temperature of the chamber.
 
-- key: 26
+- key: 41
   name: chamber_temperature
   type: int
   unit: °C
@@ -347,7 +347,7 @@
   description:
     - Ideal chamber temperature for printing.
 
-- key: 27
+- key: 42
   name: container_width
   type: int
   unit: mm
@@ -356,7 +356,7 @@
   description:
     - Width of the filament spool. Can be useful to know for spool holders, dryboxes and such.
 
-- key: 40
+- key: 43
   name: container_outer_diameter
   type: int
   unit: mm
@@ -365,7 +365,7 @@
   description:
     - Diameter of the spool. Can be useful to know for spool holders, dryboxes and such.
 
-- key: 45
+- key: 44
   name: container_inner_diameter
   type: int
   unit: mm
@@ -375,7 +375,7 @@
     - Diameter of the inner cylinder the filament is spooled once.
     - Equals to the minimum diameter of the filament winding.
 
-- key: 41
+- key: 45
   name: container_hole_diameter
   type: int
   unit: mm
@@ -384,14 +384,14 @@
   description:
     - Diameter of the center hole of the spool.
 
-- key: 34
+- key: 46
   name: viscosity_18c
   type: number
   unit: mPa·s
   description: Viscosity of the material at 18 °C
   category: sla
 
-- key: 35
+- key: 47
   name: viscosity_25c
   type: number
   unit: mPa·s
@@ -399,28 +399,28 @@
   category: sla
   example: 80
 
-- key: 36
+- key: 48
   name: viscosity_40c
   type: number
   unit: mPa·s
   description: Viscosity of the material at 40 °C
   category: sla
 
-- key: 37
+- key: 49
   name: viscosity_60c
   type: number
   unit: mPa·s
   description: Viscosity of the material at 60 °C
   category: sla
 
-- key: 39
+- key: 50
   name: container_volumetric_capacity
   type: number
   unit: ml (cm³)
   category: sla
   description: Maximum amount of material the container can hold.
 
-- key: 46
+- key: 51
   name: cure_wavelength
   type: int
   unit: nm
