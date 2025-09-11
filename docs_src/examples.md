@@ -1,5 +1,5 @@
 # Examples
-The Prusa Material Data Format specification comes with [a set of utilities written in Python]({{repo}}/tree/main/utils) that serve as a baseline/reference implementation.
+The OpenPrintTag specification comes with [a set of utilities written in Python]({{repo}}/tree/main/utils) that serve as a baseline/reference implementation.
 
 ## Reading a tag
 The `rec_info` utility can be used to parse data on the NFC tag into a YAML file that is readable by both humans and computers.

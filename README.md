@@ -1,6 +1,6 @@
-# Prusa Material Data Format
+# OpenPrintTag
 
-This repository contains specification, documentation and utility scripts for the Prusa Material Data Format.
+This repository contains specification, documentation and utility scripts for the OpenPrintTag format.
 
 **This is a "raw" repository, you can access the compiled documentation on https://specs.prusa3d.tech/nfc**
 

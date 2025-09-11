@@ -1,9 +1,9 @@
-# Prusa Material Data Format
+# OpenPrintTag
 
-The Prusa Material Data Format project aims to:
+The OpenPrintTag project aims to:
 
 1. Specify relevant properties of 3D printing materials (FFF, SLA, ...) and define their standardized terminology, units and data types.
-1. Define a data format for material tags – storing information about materials on their packages (filament spools, resin containers, ...).
+1. Define a data format for NFC tags – storing information about materials on their packages (filament spools, resin containers, ...).
 
 ### Site map
 
