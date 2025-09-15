@@ -67,7 +67,7 @@ class PythonCodeExtension(jinja2.ext.Extension):
         out_buf = io.StringIO()
         old_stdout = sys.stdout
         sys.stdout = out_buf
-        exec(code)
+        exec(code, globals().copy())
         sys.stdout = old_stdout
 
         result += f"```\n{out_buf.getvalue()}```"

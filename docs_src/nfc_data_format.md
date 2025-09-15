@@ -99,8 +99,9 @@ UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` ha
 
 For example:
 {% python %}
+import uuid
+
 def generate_uuid(namespace, *args):
-   import uuid
    return uuid.uuid5(uuid.UUID(namespace), b"".join(args))
 
 brand_namespace = "5269dfb7-1559-440a-85be-aba5f3eff2d2"
