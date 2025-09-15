@@ -14,7 +14,7 @@ parser.add_argument("-b", "--show-raw-data", action=argparse.BooleanOptionalActi
 parser.add_argument("-m", "--show-meta", action=argparse.BooleanOptionalAction, default=False, help="By default, --show-data hides the meta region. Enabling this option will print it, too.")
 parser.add_argument("-a", "--show-all", action=argparse.BooleanOptionalAction, default=False, help="Apply all --show options")
 parser.add_argument("-v", "--validate", action=argparse.BooleanOptionalAction, default=False, help="Check that the data are valid")
-parser.add_argument("-f", "--extra-required-fields", type=str, default=True, help="Check that all fields from the specified YAML file are present in the record")
+parser.add_argument("-f", "--extra-required-fields", type=str, default=None, help="Check that all fields from the specified YAML file are present in the record")
 
 args = parser.parse_args()
 
