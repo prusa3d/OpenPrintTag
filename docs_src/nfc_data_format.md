@@ -110,9 +110,14 @@ brand_uuid = generate_uuid(brand_namespace, brand_name.encode("utf-8"))
 print(f"brand_uuid = {brand_uuid}")
 
 material_namespace = "616fc86d-7d99-4953-96c7-46d2836b9be9"
-gtin = "1234"
-material_uuid = generate_uuid(material_namespace, brand_uuid.bytes, gtin.encode("utf-8"))
+material_name = "PLA Prusa Galaxy Black"
+material_uuid = generate_uuid(material_namespace, brand_uuid.bytes, material_name.encode("utf-8"))
 print(f"material_uuid = {material_uuid}")
+
+material_package_namespace = "6f7d485e-db8d-4979-904e-a231cd6602b2"
+gtin = "1234"
+material_package_uuid = generate_uuid(material_package_namespace, brand_uuid.bytes, gtin.encode("utf-8"))
+print(f"material_package_uuid = {material_package_uuid}")
 {% endpython %}
 
 UUIDs MAY thus be omitted from the in most cases. In the case that a brand changes its name, it SHOULD add `brand_uuid` field with the original UUID whenever the new brand name is used:
