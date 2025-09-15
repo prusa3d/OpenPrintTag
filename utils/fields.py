@@ -239,7 +239,7 @@ class Fields:
             try:
                 result[field.name] = field.decode(value)
             except Exception as e:
-                e.add_note(f"Field {key}")
+                e.add_note(f"Field {key} {field.name}")
                 raise
 
         return result
@@ -254,7 +254,7 @@ class Fields:
             try:
                 result[field.key] = field.encode(value)
             except Exception as e:
-                e.add_note(f"Field {key}")
+                e.add_note(f"Field {key} {field.name}")
                 raise
 
         return result
