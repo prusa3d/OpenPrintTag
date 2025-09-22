@@ -71,7 +71,7 @@
   type: enum
   category: fff
   items_file: material_type_enum.yaml
-  example: PLA
+  example: PC
   description:
     - Coarse classification of the material.
     - Useful for determining default parameters for preheat an such that are not explicitly specified in the data.
@@ -81,11 +81,20 @@
   name: material_name
   type: string
   max_length: 31
-  example: PLA Galaxy Black
+  example: PC Blend Carbon Fiber Black
   required: recommended
   description:
     - Brand-specific material display string/identifier.
     - In the UI, brand_name + material_name should be displayed together, for example "Prusament PLA Galaxy Black"
+
+- key: 52
+  name: material_abbreviation
+  type: string
+  max_length: 7
+  example: PCCF
+  description:
+    - Abbreviation of the material name, for UI purposes (footers, dashboards, ...)
+    - If not present, the material inherits the abbreviation from the material type.
 
 - key: 11
   name: brand_name
