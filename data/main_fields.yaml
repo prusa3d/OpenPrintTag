@@ -26,7 +26,6 @@
     - Universally unique identifier of the brand
     - If not specified, can be deduced from the `brand_name` string. See UUID section for more details.
 
-
 - key: 4
   name: gtin
   type: number
@@ -58,7 +57,6 @@
     - Together with brand uniquely identifies each material
     - Not much use cases at this moment, possibly just for URL deduction
 
-
 - key: 8
   name: material_class
   type: enum
@@ -71,6 +69,7 @@
   type: enum
   category: fff
   items_file: material_type_enum.yaml
+  required: recommended
   example: PC
   description:
     - Coarse classification of the material.
@@ -100,7 +99,7 @@
   name: brand_name
   type: string
   max_length: 31
-  required: true
+  required: recommended
   description: Brand of the material
   example: Prusament
 
@@ -281,7 +280,7 @@
   type: int
   unit: °C
   example: 205
-  required: true
+  required: recommended
   category: fff
   description:
     - Minimum recommended nozzle tempeature for printing.
@@ -292,7 +291,7 @@
   type: int
   unit: °C
   example: 225
-  required: true
+  required: recommended
   category: fff
   description:
     - Maximum recommended nozzle tempeature for printing.
@@ -304,7 +303,7 @@
   unit: °C
   example: 170
   category: fff
-  required: true
+  required: recommended
   description:
     - Recommended nozzle tempeature for preheating/loadcell bed leveling.
     - Should be large enough for the material to get soft, but not low enough for it no to drip out of the nozzle.
@@ -315,7 +314,7 @@
   unit: °C
   example: 60
   category: fff
-  required: true
+  required: recommended
   description:
     - Minimum recommended heatbed tempeature.
 
