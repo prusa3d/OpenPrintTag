@@ -69,6 +69,7 @@
   type: enum
   category: fff
   items_file: material_type_enum.yaml
+  name_field: abbreviation
   required: recommended
   example: PC
   description:

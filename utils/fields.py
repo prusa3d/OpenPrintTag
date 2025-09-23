@@ -84,8 +84,8 @@ class EnumField(Field):
 
         items = yaml.safe_load(open(os.path.join(config_dir, config["items_file"]), "r"))
         for item in items:
-            key = int(item["key"])
-            name = str(item["name"])
+            key = int(item[config.get("index_field", "key")])
+            name = str(item[config.get("name_field", "name")])
 
             assert key not in self.items_by_key, f"Key '{key}' already exists"
             assert name not in self.items_by_name, f"Item '{name}' already exists"
