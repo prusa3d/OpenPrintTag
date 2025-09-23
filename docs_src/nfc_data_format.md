@@ -153,8 +153,8 @@ NFC tags have a hardcoded UID (referenced as `nfc_tag_uid` in the table above), 
 #### `material_class` items
 {{ enum_table("material_class_enum") }}
 
-#### `material_type` items
-{{ enum_table("material_type_enum") }}
+#### `material_type`
+See [Material types](/material_types)
 
 #### `tags`
 See [Material tags](/material_tags)
