@@ -1,5 +1,6 @@
 - [Home](/)
 - [Terminology](/terminology)
+- [Material tags](/material_tags)
 - [Data format](/nfc_data_format)
 - [Technical details](/nfc_technical_details)
 - [Examples](/examples)
