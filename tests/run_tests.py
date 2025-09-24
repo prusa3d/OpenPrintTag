@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import yaml
 from pathlib import Path
 
 tests_dir = Path(__file__).parent
@@ -8,7 +9,7 @@ utils_dir = root_dir / "utils"
 
 
 # Runs nfc_initialize & nfc_update utilities and checks their result, output
-def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_args: list[str] = None, expect_success=True):
+def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_args: list[str] = None, expect_success: bool = True, expected_info_fn: str | None = None):
     all_args = locals()
 
     class UtilFailure(Exception):
@@ -40,6 +41,16 @@ def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_
         if info_args is not None:
             info_output = run_util("rec_info", args=info_args, input=binary_output)
 
+        if expected_info_fn is not None:
+            print(f"  Comparing rec_info against '{expected_info_fn}'")
+            with open(expected_info_fn, "rb") as f:
+                expected_info = f.read()
+
+            if info_output != expected_info:
+                print("EXPECTED INFO\n=====================\n", expected_info.decode())
+                print("ACTUAL INFO\n=======================\n", info_output.decode())
+                raise "Info output does not match"
+
         assert expect_success, "Test should have failed"
 
     except UtilFailure as e:
@@ -57,6 +68,21 @@ for file in tests_dir.glob("validate/*.yaml"):
         init_args=["--size=316", "--aux-region=32", "--ndef-uri=https://3dtag.org/s/334c54f088"],
         update_args=[str(file)],
         info_args=["--validate", "--extra-required-fields=sample_requirements.yaml"],
+    )
+
+# Run encode/decode tests
+for file in tests_dir.glob("encode_decode/*_input.yaml"):
+    fn_base = str(file).removesuffix("_input.yaml")
+    fn_info = f"{fn_base}_info.yaml"
+
+    with open(fn_info, "r") as f:
+        uri = yaml.safe_load(f)["uri"]
+
+    utils_test(
+        init_args=["--size=316", "--aux-region=32", "--ndef-uri", uri],
+        update_args=[str(file)],
+        info_args=["--validate", "--extra-required-fields=sample_requirements.yaml", "--show-all"],
+        expected_info_fn=fn_info,
     )
 
 

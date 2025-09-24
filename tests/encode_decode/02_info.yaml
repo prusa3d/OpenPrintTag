@@ -1,0 +1,56 @@
+regions:
+  meta:
+    payload_offset: 0
+    absolute_offset: 61
+    size: 11
+    used_size: 6
+  main:
+    payload_offset: 11
+    absolute_offset: 72
+    size: 212
+    used_size: 135
+  aux:
+    payload_offset: 223
+    absolute_offset: 284
+    size: 32
+    used_size: 1
+root:
+  message_size: 316
+  payload_size: 255
+  overhead: 61
+  payload_used_size: 142
+  total_used_size: 203
+data:
+  meta:
+    main_region_offset: 11
+    aux_region_offset: 223
+  main:
+    gtin: 8594173675100
+    brand_specific_instance_id:
+      hex: '37616232616362353039'
+    material_class: FFF
+    material_type: PETG
+    material_name: PETG Jet Black
+    brand_name: Prusament
+    manufactured_date: 1757420263
+    nominal_netto_full_weight: 1000
+    actual_netto_full_weight: 1050
+    empty_container_weight: 280
+    primary_color_rgba:
+      hex: 24292a
+    tags: []
+    density: 1270
+    min_print_temperature: 240
+    max_print_temperature: 260
+    preheat_temperature: 170
+    min_bed_temperature: 70
+    max_bed_temperature: 90
+    min_chamber_temperature: 18
+    max_chamber_temperature: 60
+    chamber_temperature: 35
+    container_width: 64
+    container_outer_diameter: 200
+    container_inner_diameter: 100
+    container_hole_diameter: 52
+  aux: {}
+uri: https://3dtag.org/s/7ab2acb509
