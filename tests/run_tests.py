@@ -52,7 +52,7 @@ def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_
 
 
 # Check that files validate_XX.yaml generate valid tags
-for file in tests_dir.glob("validate_*.yaml"):
+for file in tests_dir.glob("validate/*.yaml"):
     utils_test(
         init_args=["--size=316", "--aux-region=32", "--ndef-uri=https://3dtag.org/s/334c54f088"],
         update_args=[str(file)],
@@ -63,7 +63,7 @@ for file in tests_dir.glob("validate_*.yaml"):
 # Check that basic required fields checking works
 utils_test(
     init_args=["--size=316", "--aux-region=32"],
-    update_args=["missing_required_fields.yaml"],
+    update_args=["specific/missing_required_fields.yaml"],
     info_args=["--validate"],
     expect_success=False,
 )
@@ -71,7 +71,7 @@ utils_test(
 # Check that -extra-required-fields works
 utils_test(
     init_args=["--size=316", "--aux-region=32"],
-    update_args=["missing_sample_requirements.yaml"],
+    update_args=["specific/missing_sample_requirements.yaml"],
     info_args=["--validate", "--extra-required-fields=sample_requirements.yaml"],
     expect_success=False,
 )
