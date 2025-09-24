@@ -22,13 +22,11 @@ def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_
         proc = subprocess.run(args=proc_args, input=input, capture_output=True, check=False, cwd=tests_dir)
 
         if proc.returncode != 0:
-            raise UtilFailure(proc.returncode, proc.stderr.decode())
+            raise UtilFailure(proc.returncode, proc.stderr)
 
         return proc.stdout
 
     print(f"Testing {all_args}")
-
-    output = None
 
     try:
         if init_args is not None:
@@ -46,8 +44,8 @@ def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_
 
     except UtilFailure as e:
         if expect_success:
-            print(f"Unexpected return code {e.proc.returncode}")
-            print(e.proc.stderr.decode())
+            print(f"Unexpected return code {e.code}")
+            print(e.stderr.decode())
             sys.exit(1)
 
     print("  Test OK")
