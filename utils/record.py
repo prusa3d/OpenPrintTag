@@ -88,6 +88,7 @@ class Record:
     payload_offset: int  # Offset of the payload relative to the NDEF message start
     config: types.SimpleNamespace
     config_dir: str
+    uri: str = None
 
     meta_region: Region = None
     main_region: Region = None
@@ -114,6 +115,9 @@ class Record:
             case "ndef":
                 data_io = io.BytesIO(data)
                 for record in ndef.message_decoder(data_io):
+                    if type(record) is ndef.UriRecord:
+                        self.uri = record.uri
+
                     if record.type == self.config.mime_type:
                         # We have to create a sub memoryview so that when we update the region, the outer data updates as well
                         end = data_io.tell()

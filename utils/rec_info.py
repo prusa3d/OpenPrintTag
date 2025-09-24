@@ -12,6 +12,7 @@ parser.add_argument("-u", "--show-root-info", action=argparse.BooleanOptionalAct
 parser.add_argument("-d", "--show-data", action=argparse.BooleanOptionalAction, default=False, help="Parse and print region data")
 parser.add_argument("-b", "--show-raw-data", action=argparse.BooleanOptionalAction, default=False, help="Print raw region data (HEX)")
 parser.add_argument("-m", "--show-meta", action=argparse.BooleanOptionalAction, default=False, help="By default, --show-data hides the meta region. Enabling this option will print it, too.")
+parser.add_argument("-i", "--show-uri", action=argparse.BooleanOptionalAction, default=False, help="If a URI NDEF record is present, report it as well.")
 parser.add_argument("-a", "--show-all", action=argparse.BooleanOptionalAction, default=False, help="Apply all --show options")
 parser.add_argument("-v", "--validate", action=argparse.BooleanOptionalAction, default=False, help="Check that the data are valid")
 parser.add_argument("-f", "--extra-required-fields", type=str, default=None, help="Check that all fields from the specified YAML file are present in the record")
@@ -23,6 +24,7 @@ if args.show_all:
     args.show_region_info = True
     args.show_data = True
     args.show_meta = True
+    args.show_uri = True
 
 record = Record(args.config_file, memoryview(bytearray(sys.stdin.buffer.read())))
 output = {}
@@ -66,6 +68,9 @@ if args.show_raw_data:
             data[name] = region.memory.hex()
 
     output["raw_data"] = data
+
+if args.show_uri:
+    output["uri"] = record.uri
 
 if args.validate:
     for name, region in record.regions.items():
