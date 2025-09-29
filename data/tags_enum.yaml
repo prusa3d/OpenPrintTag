@@ -9,6 +9,18 @@
   name: biocompatible
   description: Certified biocompatibility (does not cause harmful effects when in contact with the body)
 
+- key: 61
+  name: home_compostable
+  description: Decomposes into natural elements in a home compost system at ambient temperatures.
+
+- key: 62
+  name: industrially_compostable
+  description: Decomposes into natural elements under specific temperature and microbial conditions in commercial composting facilities.
+
+- key: 63
+  name: bio_based
+  description: Predominantly made from renewable biological resources, like plants.
+
 - key: 2
   name: antibacterial
   description: Has antibacterial properties
@@ -22,7 +34,7 @@
 
 - key: 4
   name: abrasive
-  description: The material implies abrasive resistant nozzle
+  description: The material is abrasive and requires an abrasive-resistant nozzle.
 
 - key: 5
   name: foaming
@@ -36,7 +48,7 @@
 
 - key: 7
   name: paramagnetic
-  description: The material has paramagnetic properties, meaining that it is (weakly) attracted to magnets.
+  description: The material has paramagnetic properties, meaning that it is (weakly) attracted to magnets.
 
 - key: 8
   name: radiation_shielding
@@ -70,7 +82,7 @@
 
 - key: 12
   name: blend
-  description: Contains significant amount of additives that affect print profiles
+  description: The material is a blend of multiple polymers or a base polymer with significant additives that alter its properties and may require a specific print profile.
 
 - key: 13
   name: water_soluble
@@ -83,6 +95,10 @@
 - key: 15
   name: limonene_soluble
   description: Can be dissolved in limonene
+
+- key: 64
+  name: low_outgassing
+  description: Releases only minimal gas (and vapor) when placed in a vacuum.
 
 # Color related
 # =====================================
@@ -151,8 +167,8 @@
 - key: 26
   name: illuminescent_color_change
   description:
-    - The glow color (caused by illuminiscency) is different to the material base color
-    - For example the material is blue, but glows green in the dark or under the UV light
+    - The glow color (caused by illuminiscence) is different to the material base color.
+    - For example the material is blue, but glows green in the dark or under the UV light.
     - The glow color can be specified as a secondary color of the material.
 
 - key: 27
