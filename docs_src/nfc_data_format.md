@@ -8,18 +8,23 @@
 ## Overall structure
 <table class="packet-structure">
    <tr>
-      <td colspan=7>NDEF message</td>
+      <td rowspan=6>CC record<br>(Capability Container)</td>
+      <td colspan=8>NDEF TLV</td>
+      <td rowspan=6>TLV Terminator</td>
+   </tr>
+      <tr>
+      <td rowspan=5>TLV Header</td>
    </tr>
    <tr>
-      <td colspan=7>NDEF record</td>
+      <td colspan=6>NDEF record</td>
    </tr>
    <tr>
       <td rowspan=3>Record header</td>
-      <td colspan=6>Record payload</td>
+      <td colspan=5>Record payload</td>
    </tr>
    <tr>
       <td>Meta region</td>
-      <td colspan=3>Main region</td>
+      <td colspan=2>Main region</td>
       <td colspan=2>Auxiliary region</td>
    </tr>
    <tr>
@@ -46,7 +51,8 @@
    }
 </style>
 
-- The top layer format of the NFC tag is an NDEF message.
+- The top layer format of the NFC tag is an NDEF message in a NDEF TLV record.
+   - The tag MAY contain other TLV records. The NDEF TLV record doesn't have to be the first TLV record.
 - The message has an **NDEF record** of MIME type **application/vnd.prusa3d.mat.nfc**.
    - The payload of the record consists of:
       1. **Meta section** (CBOR map)
