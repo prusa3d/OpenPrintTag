@@ -28,7 +28,57 @@ config_dir = os.path.dirname(args.config_file)
 with open(args.config_file, "r") as f:
     config = types.SimpleNamespace(**yaml.safe_load(f))
 
-assert config.root == "ndef", "nfc_initialize only supports NFC tags"
+assert config.root == "nfcv", "nfc_initialize only supports NFC-V tags"
+
+# Set up TLV and CC
+assert (args.size % 8) == 0, f"Tag size {args.size} must be divisible by 8 (to be encodable in the CC)"
+assert args.size / 8 <= 255, "Tag too big to be representable in the CC"
+capability_container = bytes(
+    [
+        0xE1,  # Magic number
+        0x40  # Version 1.0 (upper 4 bits)
+        | 0x0,  # Read/write access without restrictions (lower 4 bits)
+        args.size // 8,
+        #
+        # Capabilities - TAG SPECIFIC!
+        0x01,  # MBREAD - supports "Read Multiple Blocks" command - SLIX2 DOES
+        # | 0x02 # IPREAD - supports "Inventory Page Read" command - SLIX2 does NOT
+    ]
+)
+capability_container_size = len(capability_container)
+
+
+tlv_terminator = bytes([0xFE])
+
+ndef_tlv_header_size = 2
+
+# Our NDEF record will be adjusted so that the message fills the whole available space
+ndef_message_length = args.size - capability_container_size - len(tlv_terminator) - ndef_tlv_header_size
+
+if ndef_message_length > 0xFE:
+    # We need two more bytes to encode longer TLV lenghts
+    ndef_tlv_header_size += 2
+    ndef_message_length -= 2
+
+# Do not merge with the previous if - the available space decrease might get us under this line
+if ndef_message_length <= 0xFE:
+    ndef_tlv_header = bytes(
+        [
+            0x03,  # NDEF Message tag
+            ndef_message_length,
+        ]
+    )
+else:
+    ndef_tlv_header = bytes(
+        [
+            0x03,  # NDEF Message tag
+            0xFF,
+            ndef_message_length // 256,
+            ndef_message_length % 256,
+        ]
+    )
+
+assert len(ndef_tlv_header) == ndef_tlv_header_size
 
 # Set up preceding NDEF regions
 records = []
@@ -38,18 +88,21 @@ if args.ndef_uri is not None:
 preceding_records_size = len(b"".join(ndef.message_encoder(records)))
 
 ndef_header_size = 3 + len(config.mime_type)
-payload_size = args.size - ndef_header_size - preceding_records_size
+ndef_payload_start = capability_container_size + ndef_tlv_header_size + preceding_records_size + ndef_header_size
+payload_size = ndef_message_length - ndef_header_size - preceding_records_size
 
 assert payload_size > max_meta_section_size, "There is not enough space even for the meta region"
 
 # If the NDEF payload size would exceed 255 bytes, its length cannot be stored in a single byte
 # and NDEF switches to storing the length into 4 bytes
 if payload_size > 255:
+    ndef_header_size += 3
+    ndef_payload_start += 3
     payload_size -= 3
 
-    # If the payload is now smaller, just leave it be
-    if payload_size > 255:
-        ndef_header_size += 3
+    # If we now got back under 255, the ndef payload length will be shorter again and we wouldn't fill the NDEF message fully to the TLV-dictated size
+    # This could be resolved by enforcing the longer NDEF header in this case anyway, but the NDEF library does not support it - we'd need to construct the NDEFs by ourselves
+    assert payload_size > 255, "Unable to fill the NDEF message correctly"
 
 
 payload = bytearray(payload_size)
@@ -68,7 +121,7 @@ def align_region_offset(offset: int, align_up: bool = True):
     """Aligns offset to the NDEF block size"""
 
     # We're aligning within the whole tag frame, not just within the NFC payload
-    misalignment = (preceding_records_size + ndef_header_size + offset) % args.block_size
+    misalignment = (ndef_payload_start + offset) % args.block_size
     if misalignment == 0:
         return offset
 
@@ -113,13 +166,24 @@ write_section(main_region_offset, dict())
 records.append(ndef.Record(config.mime_type, "", payload))
 ndef_data = b"".join(ndef.message_encoder(records))
 
+assert len(ndef_data) == ndef_message_length
+
 # Check that we have deduced the ndef header size correctly
 expected_size = preceding_records_size + ndef_header_size + payload_size
 if len(ndef_data) != expected_size:
     sys.exit(f"NDEF record calculated incorrectly: expected size {expected_size} ({preceding_records_size} + {ndef_header_size} + {payload_size}), but got {len(ndef_data)}")
 
+full_data = bytes()
+full_data += capability_container
+full_data += ndef_tlv_header
+full_data += ndef_data
+full_data += tlv_terminator
+
+# The full data can be slightly smaller because we might have decreased ndef_tlv_available_space by 2 to fit the bigger TLV header and then ended up not needing the bigger TLV header
+assert args.size - 1 <= len(full_data) <= args.size
+
 # Check that the payload is where we expect it to be
-assert ndef_data[preceding_records_size + ndef_header_size :] == payload
+assert full_data[ndef_payload_start : ndef_payload_start + payload_size] == payload
 
 # Write the result to the stdout
-sys.stdout.buffer.write(ndef_data)
+sys.stdout.buffer.write(full_data)

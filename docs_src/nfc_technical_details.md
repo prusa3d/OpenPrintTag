@@ -48,12 +48,14 @@ The irreversible locking can be achiaved using the `LOCK BLOCK` command on the w
 ##### `protect_page_unlockable` (SLIX2-specific)
 Using `protect_page_unlockable` is the recommended way of protecting the tag. It is based on the `PROTECT PAGE` command, which is a SLIX2-specific command.
 
-- The tag is write-protected using the `PROTECT PAGE` page command. The `PROTECT PAGE` on SLIX2 splits the tag memory into two arbitrarily-sized parts and offers setting up different protections on each. So the tag should be arranged in such way that:
+- The tag is write-protected using the `PROTECT PAGE` page command.
+   - The protection SHOULD be marked in byte 1 of the Capability Container (CC)
+- The `PROTECT PAGE` on SLIX2 splits the tag memory into two arbitrarily-sized parts and offers setting up different protections on each. So the tag should be arranged in such way that:
    - The NDEF header and meta and main regions should be together on the first part with write protection enabled.
    - The auxiliary region should be on the second part with write protection disabled.
 - The main region can be written to when a correct write password is set using `SET PASSWORD`.
 - The main region can be fully unlocked by a correct `PROTECT_PAGE` command (resetting the protection flags) when the correct write password is set.
-- The password should be randomly generated for each package instance.
-- The password should be located somewhere on the container, in such way that it is not accessible without unpacking the container.
+- The password SHALL be randomly generated for each package instance.
+- The password SHOULD be located somewhere on the container, in such way that it is not accessible without unpacking the container.
    - We recommend encoding the password in a QR code in an URL. In this case, a brand-specific pattern matching regex should be defined how to parse the password from the URL.
    - The password can also be in the form of a user-readable text.

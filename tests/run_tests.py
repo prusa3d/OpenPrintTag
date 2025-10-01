@@ -49,7 +49,7 @@ def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_
             if info_output != expected_info:
                 print("EXPECTED INFO\n=====================\n", expected_info.decode())
                 print("ACTUAL INFO\n=======================\n", info_output.decode())
-                raise "Info output does not match"
+                raise Exception("Info output does not match")
 
         assert expect_success, "Test should have failed"
 
@@ -79,7 +79,7 @@ for file in tests_dir.glob("encode_decode/*_input.yaml"):
         uri = yaml.safe_load(f)["uri"]
 
     utils_test(
-        init_args=["--size=316", "--aux-region=32", "--ndef-uri", uri],
+        init_args=["--size=312", "--aux-region=32", "--ndef-uri", uri],
         update_args=[str(file)],
         info_args=["--validate", "--extra-required-fields=sample_requirements.yaml", "--show-all"],
         expected_info_fn=fn_info,

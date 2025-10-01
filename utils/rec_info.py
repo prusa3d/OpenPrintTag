@@ -44,7 +44,7 @@ if args.show_region_info or args.show_root_info:
     if args.show_root_info:
         overhead = len(record.data) - len(record.payload)
         output["root"] = {
-            "message_size": len(record.data),
+            "data_size": len(record.data),
             "payload_size": len(record.payload),
             "overhead": overhead,
             "payload_used_size": payload_used_size,

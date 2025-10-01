@@ -112,8 +112,38 @@ class Record:
             case "none":
                 self.payload = data
 
-            case "ndef":
+            case "nfcv":
                 data_io = io.BytesIO(data)
+                cc = data_io.read(4)
+
+                # TODO: Support 8-byte CC (with a different magic)
+                assert cc[0] == 0xE1, "Capability container magic number does not match"
+
+                # Find the NDEF TLV
+                while True:
+                    base_tlv = data_io.read(2)
+                    tag = base_tlv[0]
+
+                    # Either gone out of range or hit a terminator TLV
+                    if (tag is None) or (tag == 0xFE):
+                        assert base_tlv is not None, "Did not found NDEF TLV"
+
+                    tlv_len = base_tlv[1]
+
+                    # 0xFF means that length takes two bytes
+                    if tlv_len == 0xFF:
+                        ext_len = data_io.read(2)
+                        assert ext_len is not None
+                        tlv_len = ext_len[0] * 256 | ext_len[1]
+
+                    # 0x03 = NDEF TLV
+                    if tag == 0x03:
+                        # Found it -
+                        break
+                    else:
+                        # Skip the TLV block
+                        data_io.seek(tlv_len, 1)
+
                 for record in ndef.message_decoder(data_io):
                     if type(record) is ndef.UriRecord:
                         self.uri = record.uri
