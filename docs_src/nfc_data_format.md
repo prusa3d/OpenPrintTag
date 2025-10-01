@@ -8,21 +8,18 @@
 ## Overall structure
 <table class="packet-structure">
    <tr>
-      <td rowspan=6>CC record<br>(Capability Container)</td>
+      <td rowspan=5>CC record<br>(Capability Container)</td>
       <td colspan=8>NDEF TLV</td>
-      <td rowspan=6>TLV Terminator</td>
+      <td rowspan=5>TLV Terminator</td>
    </tr>
       <tr>
-      <td rowspan=5>TLV Header</td>
+      <td rowspan=4>TLV Header</td>
    </tr>
    <tr>
       <td colspan=6>NDEF record</td>
    </tr>
    <tr>
-      <td rowspan=3>Record header</td>
-      <td colspan=5>Record payload</td>
-   </tr>
-   <tr>
+      <td rowspan=2>NDEF header</td>
       <td>Meta region</td>
       <td colspan=2>Main region</td>
       <td colspan=2>Auxiliary region</td>
