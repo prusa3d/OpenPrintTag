@@ -18,20 +18,20 @@ Some decisions need to be made regarding the structure of the NFC tag:
 1. Record size: The capacity of the NFC tag determines the amount of space we can allocate for the data.
 2. Auxiliary region for dynamic data: We recommend to allocate a 32B auxiliary region, if the capacity of the NFC tag allows it.
 
-{{ show_example(">nfc_initialize.py --size=300 --aux-region=32 | >rec_info.py --show-all") }}
+{{ show_example(">nfc_initialize.py --size=304 --aux-region=32 | >rec_info.py --show-all") }}
 
 After initializing the tag, it can be filled with data using `rec_update`.
 {{ show_file("sample_data/data_to_fill.yaml") }}
-{{ show_example(">nfc_initialize.py --size=300 --aux-region=32 | >rec_update.py sample_data/data_to_fill.yaml | >rec_info.py --show-all") }}
+{{ show_example(">nfc_initialize.py --size=304 --aux-region=32 | >rec_update.py sample_data/data_to_fill.yaml | >rec_info.py --show-all") }}
 
 ### Prepending an URI
 
 The NFC tag can contain multiple NDEF records. The `init_tag.py` script provides a convenience function for putting an URI NDEF record at the beginning of the tag:
 
-{{ show_example(">nfc_initialize.py --size=300 --aux-region=32 --ndef-uri=https://3dtag.org/c/4ea3c75dc9 | >rec_update.py sample_data/data_to_fill.yaml | >rec_info.py --show-all") }}
+{{ show_example(">nfc_initialize.py --size=304 --aux-region=32 --ndef-uri=https://3dtag.org/c/4ea3c75dc9 | >rec_update.py sample_data/data_to_fill.yaml | >rec_info.py --show-all") }}
 
 ### Initializing a smaller chip
 
 Alternative example when we're a bit more tight on the NFC chip size:
 {{ show_file("sample_data/compact_data_to_fill.yaml") }}
-{{ show_example(">nfc_initialize.py --size=128 --aux-region=16 --block-size=1 | >rec_update.py sample_data/compact_data_to_fill.yaml | >rec_info.py --show-all") }}
+{{ show_example(">nfc_initialize.py --size=136 --aux-region=16 --block-size=1 | >rec_update.py sample_data/compact_data_to_fill.yaml | >rec_info.py --show-all") }}

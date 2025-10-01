@@ -1,29 +1,28 @@
 regions:
   meta:
     payload_offset: 0
-    absolute_offset: 61
-    size: 11
-    used_size: 6
+    absolute_offset: 69
+    size: 4
+    used_size: 4
   main:
-    payload_offset: 11
-    absolute_offset: 72
-    size: 212
+    payload_offset: 4
+    absolute_offset: 73
+    size: 203
     used_size: 142
   aux:
-    payload_offset: 223
-    absolute_offset: 284
-    size: 32
+    payload_offset: 207
+    absolute_offset: 276
+    size: 35
     used_size: 1
 root:
-  message_size: 316
-  payload_size: 255
-  overhead: 61
-  payload_used_size: 149
-  total_used_size: 210
+  data_size: 312
+  payload_size: 242
+  overhead: 70
+  payload_used_size: 147
+  total_used_size: 217
 data:
   meta:
-    main_region_offset: 11
-    aux_region_offset: 223
+    aux_region_offset: 207
   main:
     gtin: 8594173675001
     brand_specific_instance_id:
