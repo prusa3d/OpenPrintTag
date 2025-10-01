@@ -5,7 +5,7 @@ data:
     material_type: PETG
     brand_name: Prusament
     material_name: PETG Jet Black
-    primary_color_rgba:
+    primary_color:
       hex: 24292A
     tags: []
     density: 1270

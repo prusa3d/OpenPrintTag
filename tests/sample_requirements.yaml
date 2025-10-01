@@ -5,7 +5,7 @@ main:
   - material_name
   - gtin
   - brand_specific_instance_id
-  - primary_color_rgba
+  - primary_color
   - empty_container_weight
   - nominal_netto_full_weight
   - actual_netto_full_weight

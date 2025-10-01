@@ -151,7 +151,7 @@
   description: Weight of the empty container
 
 - key: 19
-  name: primary_color_rgba
+  name: primary_color
   type: bytes
   max_length: 4
   required: recommended
@@ -163,45 +163,45 @@
     - If a material doesn't have a single primary color (for example rainbow or coextruded filaments), this field can be null.
 
 - key: 20
-  name: secondary_color_0_rgba
+  name: secondary_color_0
   type: bytes
   max_length: 4
   unit: "[R, G, B] or [R, G, B, A]"
   description:
     - One of secondary colors of the material.
-    - Data format is the same as for `primary_color_rgba`
+    - Data format is the same as for `primary_color`
 
 - key: 21
-  name: secondary_color_1_rgba
+  name: secondary_color_1
   type: bytes
   max_length: 4
   unit: "[R, G, B] or [R, G, B, A]"
   description:
-    - See `secondary_color_0_rgba`
+    - See `secondary_color_0`
 
 - key: 22
-  name: secondary_color_2_rgba
+  name: secondary_color_2
   type: bytes
   max_length: 4
   unit: "[R, G, B] or [R, G, B, A]"
   description:
-    - See `secondary_color_0_rgba`
+    - See `secondary_color_0`
 
 - key: 23
-  name: secondary_color_3_rgba
+  name: secondary_color_3
   type: bytes
   max_length: 4
   unit: "[R, G, B] or [R, G, B, A]"
   description:
-    - See `secondary_color_0_rgba`
+    - See `secondary_color_0`
 
 - key: 24
-  name: secondary_color_4_rgba
+  name: secondary_color_4
   type: bytes
   max_length: 4
   unit: "[R, G, B] or [R, G, B, A]"
   description:
-    - See `secondary_color_0_rgba`
+    - See `secondary_color_0`
 
 - key: 25
   deprecated: true

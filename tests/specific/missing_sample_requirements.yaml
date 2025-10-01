@@ -12,7 +12,7 @@ data:
     container_hole_diameter: 52
     container_width: 75
     density: 1240
-    primary_color_rgba:
+    primary_color:
       hex: 3D3E3D
     gtin: 8594173675001
     brand_specific_instance_id: "334c54f088"
