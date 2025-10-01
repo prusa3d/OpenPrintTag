@@ -1,3 +1,4 @@
 docs/
 **/__pycache__
 **/venv
+tests/logs/
