@@ -132,6 +132,15 @@ def align_region_offset(offset: int, align_up: bool = True):
         return offset - misalignment
 
 
+# Determine main region offset
+if args.meta_region is not None:
+    # If we don't know the meta section actual size (because it is deteremined by how the main_region_offset is encoded), we have to assume maximum
+    main_region_offset = args.meta_region
+    metadata["main_region_offset"] = main_region_offset
+else:
+    # If we are not aligning, we don't need to write the main region offset, it will be directly after the meta region
+    main_region_offset = None
+
 # Prepare aux region
 if args.aux_region is not None:
     assert args.aux_region > 4, "Aux region is too small"
@@ -142,7 +151,8 @@ if args.aux_region is not None:
 
 # Prepare meta section
 meta_section_size = write_section(0, meta_fields.encode(metadata))
-main_region_offset = meta_section_size
+if main_region_offset is None:
+    main_region_offset = meta_section_size
 
 if args.aux_region is not None:
     assert aux_region_offset - main_region_offset >= 4, "Main region is too small"
