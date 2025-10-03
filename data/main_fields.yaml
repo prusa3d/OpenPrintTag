@@ -325,7 +325,7 @@
   unit: °C
   example: 60
   category: fff
-  required: true
+  required: recommended
   description:
     - Maximum recommended heatbed tempeature.
 
