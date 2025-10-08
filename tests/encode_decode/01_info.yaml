@@ -25,8 +25,7 @@ data:
     aux_region_offset: 207
   main:
     gtin: 8594173675001
-    brand_specific_instance_id:
-      hex: '33333463353466303838'
+    brand_specific_instance_id: 334c54f088
     material_class: FFF
     material_type: PLA
     material_name: PLA Prusa Galaxy Black

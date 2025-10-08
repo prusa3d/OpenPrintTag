@@ -25,8 +25,7 @@ data:
     aux_region_offset: 207
   main:
     gtin: 8594173675100
-    brand_specific_instance_id:
-      hex: '37616232616362353039'
+    brand_specific_instance_id: 7ab2acb509
     material_class: FFF
     material_type: PETG
     material_name: PETG Jet Black
