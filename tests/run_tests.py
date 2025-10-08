@@ -103,7 +103,13 @@ for file in tests_dir.glob("encode_decode/*_input.yaml"):
     with open(fn_info, "r") as f:
         uri = yaml.safe_load(f)["uri"]
 
-    utils_test(init_args=["--size=312", "--aux-region=32", "--ndef-uri", uri], update_args=[str(file)], info_args=["--validate", "--extra-required-fields=sample_requirements.yaml", "--show-all"], expected_info_fn=fn_info, expected_data_fn=f"{fn_base}_data.bin")
+    utils_test(
+        init_args=["--size=312", "--aux-region=32", "--ndef-uri", uri],
+        update_args=[str(file)],
+        info_args=["--validate", "--extra-required-fields=sample_requirements.yaml", "--show-all"],
+        expected_info_fn=fn_info,
+        expected_data_fn=f"{fn_base}_data.bin",
+    )
 
 
 # Check that basic required fields checking works
