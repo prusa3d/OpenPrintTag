@@ -1,7 +1,13 @@
 import subprocess
 import sys
 import yaml
+import argparse
 from pathlib import Path
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-u", "--update", action="store_true", help="Updates reference files to match the new outputs")
+
+args = parser.parse_args()
 
 tests_dir = Path(__file__).parent
 root_dir = tests_dir.parent
@@ -45,12 +51,14 @@ def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_
             print(f"  Comparing rec_ibinary datanfo against '{expected_data_fn}'")
             with open(expected_data_fn, "rb") as f:
                 expected_data = f.read()
-                if binary_output != expected_data:
-                    log_fn = logs_dir / f"{Path(expected_data_fn).name}.actual"
-                    with open(log_fn, "wb") as f2:
-                        f2.write(binary_output)
 
-                    raise Exception(f"Binary data do not match. Actual output stored to {log_fn}")
+            if binary_output != expected_data:
+                print("! Binary data do not match.", file=sys.stderr)
+                if args.update:
+                    with open(expected_data_fn, "wb") as f:
+                        f.write(binary_output)
+                else:
+                    raise Exception()
 
         if info_args is not None:
             info_output = run_util("rec_info", args=info_args, input=binary_output)
@@ -61,11 +69,12 @@ def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_
                 expected_info = f.read()
 
             if info_output != expected_info:
-                log_fn = logs_dir / f"{Path(expected_info_fn).name}.actual"
-                with open(log_fn, "w") as f2:
-                    f2.write(info_output)
-
-                raise Exception(f"Info output does not match. Actual output stored to {log_fn}")
+                print("! Info output does not match.", file=sys.stderr)
+                if args.update:
+                    with open(expected_info_fn, "wb") as f:
+                        f.write(info_output)
+                else:
+                    raise Exception()
 
         assert expect_success, "Test should have failed"
 
