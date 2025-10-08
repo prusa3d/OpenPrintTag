@@ -23,7 +23,7 @@
       - If there would be substantial changes to the standard that would break backwards compatibility, a new MIME type will be used for the new format.
 
 ## Write protection
-The Prusa NFC standards offers these options also considers ways to prevent the tags from being overwritten by malicious actors.
+The OpenPrintTag standard offers the following options also considers ways to prevent the tags from being overwritten by malicious actors.
 
 ### Protecting the auxiliary region
 Auxiliary region cannot be reasonably write-protected, because it is intended to be written to by the printers and that needs to be plug-an-play for user comfort.

@@ -1,7 +1,7 @@
 # NFC Data Format Specification
 
 ## Used standards
-- [ISO/IEC 15693-3](https://en.wikipedia.org/wiki/ISO/IEC_15693)
+- [ISO/IEC 15693-3 (NFC-V)](https://en.wikipedia.org/wiki/ISO/IEC_15693)
 - [NFC Data Exchange Format (NDEF)](https://nfc-forum.org/build/specifications/data-exchange-format-ndef-technical-specification/)
 - [Concise Binary Object Representation (CBOR)](https://cbor.io/)
 
