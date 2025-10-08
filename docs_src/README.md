@@ -1,5 +1,7 @@
 # OpenPrintTag
 
+**THIS SPECIFICATION IS WORK IN PROGRESS**
+
 The OpenPrintTag project aims to:
 
 1. Specify relevant properties of 3D printing materials (FFF, SLA, ...) and define their standardized terminology, units and data types.
