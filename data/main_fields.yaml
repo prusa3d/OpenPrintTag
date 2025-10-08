@@ -143,6 +143,26 @@
     - Can slightly differ from `nominal_netto_full_weight`.
     - If not present, it is assumed to match `nominal_netto_full_weight`.
 
+- key: 53
+  name: nominal_full_length
+  category: fff
+  type: number
+  unit: mm
+  example: 350000
+  description:
+    - Nominal/advertised filament length of the full spool.
+    - The actual length of a specific package instance can slightly differ and is specified by `actual_full_length`
+
+- key: 54
+  name: actual_full_length
+  category: fff
+  type: number
+  unit: mm
+  example: 351000
+  description:
+    - Actual filament length of the full spool.
+    - Can slightly differ from `netto_full_length`
+
 - key: 18
   name: empty_container_weight
   required: recommended
