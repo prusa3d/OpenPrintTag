@@ -50,7 +50,7 @@
 
 - The top layer format of the NFC tag is an NDEF message in a NDEF TLV record.
    - The tag MAY contain other TLV records. The NDEF TLV record doesn't have to be the first TLV record.
-- The message has an **NDEF record** of MIME type **application/vnd.prusa3d.mat.nfc**.
+- The message has an **NDEF record** of MIME type **application/vnd.openprinttag**.
    - The payload of the record consists of:
       1. **Meta section** (CBOR map)
          - Always at the beginning of the payload.

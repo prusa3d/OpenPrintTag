@@ -1,28 +1,28 @@
 regions:
   meta:
     payload_offset: 0
-    absolute_offset: 69
+    absolute_offset: 66
     size: 4
     used_size: 4
   main:
     payload_offset: 4
-    absolute_offset: 73
-    size: 203
+    absolute_offset: 70
+    size: 206
     used_size: 142
   aux:
-    payload_offset: 207
+    payload_offset: 210
     absolute_offset: 276
     size: 35
     used_size: 1
 root:
   data_size: 312
-  payload_size: 242
-  overhead: 70
+  payload_size: 245
+  overhead: 67
   payload_used_size: 147
-  total_used_size: 217
+  total_used_size: 214
 data:
   meta:
-    aux_region_offset: 207
+    aux_region_offset: 210
   main:
     gtin: 8594173675001
     brand_specific_instance_id: 334c54f088
