@@ -76,10 +76,11 @@
    - All fields MUST follow this specification. Using custom or vendor-specific keys is not permitted (with the exception described in the Aux Region section).
    - New keys can be added to the specification at any time, so implementations MUST be able to skip all unknown keys, of any type.
    - Keys can be deprecated at any time. Deprecated keys will never be reused.
+   - The keys MAY be arbitrarily ordered within the CBOR map. Implementations MUST support unsorted (non-canonical) CBOR maps.
+1. CBOR maps and arrays SHOULD be encoded as indefinite containers.
 1. `enum` fields are encoded as an integer, according to the enum field mapping
 1. `enum_array` fields are encoded as CBOR arrays of integers, according to the field mapping
 1. `timestamp` fields are encoded as UNIX timestamp integers
-1. CBOR maps and arrays SHOULD be encoded as indefinite containers
 1. `bytes` and `uuid` types are encoded as CBOR byte string (type 2)
 1. `number` types can be encoded as either unsigned integers (type 0), signed integers (type 1), half floats or floats
 1. `string` types are encoded as CBOR text string (type 3, UTF-8 is enforced by the CBOR specification)
