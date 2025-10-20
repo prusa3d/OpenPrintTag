@@ -93,6 +93,8 @@ UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` ha
 * Strings are encoded as UTF-8.
 * Numbers are encoded as decimal strings.
 * `+` represents binary concatenation.
+* NFC tag UID is represented as a bytestream with the MSB being the first byte in the bytestream.
+   * **Important:** Various apps/readers report these UIDs in various byte orders, and sometimes as hex strings instead of bytestreams. For NFCV, the UID MUST be a 8 bytes long bytestream with `0xE0` as the **first** byte (SLIX2 then follows with `0x04, 0x01`).
 
 | UID | Derviation formula | Namespace (`N`) |
 | --- | --- | --- |
@@ -123,6 +125,11 @@ material_package_namespace = "6f7d485e-db8d-4979-904e-a231cd6602b2"
 gtin = "1234"
 material_package_uuid = generate_uuid(material_package_namespace, brand_uuid.bytes, gtin.encode("utf-8"))
 print(f"material_package_uuid = {material_package_uuid}")
+
+material_package_instance_namespace = "31062f81-b5bd-4f86-a5f8-46367e841508"
+nfc_tag_uid = b"\xE0\x04\x01\x08\x66\x2F\x6F\xBC"
+material_package_instance_uuid = generate_uuid(material_package_instance_namespace, brand_uuid.bytes, nfc_tag_uid)
+print(f"material_package_instance_uuid = {material_package_instance_uuid}")
 {% endpython %}
 
 UUIDs MAY thus be omitted from the in most cases. In the case that a brand changes its name, it SHOULD add `brand_uuid` field with the original UUID whenever the new brand name is used:
