@@ -61,12 +61,22 @@ class Region:
         return self.fields.decode(io.BytesIO(self.memory))
 
     def write(self, data: dict[str, any]):
+        return self.update(data, clear=True)
+
+    def update(self, update_fields: dict[str, any], remove_fields: list[str] = [], clear: bool = False):
+        if len(update_fields) == 0 and len(remove_fields) == 0 and not clear:
+            # Nothing to do
+            return
+
+        encoded = self.fields.update(original_data=io.BytesIO(self.memory) if not clear else None, update_fields=update_fields, remove_fields=remove_fields, config=self.record.encode_config)
+        encoded_len = len(encoded)
+
+        assert encoded_len <= len(self.memory), f"Data of size {encoded_len} does not fit into region of size {len(self.memory)}"
+
         # Write zeroes to the whole region
         self.memory[:] = bytearray(len(self.memory))
-
-        encoded = self.fields.encode(data, config=self.record.encode_config)
-        assert len(encoded) <= len(self.memory), f"Data of size {len(encoded)} does not fit into region of size {len(self.memory)}"
-        self.memory[0 : len(encoded)] = encoded
+        self.memory[0:encoded_len] = encoded
+        return encoded_len
 
 
 class Record:

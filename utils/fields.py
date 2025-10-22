@@ -263,15 +263,28 @@ class Fields:
 
     # Encodes keys and field values to a cbor-ready dictionary
     def encode(self, data: dict[str, any], config: EncodeConfig = EncodeConfig()) -> bytes:
-        result = dict()
-        for key, value in data.items():
-            field = self.fields_by_name.get(key)
-            assert field, f"Unknown field '{key}'"
+        return self.update(update_fields=data, config=config)
+
+    def update(self, original_data: typing.IO[bytes] = None, update_fields: dict[str, any] = {}, remove_fields: list[str] = [], config: EncodeConfig = EncodeConfig()) -> bytes:
+        if original_data:
+            result = cbor2.load(original_data)
+        else:
+            result = dict()
+
+        for field_name in remove_fields:
+            field = self.fields_by_name.get(field_name)
+            assert field, f"Unknown field '{field_name}'"
+
+            del result[field.key]
+
+        for field_name, value in update_fields.items():
+            field = self.fields_by_name.get(field_name)
+            assert field, f"Unknown field '{field_name}'"
 
             try:
                 result[field.key] = field.encode(value)
             except Exception as e:
-                e.add_note(f"Field {key} {field.name}")
+                e.add_note(f"Field {field.key} {field.name}")
                 raise
 
         data_io = io.BytesIO()

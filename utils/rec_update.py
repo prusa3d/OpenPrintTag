@@ -20,24 +20,10 @@ record.encode_config.indefinite_containers = args.indefinite_containers
 
 update_data = yaml.safe_load(open(args.update_data, "r"))
 for region_name, region in record.regions.items():
-    if args.clear:
-        region_data = dict()
-    else:
-        region_data = region.read()
-
-    changed = False
-
-    for key in update_data.get("remove", dict()).get(region_name, dict()):
-        region_data.pop(key)
-        changed = True
-
-    for key, value in update_data.get("data", dict()).get(region_name, dict()).items():
-        region_data[key] = value
-        changed = True
-
-    if not changed:
-        continue
-
-    region.write(region_data)
+    region.update(
+        update_fields=update_data.get("data", dict()).get(region_name, dict()),
+        remove_fields=update_data.get("remove", dict()).get(region_name, dict()),
+        clear=args.clear,
+    )
 
 sys.stdout.buffer.write(record.data)
