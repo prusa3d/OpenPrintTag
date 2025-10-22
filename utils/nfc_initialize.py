@@ -8,7 +8,7 @@ import sys
 import types
 import yaml
 
-from fields import Fields
+from fields import Fields, EncodeConfig
 from common import default_config_file
 
 # Maximum expected size of the meta section
@@ -110,10 +110,9 @@ metadata = dict()
 meta_fields = Fields.from_file(os.path.join(config_dir, config.meta_fields))
 
 
-def write_section(offset: int, data: dict):
-    encoded = cbor2.dumps(data)
-    enc_len = len(encoded)
-    payload[offset : offset + enc_len] = encoded
+def write_section(offset: int, data: bytes):
+    enc_len = len(data)
+    payload[offset : offset + enc_len] = data
     return enc_len
 
 
@@ -147,10 +146,11 @@ if args.aux_region is not None:
 
     aux_region_offset = align_region_offset(payload_size - args.aux_region, align_up=False)
     metadata["aux_region_offset"] = aux_region_offset
-    write_section(aux_region_offset, dict())
+    write_section(aux_region_offset, cbor2.dumps({}))
 
 # Prepare meta section
-meta_section_size = write_section(0, meta_fields.encode(metadata))
+# Indefinite containers take one extra byte, don't do that for the meta region - that one won't likely ever be updated
+meta_section_size = write_section(0, meta_fields.encode(metadata, EncodeConfig(indefinite_containers=False)))
 if main_region_offset is None:
     main_region_offset = meta_section_size
 
@@ -160,7 +160,7 @@ else:
     assert payload_size - main_region_offset >= 8, "Main region is too small"
 
 # Write main region
-write_section(main_region_offset, dict())
+write_section(main_region_offset, cbor2.dumps({}))
 
 # Create the NDEF record
 records.append(ndef.Record(config.mime_type, "", payload))

@@ -3,6 +3,19 @@ import os
 import numpy
 import uuid
 import sys
+import typing
+import cbor2_local as cbor2
+import io
+import dataclasses
+
+
+@dataclasses.dataclass
+class EncodeConfig:
+    # Encode CBOR canonically (order map entries)
+    canonical: bool = True
+
+    # Encode using indefinite containers
+    indefinite_containers: bool = True
 
 
 class Field:
@@ -229,8 +242,12 @@ class Fields:
 
         return r
 
-    # Decodes the fields and values from the cbor-read dictionary
-    def decode(self, data):
+    # Decodes the fields and values from the CBOR binary data
+    def decode(self, binary_data: typing.IO[bytes]):
+        data = cbor2.load(binary_data)
+        print(binary_data, file=sys.stderr)
+        print(data, file=sys.stderr)
+
         result = dict()
         for key, value in data.items():
             field = self.fields_by_key.get(key)
@@ -245,7 +262,7 @@ class Fields:
         return result
 
     # Encodes keys and field values to a cbor-ready dictionary
-    def encode(self, data):
+    def encode(self, data: dict[str, any], config: EncodeConfig = EncodeConfig()) -> bytes:
         result = dict()
         for key, value in data.items():
             field = self.fields_by_name.get(key)
@@ -257,7 +274,18 @@ class Fields:
                 e.add_note(f"Field {key} {field.name}")
                 raise
 
-        return result
+        data_io = io.BytesIO()
+        encoder = cbor2.CBOREncoder(
+            data_io,
+            canonical=config.canonical,
+            indefinite_containers=config.indefinite_containers,
+        )
+
+        # Encode float optimally, even in non-canonical mode
+        encoder._encoders[float] = cbor2.CBOREncoder.encode_minimal_float
+
+        encoder.encode(result)
+        return data_io.getvalue()
 
     def validate(self, decoded_data):
         for field_name, field in self.fields_by_name.items():

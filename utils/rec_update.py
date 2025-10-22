@@ -15,8 +15,8 @@ parser.add_argument("--canonical", action=argparse.BooleanOptionalAction, defaul
 args = parser.parse_args()
 
 record = Record(args.config_file, memoryview(bytearray(sys.stdin.buffer.read())))
-record.encode_indefinite_containers = args.indefinite_containers
-record.canonical = args.canonical
+record.encode_config.canonical = args.canonical
+record.encode_config.indefinite_containers = args.indefinite_containers
 
 update_data = yaml.safe_load(open(args.update_data, "r"))
 for region_name, region in record.regions.items():

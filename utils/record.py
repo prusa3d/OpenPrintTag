@@ -6,7 +6,7 @@ import io
 import types
 import typing
 
-from fields import Fields
+from fields import Fields, EncodeConfig
 
 
 class Region:
@@ -15,7 +15,6 @@ class Region:
     fields: Fields
     record: typing.Any
     is_corrupt: bool = False
-    canonical: bool = True  # Encode the CBOR canonically (order the map entries)
 
     def __init__(self, record, offset: int, memory: memoryview, fields: Fields):
         assert type(memory) is memoryview
@@ -55,29 +54,17 @@ class Region:
         cbor2.load(data_io)
         return data_io.tell()
 
-    def read(self):
+    def read(self) -> dict[str, any]:
         if self.is_corrupt:
             return {}
 
-        return self.fields.decode(cbor2.loads(self.memory))
+        return self.fields.decode(io.BytesIO(self.memory))
 
-    def encode(self, data):
-        data_io = io.BytesIO()
-        encoder = cbor2.CBOREncoder(
-            data_io,
-            canonical=self.record.canonical,
-            indefinite_containers=self.record.encode_indefinite_containers,
-        )
-
-        # Encode float optimally, even in non-canonical mode
-        encoder._encoders[float] = cbor2.CBOREncoder.encode_minimal_float
-
-        encoder.encode(data)
-        return data_io.getvalue()
-
-    def write(self, data):
+    def write(self, data: dict[str, any]):
+        # Write zeroes to the whole region
         self.memory[:] = bytearray(len(self.memory))
-        encoded = self.encode(self.fields.encode(data))
+
+        encoded = self.fields.encode(data, config=self.record.encode_config)
         assert len(encoded) <= len(self.memory), f"Data of size {len(encoded)} does not fit into region of size {len(self.memory)}"
         self.memory[0 : len(encoded)] = encoded
 
@@ -96,12 +83,13 @@ class Record:
 
     regions: dict[str, Region] = None
 
-    encode_indefinite_containers: bool = False
+    encode_config: EncodeConfig
 
     def __init__(self, config_file: str, data: memoryview):
         assert type(data) is memoryview
 
         self.data = data
+        self.encode_config = EncodeConfig()
 
         self.config_dir = os.path.dirname(config_file)
         with open(config_file, "r") as f:
