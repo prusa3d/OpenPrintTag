@@ -74,7 +74,7 @@
    - Keys of the map are integers. Semantics of the keys are specific to each section.
    - All data sections must be at most 512 bytes long.
    - All fields MUST follow this specification. Using custom or vendor-specific keys is not permitted (with the exception described in the Aux Region section).
-   - New keys can be added to the specification at any time, so implementations MUST be able to skip all unknown keys, of any type.
+   - New keys can be added to the specification at any time, implementations MUST be able to skip unknown keys, of any type. Unknown fields MUST NOT be removed when updating a known field (or in any update proces in general) unless explicitly intended.
    - Keys can be deprecated at any time. Deprecated keys will never be reused.
    - The keys MAY be arbitrarily ordered within the CBOR map. Implementations MUST support unsorted (non-canonical) CBOR maps.
 1. CBOR maps and arrays SHOULD be encoded as indefinite containers.
