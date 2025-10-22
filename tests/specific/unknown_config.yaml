@@ -1,0 +1,5 @@
+mime_type: application/vnd.openprinttag
+root: nfcv
+meta_fields: ../../data/meta_fields.yaml
+main_fields: unknown_main_fields.yaml
+aux_fields: ../../data/aux_fields.yaml

@@ -2,6 +2,7 @@ import subprocess
 import sys
 import yaml
 import argparse
+import os
 from pathlib import Path
 
 parser = argparse.ArgumentParser()
@@ -18,7 +19,7 @@ logs_dir.mkdir(exist_ok=True)
 
 
 # Runs nfc_initialize & nfc_update utilities and checks their result, output
-def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_args: list[str] = None, expect_success: bool = True, expected_info_fn: str | None = None, expected_data_fn: str | None = None):
+def utils_test(input_fn: str | None = None, init_args: list[str] = None, update_args: list[str] = None, info_args: list[str] = None, expect_success: bool = True, expected_info_fn: str | None = None, expected_data_fn: str | None = None):
     all_args = locals()
 
     class UtilFailure(Exception):
@@ -39,8 +40,15 @@ def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_
     print(f"Testing {all_args}")
 
     try:
-        if init_args is not None:
+        if input_fn is not None:
+            assert init_args is None
+            with open(input_fn, "rb") as f:
+                binary_output = f.read()
+
+        elif init_args is not None:
+            assert input_fn is None
             binary_output = run_util("nfc_initialize", init_args)
+
         else:
             assert False
 
@@ -49,8 +57,11 @@ def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_
 
         if expected_data_fn is not None:
             print(f"  Comparing rec_ibinary datanfo against '{expected_data_fn}'")
-            with open(expected_data_fn, "rb") as f:
-                expected_data = f.read()
+            if os.path.isfile(expected_data_fn):
+                with open(expected_data_fn, "rb") as f:
+                    expected_data = f.read()
+            else:
+                expected_data = b""
 
             if binary_output != expected_data:
                 print("! Binary data do not match.", file=sys.stderr)
@@ -65,8 +76,11 @@ def utils_test(init_args: list[str] = None, update_args: list[str] = None, info_
 
         if expected_info_fn is not None:
             print(f"  Comparing rec_info against '{expected_info_fn}'")
-            with open(expected_info_fn, "rb") as f:
-                expected_info = f.read()
+            if os.path.isfile(expected_info_fn):
+                with open(expected_info_fn, "rb") as f:
+                    expected_info = f.read()
+            else:
+                expected_info = b""
 
             if info_output != expected_info:
                 print("! Info output does not match.", file=sys.stderr)
@@ -127,3 +141,20 @@ utils_test(
     info_args=["--validate", "--extra-required-fields=sample_requirements.yaml"],
     expect_success=False,
 )
+
+# Test that we are able to handle unknown fields
+if True:
+    utils_test(
+        init_args=["--size=312", "--aux-region=32"],
+        update_args=[f"{tests_dir}/specific/unknown_data.yaml", f"--config-file={tests_dir}/specific/unknown_config.yaml"],
+        info_args=["--show-all", "--show-raw-data"],
+        expected_info_fn=f"{tests_dir}/specific/unknown_info_1.yaml",
+        expected_data_fn=f"{tests_dir}/specific/unknown_data_1.bin",
+    )
+    utils_test(
+        input_fn=f"{tests_dir}/specific/unknown_data_1.bin",
+        update_args=[f"{tests_dir}/specific/unknown_update_data.yaml"],
+        info_args=["--show-all", "--show-raw-data"],
+        expected_info_fn=f"{tests_dir}/specific/unknown_info_2.yaml",
+        expected_data_fn=f"{tests_dir}/specific/unknown_data_2.bin",
+    )
