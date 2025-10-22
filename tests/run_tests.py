@@ -106,7 +106,7 @@ for file in tests_dir.glob("encode_decode/*_input.yaml"):
     utils_test(
         init_args=["--size=312", "--aux-region=32", "--ndef-uri", uri],
         update_args=[str(file)],
-        info_args=["--validate", "--extra-required-fields=sample_requirements.yaml", "--show-all"],
+        info_args=["--validate", "--extra-required-fields=sample_requirements.yaml", "--show-all", "--show-raw-data"],
         expected_info_fn=fn_info,
         expected_data_fn=f"{fn_base}_data.bin",
     )
