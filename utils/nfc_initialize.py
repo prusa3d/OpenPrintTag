@@ -1,11 +1,12 @@
 # Reference implementation of initializing an "empty" Prusa Material NFC tag
 
-import argparse
+import simple_parsing
 import ndef
 import cbor2_local as cbor2
 import os
 import sys
 import types
+from dataclasses import dataclass
 import yaml
 
 from fields import Fields, EncodeConfig
@@ -14,15 +15,37 @@ from common import default_config_file
 # Maximum expected size of the meta section
 max_meta_section_size = 8
 
-parser = argparse.ArgumentParser(prog="nfc_initialize", description="Initializes an 'empty' (with no static or aux data) NFC tag to be used as a Prusa Material tag.\n" + "The resulting bytes to be written on the tag are returned to stdout.")
-parser.add_argument("-c", "--config-file", type=str, default=default_config_file, help="YAML file with the fields configuration")
-parser.add_argument("-s", "--size", type=int, required=True, help="Available space on the NFC tag in bytes")
-parser.add_argument("-a", "--aux-region", type=int, help="Allocate auxiliar region of the provided size in bytes.")
-parser.add_argument("-b", "--block-size", type=int, default=4, help="Block size of the chip. The aux region is aligned with the blocks. 1 = no align")
-parser.add_argument("-m", "--meta-region", type=int, default=None, help="Meta region allocation size. If not specified, the meta region will only take minimum size required.")
-parser.add_argument("-u", "--ndef-uri", type=str, default=None, help="Adds a NDEF record with the specified URI at the beginning of the NDEF message")
 
-args = parser.parse_args()
+@dataclass
+class Args:
+    """Following command line arguments are accepted (you can also use the file as a module)"""
+
+    # Available space on the NFC tag in bytes
+    size: int = simple_parsing.field(alias=["-s"])
+
+    # YAML file with the fields configuration
+    config_file: str = simple_parsing.field(default=default_config_file, alias=["-c", "--config-file"])
+
+    # Block size of the chip. The aux region is aligned with the blocks. 1 = no align
+    block_size: int = simple_parsing.field(default=4, alias=["-b", "--block-size"])
+
+    # Allocate an auxiliary region of the provided size in bytes.
+    aux_region: int = simple_parsing.field(default=None, alias=["-a", "--aux-region"])
+
+    # Meta region allocation size. If not specified, the meta region will only take minimum size required.
+    meta_region: int = simple_parsing.field(default=None, alias=["-m", "--meta-region"])
+
+    # If specified, Adds a NDEF record with the specified URI at the beginning of the NDEF message
+    ndef_uri: str = simple_parsing.field(default=None, alias=["-u", "--ndef-uri"])
+
+
+parser = simple_parsing.ArgumentParser(
+    prog="nfc_initialize",
+    description="Initializes an 'empty' (with no static or aux data) NFC tag to be used as a Prusa Material tag.\n" + "",
+)
+parser.add_arguments(Args, dest="args")
+
+args = parser.parse_args().args
 
 config_dir = os.path.dirname(args.config_file)
 with open(args.config_file, "r") as f:

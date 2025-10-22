@@ -3,3 +3,4 @@ ndeflib~=0.3.3
 cbor2~=5.6.4
 jinja2~=3.1.5
 numpy~=2.2.3
+simple_parsing~=0.1.7
