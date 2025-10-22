@@ -53,12 +53,22 @@ if args.show_region_info or args.show_root_info:
 
 if args.show_data:
     data = {}
+    unknown_fields = {}
 
     for name, region in record.regions.items():
-        if args.show_meta or name != "meta":
-            data[name] = region.read()
+        if name == "meta" and not args.show_meta:
+            continue
+
+        unknown_fields = dict()
+        data[name] = region.read(out_unknown_fields=unknown_fields)
+
+        if len(unknown_fields) > 0:
+            unknown_fields[name] = unknown_fields
 
     output["data"] = data
+
+    if len(unknown_fields):
+        output["unknown_fields"] = unknown_fields
 
 if args.show_raw_data:
     data = {}

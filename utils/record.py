@@ -54,11 +54,11 @@ class Region:
         cbor2.load(data_io)
         return data_io.tell()
 
-    def read(self) -> dict[str, any]:
+    def read(self, out_unknown_fields: dict[any, any] = None) -> dict[str, any]:
         if self.is_corrupt:
             return {}
 
-        return self.fields.decode(io.BytesIO(self.memory))
+        return self.fields.decode(io.BytesIO(self.memory), out_unknown_fields=out_unknown_fields)
 
     def write(self, data: dict[str, any]):
         return self.update(data, clear=True)
