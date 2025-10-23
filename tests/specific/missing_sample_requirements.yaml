@@ -11,7 +11,7 @@ data:
     container_inner_diameter: 100
     container_hole_diameter: 52
     container_width: 75
-    density: 1240
+    density: 1.24
     primary_color:
       hex: 3D3E3D
     gtin: 8594173675001

@@ -37,7 +37,7 @@ data:
     primary_color:
       hex: 24292a
     tags: []
-    density: 1270
+    density: 1.27
     min_print_temperature: 240
     max_print_temperature: 260
     preheat_temperature: 170

@@ -8,7 +8,7 @@ data:
     primary_color:
       hex: 3D3E3D
     tags: [glitter]
-    density: 1240
+    density: 1.24
 
     # Package-spcific fields
     gtin: 8594173675001

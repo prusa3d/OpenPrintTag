@@ -8,7 +8,7 @@ data:
     primary_color:
       hex: 24292A
     tags: []
-    density: 1270
+    density: 1.27
 
     # Package-spcific fields
     gtin: 8594173675100

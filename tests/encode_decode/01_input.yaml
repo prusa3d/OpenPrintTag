@@ -7,8 +7,8 @@ data:
     material_name: PLA Prusa Galaxy Black
     primary_color:
       hex: 3D3E3D
-    tags: [ glitter ]
-    density: 1240
+    tags: [glitter]
+    density: 1.24
 
     # Package-spcific fields
     gtin: 8594173675001

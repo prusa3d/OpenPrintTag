@@ -38,7 +38,7 @@ data:
       hex: 3d3e3d
     tags:
     - glitter
-    density: 1240
+    density: 1.24
     min_print_temperature: 205
     max_print_temperature: 225
     preheat_temperature: 170
