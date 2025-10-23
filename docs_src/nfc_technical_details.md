@@ -6,7 +6,7 @@
 - [Concise Binary Object Representation (CBOR)](https://cbor.io/)
 
 ## 2. Notes & recommendations
-   1. The standard was designed with ICODE SLIX2 320 B tag in mind, but it should be compatible with all NFC-V tags.
+   1. The standard was designed with ICODE SLIX2 320 B tag in mind, but it is meant be compatible with all NFC-V tags.
       - Smaller tags might not fit all features/data the Prusa Material standard offers. It is up to the manufacturers to decide what data they want to provide in that case.
    1. We recommend to **expand the payload of the NDEF record so that the whole available memory of the NFC tag is used.**
 
@@ -30,8 +30,8 @@ The OpenPrintTag standard offers the following options also considers ways to pr
 Auxiliary region cannot be reasonably write-protected, because it is intended to be written to by the printers and that needs to be plug-an-play for user comfort.
 Therefore it can contain invalid data when a customer first brings it from the shop (because anyone could have written anything to it).
 
-To remedy this issue, the auxiliary section has the `workgroup` field specified. Each printer has a workgroup specified (generated randomly by default, but can be changed by the user so that multiple printers have the same workgroup).
-When the tag is detected by a printer and the workgroup doesn't match, the printer should offer wiping the auxiliary region (and/or setting the correct workgroup).
+To remedy this issue, the auxiliary section has the `workgroup` field specified. Devices accessing the auxiliary region SHOULD have a workgroup specified (generated randomly by default, but can be changed by the user so that multiple devices have the same workgroup).
+When a tag is detected by the device and the workgroup doesn't match, the device SHOULD offer wiping the auxiliary region. The tag workgroup field SHOULD then be set to the device wogrkoup (even if the user decided not to wipe the region, to prevent repeated prompts).
 
 As a result, the user should be alerted to wipe the auxiliary region on first usage of the filament and then, because the workgroup is the same, there should be no further obstructions.
 

@@ -74,7 +74,7 @@
 ### 3.1 CBOR data representation
 1. Data of all sections in the specification are represented as a CBOR map.
    - Keys of the map are integers. Semantics of the keys are specific to each section.
-   - All data sections must be at most 512 bytes long.
+   - All data sections MUST be at most 512 bytes long.
    - All fields MUST follow this specification. Using custom or vendor-specific keys is not permitted (with the exception described in the Aux Region section).
    - New keys can be added to the specification at any time, implementations MUST be able to skip unknown keys, of any type. Unknown fields MUST NOT be removed when updating a known field (or in any update proces in general) unless explicitly intended.
    - Keys can be deprecated at any time. Deprecated keys will never be reused.
@@ -86,9 +86,10 @@
 1. `bytes` and `uuid` types are encoded as CBOR byte string (type 2)
 1. `number` types can be encoded as either unsigned integers (type 0), signed integers (type 1), half floats or floats
 1. `string` types are encoded as CBOR text string (type 3, UTF-8 is enforced by the CBOR specification)
+1. The `X` in the `string:X` or `bytes:X` notation defines maximum permissible length of the data in bytes.
 
 ### 3.2 UUIDs
-Some entities referenced in the data (see [Terminology](#/terminology)) can be identified by a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). The UUID MAY be explicitly specified through a `XX_uuid`, however that might not be desirable due to space constraints. As an alternative, the following algorithm defines a way to derive UUIDs from other fields.
+Some entities referenced in the data (see [Terminology](terminology.md)) can be identified by a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). The UUID MAY be explicitly specified through a `XX_uuid`, however that might not be desirable due to space constraints. As an alternative, the following algorithm defines a way to derive UUIDs from other fields. The derivation mechanism SHALL be used only if the relevant `XX_uuid` field is not present in the data; otherwise the field value MUST be used.
 
 UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3), according to the following table.
 1. UUIDs are hashed in the binary form.
