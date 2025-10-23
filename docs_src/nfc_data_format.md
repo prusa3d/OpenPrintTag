@@ -1,11 +1,11 @@
 # NFC Data Format Specification
 
-## Used standards
+## 1. Used standards
 - [ISO/IEC 15693-3 (NFC-V)](https://en.wikipedia.org/wiki/ISO/IEC_15693)
 - [NFC Data Exchange Format (NDEF)](https://nfc-forum.org/build/specifications/data-exchange-format-ndef-technical-specification/)
 - [Concise Binary Object Representation (CBOR)](https://cbor.io/)
 
-## Overall structure
+## 2. General structure
 <table class="packet-structure">
    <tr>
       <td rowspan=5>CC record<br>(Capability Container)</td>
@@ -48,28 +48,30 @@
    }
 </style>
 
-- The top layer format of the NFC tag is an NDEF message in a NDEF TLV record.
+1. The top layer of the NFC tag is an NDEF message in a NDEF TLV record.
    - The tag MAY contain other TLV records. The NDEF TLV record doesn't have to be the first TLV record.
-- The message has an **NDEF record** of MIME type **application/vnd.openprinttag**.
-   - The payload of the record consists of:
-      1. **Meta section** (CBOR map)
-         - Always at the beginning of the payload.
-         - Contains information about other regions:
-            - Region is a part of the payload allocated for the respective section.
-            - A section does not have to fill the whole region.
-      1. **Main section** (CBOR map)
-         - Positioned at the beginning of the main region.
-         - Intended for static information, not intended to be updated by printers.
-            - The only situation where this region needs to be updated would be when the container is being repurposed.
-      1. **Auxiliary section** (optional, CBOR map)
-         - Positioned at the beginning of the auxiliary region.
-         - Intended for dynamic information, intended to be updated by the printers.
-   - The NDEF record MUST NOT be split into multiple NDEF record chunks.
+1. The message has an **NDEF record** of MIME type **application/vnd.openprinttag**.
+   1. The NDEF record MUST NOT be split into multiple NDEF record chunks.
       - Splitting the record would break the "virtual space" of the payload and would complicate implementation.
-   - The NDEF message MAY contain other NDEF records. The material NDEF record doesn't need to be the first NDEF record in the message.
-- Unused space in the sections (outside of the region CBOR) SHALL NOT contain any meaningful working data. It SHOULD be filled with zeroes on tag initialization, but there are no requirements on upkeeping that afterwards. Users CAN update the regions with smaller data, leaving remnants of the original data behind.
+   1. The NDEF message MAY contain other NDEF records. The material NDEF record doesn't need to be the first NDEF record in the message.
+1. The payload of the OpentPrintTag NDEF record consists of:
+   1. **Meta section** (CBOR map)
+      1. Always at the beginning of the payload.
+      1. Contains information about other regions:
+         - Region is a part of the payload allocated for the respective section.
+         - A section does not have to fill the whole region.
+   1. **Main section** (CBOR map)
+      1. Positioned at the beginning of the main region.
+      1. Intended for static information, not intended to be updated by printers.
+         - The only situation where this region needs to be updated would be when the container is being repurposed.
+   1. **Auxiliary section** (optional, CBOR map)
+      1. Positioned at the beginning of the auxiliary region.
+      1. Intended for dynamic information, intended to be updated by the printers.
+1. Unused space in the sections (outside of the region CBOR) SHALL NOT contain any meaningful working data. It SHOULD be filled with zeroes on tag initialization, but there are no requirements on upkeeping that afterwards. Users CAN update the regions with smaller data, leaving remnants of the original data behind.
 
-## Specification common to all sections
+## 3. Specification common to all sections
+
+### 3.1 CBOR data representation
 1. Data of all sections in the specification are represented as a CBOR map.
    - Keys of the map are integers. Semantics of the keys are specific to each section.
    - All data sections must be at most 512 bytes long.
@@ -85,15 +87,15 @@
 1. `number` types can be encoded as either unsigned integers (type 0), signed integers (type 1), half floats or floats
 1. `string` types are encoded as CBOR text string (type 3, UTF-8 is enforced by the CBOR specification)
 
-### UUIDs
-Each entity referenced in the data can be identified by a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). The UUID MAY be explicitly specified through a `XX_uuid`, however that might not be desirable due to space constraints. As an alternative, the following algorithm defines a way to derive UUIDs from other fields.
+### 3.2 UUIDs
+Some entities referenced in the data (see [Terminology](#/terminology)) can be identified by a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). The UUID MAY be explicitly specified through a `XX_uuid`, however that might not be desirable due to space constraints. As an alternative, the following algorithm defines a way to derive UUIDs from other fields.
 
 UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3), according to the following table.
-* UUIDs are hashed in the binary form.
-* Strings are encoded as UTF-8.
-* Numbers are encoded as decimal strings.
-* `+` represents binary concatenation.
-* NFC tag UID is represented as a bytestream with the MSB being the first byte in the bytestream.
+1. UUIDs are hashed in the binary form.
+1. Strings are encoded as UTF-8.
+1. Numbers are encoded as decimal strings.
+1. `+` represents binary concatenation.
+1. NFC tag UID is represented as a bytestream with the MSB being the first byte in the bytestream.
    * **Important:** Various apps/readers report these UIDs in various byte orders, and sometimes as hex strings instead of bytestreams. For NFCV, the UID MUST be a 8 bytes long bytestream with `0xE0` as the **first** byte (SLIX2 then follows with `0x04, 0x01`).
 
 | UID | Derviation formula | Namespace (`N`) |
@@ -139,50 +141,50 @@ UUIDs MAY thus be omitted from the in most cases. In the case that a brand chang
 
 NFC tags have a hardcoded UID (referenced as `nfc_tag_uid` in the table above), which can be used for deriving the `instance_uuid`. This is only admissible when the NFC tag is being filled with data for the first time; when reusing the NFC tag for a different material, a new `instance_uuid` MUST be generated and present in the tag to indicate that the package now holds a different material.
 
-## Meta section
-1. CBOR map, keys are integers.
-1. Allows defining of region offsets (within the NDEF payload) and sizes.
-   - Main region is always present. If the offset is not specified, the region starts right after the meta section.
-   - Auxiliary region is optional (although heavily recommended). Its presence is indicated by the `aux_region_offset` field.
+## 4. Meta section
 
-### Field list
+The meta section allows defining of region offsets (within the NDEF payload) and sizes.
+- Main region is always present. If the offset is not specified, the region starts right after the meta section.
+- Auxiliary region is optional (although heavily recommended). Its presence is indicated by the `aux_region_offset` field.
+
+### 4.1 Field list
 {{ fields_table("meta_fields") }}
 
-## Main section
-1. CBOR map, keys are integers.
-1. Contains material information that does not change during the material lifetime.
-   1. This section can possibly be locked by the manufacturer.
+## 5. Main section
+The main section contains material information that does not change during the package instance lifetime.
+   - This section can possibly be locked by the manufacturer.
 
-### Field list
+### 5.1 Field list
 {{ fields_table("main_fields", "") }}
 
-#### Field list (FFF-specific)
+#### 5.1.1 Field list (FFF-specific)
 {{ fields_table("main_fields", "fff") }}
 
-#### Field list (SLA-specific)
+#### 5.1.2 Field list (SLA-specific)
 {{ fields_table("main_fields", "sla") }}
 
-#### `material_class` items
+#### 5.1.3 `material_class` items
 {{ enum_table("material_class_enum") }}
 
-#### `material_type`
+#### 5.1.4 `material_type`
 See [Material types](/material_types)
 
-#### `tags`
+#### 5.1.5 `tags`
 See [Material tags](/material_tags)
 
-#### `write_protection` items
+#### 5.1.6 `write_protection` items
 {{ enum_table("write_protection_enum") }}
 
-## Auxiliary section
+## 6. Auxiliary section
+The auxiliary section is intended for dynamic data - typically usage tracking.
 
-### Field list
+### 6.1 Field list
 {{ fields_table("aux_fields", "") }}
 
-#### Field list (SLA-specific)
+#### 6.1.1 Field list (SLA-specific)
 {{ fields_table("aux_fields", "sla") }}
 
-#### Vendor-specific fields
+### 6.2 Vendor-specific fields
 Vendor-specific fields not specified in this document are permitted for keys specified by the following table. Vendors may contact the specification authority to be assigned a key range for them to use.
 
 | Min key | Max key | Vendor |
@@ -190,8 +192,9 @@ Vendor-specific fields not specified in this document are permitted for keys spe
 | 65400 | 65534 | General purpose |
 | 65300 | 65400 | Prusa |
 
-The "General purpose" key region MAY be used by anyone, provided they follow the following rules:
-1. Each general purpose range user MUST assign themselves a unique enough `general_purpose_range_user` value. This is done with no central authority.
-1. The general purpose range MUST be used only by one user at a time, determined by the `general_purpose_range_user` field.
-1. The users MUST ensure that the `general_purpose_range_user` field is set to the value assigned to them for any read or write access to the general purpose range.
-1. The users MUST delete any general purpose range fields present before changing the value of `general_purpose_range_user`.
+#### 6.2.1 General purpose key range
+The "General purpose" key range MAY be used by anyone, provided they follow the following rules:
+1. Users MUST assign themselves a unique enough `general_purpose_range_user` value. This is done with no central authority.
+1. The range MUST be used only by one user at a time, determined by the `general_purpose_range_user` field.
+1. Users MUST ensure that the `general_purpose_range_user` field is set to the value assigned to them for any read or write access to the general purpose range.
+1. Users MUST delete any general purpose range fields present before changing the value of `general_purpose_range_user`.
