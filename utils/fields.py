@@ -125,6 +125,9 @@ class EnumArrayField(Field):
 
         items = yaml.safe_load(open(os.path.join(config_dir, config["items_file"]), "r"))
         for item in items:
+            if item.get("deprecated", False):
+                continue
+
             key = int(item["key"])
             name = str(item["name"])
 
