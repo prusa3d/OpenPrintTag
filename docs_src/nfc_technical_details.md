@@ -1,14 +1,15 @@
 # Technical details
 
-## Used standards
+## 1. Used standards
 - [ISO/IEC 15693-3](https://en.wikipedia.org/wiki/ISO/IEC_15693)
 - [NFC Data Exchange Format (NDEF)](https://nfc-forum.org/build/specifications/data-exchange-format-ndef-technical-specification/)
 - [Concise Binary Object Representation (CBOR)](https://cbor.io/)
 
-## Notes & recommendations
+## 2. Notes & recommendations
    1. The standard was designed with ICODE SLIX2 320 B tag in mind, but it should be compatible with all NFC-V tags.
       - Smaller tags might not fit all features/data the Prusa Material standard offers. It is up to the manufacturers to decide what data they want to provide in that case.
    1. We recommend to **expand the payload of the NDEF record so that the whole available memory of the NFC tag is used.**
+
       - The idea is that the factory can fully lock the blocks containing the NDEF  headers and would only keep the memory pool open. (Possibly write protecting  part of it as well).
       - Part of the memory pool is auxiliary section, which we want to be able to write to without having to edit other structures/shuffle things around.
    1. The meta section allows the manufacturers to configure the payload structure so that it fits their purposes and the used NFC tag specifics:
@@ -22,10 +23,10 @@
       - Deprecated keys will never be reused.
       - If there would be substantial changes to the standard that would break backwards compatibility, a new MIME type will be used for the new format.
 
-## Write protection
+## 3. Write protection
 The OpenPrintTag standard offers the following options also considers ways to prevent the tags from being overwritten by malicious actors.
 
-### Protecting the auxiliary region
+### 3.1 Protecting the auxiliary region
 Auxiliary region cannot be reasonably write-protected, because it is intended to be written to by the printers and that needs to be plug-an-play for user comfort.
 Therefore it can contain invalid data when a customer first brings it from the shop (because anyone could have written anything to it).
 
@@ -34,28 +35,28 @@ When the tag is detected by a printer and the workgroup doesn't match, the print
 
 As a result, the user should be alerted to wipe the auxiliary region on first usage of the filament and then, because the workgroup is the same, there should be no further obstructions.
 
-### Protecting the rest of the tag
+### 3.2 Protecting the rest of the tag
 The rest of the tag (NDEF header, meta region, main region) can be protected more strongly, because it is not expected to be changed regularily (just for refills or reusing the tag). The form of protection is indicated by the `write_protection` field in the main section.
 
 * The locking mechanisms work on the block level, so we recommend **aligning the regions with the NFC tag blocks**.
 
-#### `write_protection` items
+#### 3.2.1 `write_protection` items
 {{ enum_table("write_protection_enum") }}
 
-##### `irreversible`
+#### 3.2.2 `irreversible` protection
 The irreversible locking can be achiaved using the `LOCK BLOCK` command on the whole tag (except the auxiliary region). We do not recommend this, as it prevents reuse of the NFC tag.
 
-##### `protect_page_unlockable` (SLIX2-specific)
+#### 3.2.3 `protect_page_unlockable` protection (SLIX2-specific)
 Using `protect_page_unlockable` is the recommended way of protecting the tag. It is based on the `PROTECT PAGE` command, which is a SLIX2-specific command.
 
-- The tag is write-protected using the `PROTECT PAGE` page command.
+1. The tag is write-protected using the `PROTECT PAGE` page command.
    - The protection SHOULD be marked in byte 1 of the Capability Container (CC)
-- The `PROTECT PAGE` on SLIX2 splits the tag memory into two arbitrarily-sized parts and offers setting up different protections on each. So the tag should be arranged in such way that:
-   - The NDEF header and meta and main regions should be together on the first part with write protection enabled.
-   - The auxiliary region should be on the second part with write protection disabled.
-- The main region can be written to when a correct write password is set using `SET PASSWORD`.
-- The main region can be fully unlocked by a correct `PROTECT_PAGE` command (resetting the protection flags) when the correct write password is set.
-- The password SHALL be randomly generated for each package instance.
-- The password SHOULD be located somewhere on the container, in such way that it is not accessible without unpacking the container.
+1. The `PROTECT PAGE` on SLIX2 splits the tag memory into two arbitrarily-sized parts and offers setting up different protections on each. So the tag should be arranged in such way that:
+   1. The NDEF header and meta and main regions are together on the first part with write protection enabled.
+   1. The auxiliary region is on the second part with write protection disabled.
+1. The main region can be written to when a correct write password is set using `SET PASSWORD`.
+1. The main region can be fully unlocked by a correct `PROTECT_PAGE` command (resetting the protection flags) when the correct write password is set.
+1. The password SHALL be randomly generated for each package instance.
+1. The password SHOULD be located somewhere on the container, in such way that it is not accessible without unpacking the container.
    - We recommend encoding the password in a QR code in an URL. In this case, a brand-specific pattern matching regex should be defined how to parse the password from the URL.
    - The password can also be in the form of a user-readable text.
