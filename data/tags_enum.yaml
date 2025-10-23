@@ -40,6 +40,13 @@
   name: foaming
   description: The material increases its volume during extrusion
 
+- key: 67
+  name: castable
+  description:
+    - The material is suitable to be used as a sacrificial pattern for investement casting.
+    - It can be cleanly removed from the mold (typically burned out or melted away), leaving minimal residue (for example ashes).
+    - This does NOT mean that the material is used for the mold or the final cast itself, only the investment pattern.
+
 - key: 6
   name: self_extinguishing
   description:
@@ -111,12 +118,10 @@
 - key: 17
   name: silk
   description:
-    - Produces smooth, shiny, soft surface (balanced specular and diffuse reflection coefficients)
+    - Produces smooth, shiny/glossy surface (higher specular reflection coefficient)
 
 - key: 18
-  name: glossy
-  description:
-    - Produces smooth, shiny, mirror-like surface (high specular reflection coefficient)
+  deprecated: true
 
 
 - key: 19
@@ -129,6 +134,11 @@
   description:
     - Not fully opaque, does not disperse light.
     - Under correct printing conditions, can be printed with a see-through glass-like transparency.
+
+- key: 65
+  name: without_pigments
+  description:
+    - The material is of its "natural" color, no pigments were added
 
 - key: 21
   name: iridescent
@@ -234,7 +244,6 @@
 
 - key: 37
   name: contains_magnetite
-  implies: [contains_magnetite]
 
 # Organics
 
@@ -251,6 +260,10 @@
 
 - key: 41
   name: contains_wood
+  implies: [contains_organic_material]
+
+- key: 66
+  name: contains_algae
   implies: [contains_organic_material]
 
 - key: 42
