@@ -109,6 +109,7 @@ class Record:
         match self.config.root:
             case "none":
                 self.payload = data
+                self.payload_offset = 0
 
             case "nfcv":
                 data_io = io.BytesIO(data)
