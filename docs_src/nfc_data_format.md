@@ -91,7 +91,7 @@
 ### 3.2 UUIDs
 Some entities referenced in the data (see [Terminology](terminology.md)) can be identified by a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). The UUID MAY be explicitly specified through a `XX_uuid`, however that might not be desirable due to space constraints. As an alternative, the following algorithm defines a way to derive UUIDs from other fields. The derivation mechanism SHALL be used only if the relevant `XX_uuid` field is not present in the data; otherwise the field value MUST be used.
 
-UUIDs are be derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3), according to the following table.
+UUIDs are derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3), according to the following table.
 1. UUIDs are hashed in the binary form.
 1. Strings are encoded as UTF-8.
 1. Numbers are encoded as decimal strings.

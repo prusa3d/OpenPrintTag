@@ -31,7 +31,7 @@ Auxiliary region cannot be reasonably write-protected, because it is intended to
 Therefore it can contain invalid data when a customer first brings it from the shop (because anyone could have written anything to it).
 
 To remedy this issue, the auxiliary section has the `workgroup` field specified. Devices accessing the auxiliary region SHOULD have a workgroup specified (generated randomly by default, but can be changed by the user so that multiple devices have the same workgroup).
-When a tag is detected by the device and the workgroup doesn't match, the device SHOULD offer wiping the auxiliary region. The tag workgroup field SHOULD then be set to the device wogrkoup (even if the user decided not to wipe the region, to prevent repeated prompts).
+When a tag is detected by the device and the workgroup doesn't match, the device SHOULD offer wiping the auxiliary region. The tag workgroup field SHOULD then be set to the device workgroup (even if the user decided not to wipe the region, to prevent repeated prompts).
 
 As a result, the user should be alerted to wipe the auxiliary region on first usage of the filament and then, because the workgroup is the same, there should be no further obstructions.
 
