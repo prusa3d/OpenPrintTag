@@ -16,6 +16,7 @@ parser.add_argument("-i", "--show-uri", action=argparse.BooleanOptionalAction, d
 parser.add_argument("-a", "--show-all", action=argparse.BooleanOptionalAction, default=False, help="Apply all --show options")
 parser.add_argument("-v", "--validate", action=argparse.BooleanOptionalAction, default=False, help="Check that the data are valid")
 parser.add_argument("-f", "--extra-required-fields", type=str, default=None, help="Check that all fields from the specified YAML file are present in the record")
+parser.add_argument("--unhex", action=argparse.BooleanOptionalAction, default=False, help="Interpret the stdin as a hex string instead of raw bytes")
 
 args = parser.parse_args()
 
@@ -26,7 +27,16 @@ if args.show_all:
     args.show_meta = True
     args.show_uri = True
 
-record = Record(args.config_file, memoryview(bytearray(sys.stdin.buffer.read())))
+data = sys.stdin.buffer.read()
+
+if args.unhex:
+    data = data.decode()
+    data = data.replace("0x", "").replace(" ", "")
+    data = bytearray.fromhex(data)
+else:
+    data = bytearray(data)
+
+record = Record(args.config_file, memoryview(data))
 output = {}
 
 if args.show_region_info or args.show_root_info:
