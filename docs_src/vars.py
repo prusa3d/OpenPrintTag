@@ -1,6 +1,6 @@
 import os
 
-repo = "https://github.com/prusa3d/Prusa-Material-Data-Format"
+repo = "https://github.com/prusa3d/OpenPrintTag"
 dir = os.path.dirname(__file__)
 root_dir = f"{dir}/.."
 out_dir = f"{root_dir}/docs"

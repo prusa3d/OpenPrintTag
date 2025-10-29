@@ -7,7 +7,7 @@
 
 ## 2. Notes & recommendations
    1. The standard was designed with ICODE SLIX2 320 B tag in mind, but it is meant be compatible with all NFC-V tags.
-      - Smaller tags might not fit all features/data the Prusa Material standard offers. It is up to the manufacturers to decide what data they want to provide in that case.
+      - Smaller tags might not fit all features/data the OpenPrintTag standard offers. It is up to the manufacturers to decide what data they want to provide in that case.
    1. We recommend to **expand the payload of the NDEF record so that the whole available memory of the NFC tag is used.**
 
       - The idea is that the factory can fully lock the blocks containing the NDEF  headers and would only keep the memory pool open. (Possibly write protecting  part of it as well).
