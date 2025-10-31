@@ -1,13 +1,13 @@
 # OpenPrintTag
-This repository contains specification, documentation and utility scripts for the [OpenPrintTag](openprinttag.org) format.
+This repository contains specification, documentation and utility scripts for the [OpenPrintTag](https://openprinttag.org) format.
 
-**This is a "raw" repository, you can access the compiled documentation on [specs.openprinttag.org](specs.openprinttag.org)**
+**This is a "raw" repository, you can access the compiled documentation on [specs.openprinttag.org](https://specs.openprinttag.org)**
 
 (or use generate_docs.sh to generate a website into the docs folder)
 
 ## Directory structure
 * `data`: Machine-readable specification data (field & enum definitions, ...)
-* `docs_src`: Source code for the [specs.openprinttag.org](specs.openprinttag.org) website
+* `docs_src`: Source code for the [specs.openprinttag.org](https://specs.openprinttag.org) website
 * `tests`: Tests
 * `utils`: Reference implementation for the format in Python
 
