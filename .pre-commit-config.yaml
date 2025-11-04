@@ -11,5 +11,3 @@ repos:
     rev: v0.9.9
     hooks:
       - id: ruff-format
-
-exclude: ^utils/cbor2_local/
