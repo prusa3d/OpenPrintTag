@@ -14,7 +14,7 @@ This repository contains specification, documentation and utility scripts for th
 ## Generating documentation
 To generate documentation (to the `docs` directory), run:
 ```python
-pip3 install -r requirements.py
+pip3 install -r requirements.txt
 sh generate_docs.sh
 ```
 
