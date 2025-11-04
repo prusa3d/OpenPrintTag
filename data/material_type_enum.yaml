@@ -231,3 +231,9 @@
   name: Thermoplastic Polyimide
   category: FFF
   description: An ultra-high-performance polymer with one of the highest glass transition temperatures and excellent thermal stability.
+
+- key: 39
+  abbreviation: OBC
+  name: Olefin Block Copolymer
+  category: FFF
+  description: A lightweight flexible material that has good dimensional stability, and is weather uv and chemical resistant.
