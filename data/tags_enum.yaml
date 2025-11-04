@@ -75,14 +75,24 @@
 - key: 10
   name: esd_safe
   description:
-    - The material prevents electrostatic charge buildup by allowing gradual dissipation of the charge.
+    - The material is static dissipative - prevents electrostatic charge buildup by allowing gradual dissipation of the charge.
     - Useful for protecting sensitive electronic components.
+    - Sheet resistance R >= 1e5 Ω/□ && R < 1e12 Ω/□ or volumetric resistivity ρ >= 1e4 Ω⋅cm && ρ < 1e11 Ω⋅cm.
+    - The tag does NOT cover the "anti-static" materials (that have higher resistances).
 
 - key: 11
   name: conductive
   description:
-    - The material can conduct electricity. This does not imply that it must have low resistances.
-    - Common "conductive" material have resistances in the range of kiloohms per 10 cm of 1.75mm filament.
+    - The material can conduct electricity.
+    - This does NOT mean that it the material is a good conductor, such as metals. Common "conductive" material have resistances in the range of kiloohms on 10 cm of filament.
+    - Sheet resistance R < 1e5 Ω/□ or volumetric resistivity ρ < 1e4 Ω⋅cm.
+
+- key: 70
+  name: emi_shielding
+  implies: [conductive]
+  description:
+    - The material can be effectively used for shielding against electromagnetic interference.
+    - Sheet resistance R < 1 Ω/□ or volumetric resistivity ρ < 1e-2 Ω⋅cm.
 
 # Chemical properties
 # =====================================
@@ -126,7 +136,9 @@
 
 - key: 19
   name: translucent
-  description: Not fully opaque, can possibly disperse light
+  description:
+   - Not fully opaque – [HueForge TD](https://shop.thehueforge.com/blogs/news/what-is-hueforge) >= X (exact X will be determined later)
+   - The material with this tag can possibly disperse light, meaning that while the light goes through it, the image is "blurred" and one does not see clearly what's on the other side. See the `transparent` tag.
 
 - key: 20
   name: transparent
@@ -137,6 +149,7 @@
 
 - key: 65
   name: without_pigments
+  hints: [translucent]
   description:
     - The material is of its "natural" color, no pigments were added
 
@@ -237,13 +250,18 @@
   description:
     - Contains kevlar (aramid)
 
+- key: 68
+  name: contains_ptfe
+
 # Minerals
 
 - key: 36
   name: contains_stone
+  hints: [abrasive]
 
 - key: 37
   name: contains_magnetite
+  hints: [abrasive]
 
 # Organics
 
@@ -278,6 +296,7 @@
 
 - key: 44
   name: contains_ceramic
+  hints: [abrasive]
 
 - key: 45
   name: contains_boron_carbide
@@ -289,6 +308,7 @@
 - key: 46
   name: contains_metal
   description: Contains metal. Specific type of metal contained can be expressed by an other tag.
+  hints: [abrasive]
 
 - key: 47
   name: contains_bronze
@@ -354,3 +374,7 @@
 - key: 60
   name: recycled
   description: Part of the material is recycled
+
+- key: 69
+  name: limited_edition
+  description: The material is a limited edition run
