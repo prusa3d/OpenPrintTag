@@ -4,7 +4,7 @@ import numpy
 import uuid
 import sys
 import typing
-import cbor2_local as cbor2
+import cbor2
 import io
 import dataclasses
 

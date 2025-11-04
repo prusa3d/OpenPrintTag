@@ -1,7 +1,7 @@
 import os
 import ndef
 import yaml
-import cbor2_local as cbor2
+import cbor2
 import io
 import types
 import typing
