@@ -231,3 +231,9 @@
   name: Thermoplastic Polyimide
   category: FFF
   description: An ultra-high-performance polymer with one of the highest glass transition temperatures and excellent thermal stability.
+
+- key: 39
+  abbreviation: SBS
+  name: Styrene-Butadiene-Styrene
+  category: FFF
+  description: A flexible, rubber-like material (a type of TPE) known for good durability. It is relatively easy to print for a flexible filament.
