@@ -18,6 +18,29 @@ class EncodeConfig:
     indefinite_containers: bool = True
 
 
+# Without this bit of magic, the cbor2 Python library encodes some floats (for example 0.3) as 8 B doubles - we don't want that, it wastes space
+class CompactFloat:
+    decimal_precision = 3
+    required_precision = pow(10, -decimal_precision)
+
+    value: float
+
+    def __init__(self, num: float):
+        num = float(num)
+
+        if num.is_integer():
+            self.value = int(num)
+
+        elif abs(num - numpy.float16(num)) < CompactFloat.required_precision:
+            self.value = float(numpy.float16(num))
+
+        elif abs(num - numpy.float32(num)) < CompactFloat.required_precision:
+            self.value = float(numpy.float32(num))
+
+        else:
+            self.value = num
+
+
 class Field:
     key: int
     name: str
@@ -49,24 +72,10 @@ class IntField(Field):
 class NumberField(Field):
     def decode(self, data):
         num = float(data)
-        return int(num) if num.is_integer() else round(num, 3)
+        return int(num) if num.is_integer() else round(num, CompactFloat.decimal_precision)
 
     def encode(self, data):
-        # If the number is whole, encode it as int - CBOR does that way more efficiently
-        # If it is decimal, store it as half-precision float, which should be plenty for all use cases here
-        num = float(data)
-        if num.is_integer():
-            return int(num)
-
-        encoded = float(numpy.float16(num))
-        if abs(num - encoded) < 1e-3:
-            return encoded
-
-        encoded = float(numpy.float32(num))
-        if abs(num - encoded) < 1e-3:
-            return encoded
-
-        assert False, f"Cannot reasonably encode decimal"
+        return CompactFloat(data)
 
 
 class StringField(Field):
@@ -293,15 +302,26 @@ class Fields:
                 e.add_note(f"Field {field.key} {field.name}")
                 raise
 
+        # Enforce use of CompactFloat, the "default" float encoding is not optimal when canonical == False
+        for field_name, value in result.copy().items():
+            if isinstance(value, float):
+                result[field_name] = CompactFloat(value)
+
+        def default_enc(enc: cbor2.CBOREncoder, data: typing.Any):
+            if isinstance(data, CompactFloat):
+                # Always encode floats canonically
+                # Noncanonically, floats would always be encoded in 8 B, which is a lot of wasted space
+                cbor2.CBOREncoder(enc.fp, canonical=True).encode(data.value)
+            else:
+                raise RuntimeError(f"Unsupported type {type(data)} to encode")
+
         data_io = io.BytesIO()
         encoder = cbor2.CBOREncoder(
             data_io,
             canonical=config.canonical,
             indefinite_containers=config.indefinite_containers,
+            default=default_enc,
         )
-
-        # Encode float optimally, even in non-canonical mode
-        encoder._encoders[float] = cbor2.CBOREncoder.encode_minimal_float
 
         encoder.encode(result)
         return data_io.getvalue()
