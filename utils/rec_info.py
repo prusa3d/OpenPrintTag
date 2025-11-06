@@ -4,6 +4,7 @@ import yaml
 
 from record import Record
 from common import default_config_file
+from opt_check import opt_check
 
 parser = argparse.ArgumentParser(prog="rec_info", description="Reads a record from the STDIN and prints various information about it in the YAML format")
 parser.add_argument("-c", "--config-file", type=str, default=default_config_file, help="Record configuration YAML file")
@@ -17,6 +18,7 @@ parser.add_argument("-a", "--show-all", action=argparse.BooleanOptionalAction, d
 parser.add_argument("-v", "--validate", action=argparse.BooleanOptionalAction, default=False, help="Check that the data are valid")
 parser.add_argument("-f", "--extra-required-fields", type=str, default=None, help="Check that all fields from the specified YAML file are present in the record")
 parser.add_argument("--unhex", action=argparse.BooleanOptionalAction, default=False, help="Interpret the stdin as a hex string instead of raw bytes")
+parser.add_argument("--opt-check", action=argparse.BooleanOptionalAction, default=False, help="Perform semantic checks (using opt_check.py)")
 
 args = parser.parse_args()
 
@@ -108,6 +110,9 @@ if args.extra_required_fields:
 
         for req_field_name in region_req_fields:
             assert req_field_name in region_data, f"Missing field '{req_field_name}' in region '{region_name}'"
+
+if args.opt_check:
+    output["opt_check"] = opt_check(record)
 
 
 def yaml_hex_bytes_representer(dumper: yaml.SafeDumper, data: bytes):
