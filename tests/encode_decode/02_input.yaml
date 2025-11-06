@@ -1,3 +1,5 @@
+test_config:
+  uri: https://3dtag.org/s/7ab2acb509
 data:
   main:
     # Material information

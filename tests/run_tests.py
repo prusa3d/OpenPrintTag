@@ -103,13 +103,22 @@ for file in tests_dir.glob("encode_decode/*_input.yaml"):
     fn_base = str(file).removesuffix("_input.yaml")
     fn_info = f"{fn_base}_info.yaml"
 
-    with open(fn_info, "r") as f:
-        uri = yaml.safe_load(f)["uri"]
+    init_args = ["--size=312", "--aux-region=32"]
+    info_args = ["--validate", "--show-all", "--show-raw-data"]
+
+    with open(file, "r") as f:
+        yml = yaml.safe_load(f).get("test_config", {})
+
+        if uri := yml.get("uri"):
+            init_args += ["--ndef-uri", uri]
+
+        if yml.get("extra_required_fields", "sample_requirements.yaml"):
+            info_args += ["--extra-required-fields", "sample_requirements.yaml"]
 
     utils_test(
-        init_args=["--size=312", "--aux-region=32", "--ndef-uri", uri],
+        init_args=init_args,
         update_args=[str(file)],
-        info_args=["--validate", "--extra-required-fields=sample_requirements.yaml", "--show-all", "--show-raw-data"],
+        info_args=info_args,
         expected_info_fn=fn_info,
         expected_data_fn=f"{fn_base}_data.bin",
     )
