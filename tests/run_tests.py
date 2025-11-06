@@ -104,7 +104,7 @@ for file in tests_dir.glob("encode_decode/*_input.yaml"):
     fn_info = f"{fn_base}_info.yaml"
 
     init_args = ["--size=312", "--aux-region=32"]
-    info_args = ["--validate", "--show-all", "--show-raw-data"]
+    info_args = ["--validate", "--show-all", "--show-raw-data", "--opt-check"]
 
     with open(file, "r") as f:
         yml = yaml.safe_load(f).get("test_config", {})
