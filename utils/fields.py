@@ -94,9 +94,10 @@ class StringField(Field):
         return result
 
 
-class EnumField(Field):
+class EnumFieldBase(Field):
     items_by_key: dict[str, int]
     items_by_name: dict[int, str]
+    items_yaml: list[dict]
 
     def __init__(self, config, config_dir):
         super().__init__(config, config_dir)
@@ -104,8 +105,11 @@ class EnumField(Field):
         self.items_by_key = dict()
         self.items_by_name = dict()
 
-        items = yaml.safe_load(open(os.path.join(config_dir, config["items_file"]), "r"))
-        for item in items:
+        self.items_yaml = yaml.safe_load(open(os.path.join(config_dir, config["items_file"]), "r"))
+        for item in self.items_yaml:
+            if item.get("deprecated", False):
+                continue
+
             key = int(item[config.get("index_field", "key")])
             name = str(item[config.get("name_field", "name")])
 
@@ -115,6 +119,11 @@ class EnumField(Field):
             self.items_by_key[key] = name
             self.items_by_name[name] = key
 
+
+class EnumField(EnumFieldBase):
+    def __init__(self, config, config_dir):
+        super().__init__(config, config_dir)
+
     def decode(self, data):
         return self.items_by_key[data]
 
@@ -122,29 +131,9 @@ class EnumField(Field):
         return self.items_by_name[data]
 
 
-class EnumArrayField(Field):
-    items_by_key: dict[str, int]
-    items_by_name: dict[int, str]
-
+class EnumArrayField(EnumFieldBase):
     def __init__(self, config, config_dir):
         super().__init__(config, config_dir)
-
-        self.items_by_key = dict()
-        self.items_by_name = dict()
-
-        items = yaml.safe_load(open(os.path.join(config_dir, config["items_file"]), "r"))
-        for item in items:
-            if item.get("deprecated", False):
-                continue
-
-            key = int(item["key"])
-            name = str(item["name"])
-
-            assert key not in self.items_by_key, f"Key '{key}' already exists"
-            assert name not in self.items_by_name, f"Item '{name}' already exists"
-
-            self.items_by_key[key] = name
-            self.items_by_name[name] = key
 
     def decode(self, data):
         assert type(data) is list
