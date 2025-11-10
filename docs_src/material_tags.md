@@ -8,4 +8,4 @@ Material tags provide an additional boolean-style parameters to the filament.
     1. If we have tag implications A → B → C, we CAN remove tag B while changing implications to A → C.
 
 ## Tags list
-{{ enum_table("tags_enum", material_tag_columns) }}
+{{ material_tag_table() }}
