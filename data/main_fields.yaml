@@ -118,6 +118,12 @@
   type: timestamp
   required: recommended
 
+- key: 55
+  name: country_of_origin
+  type: string
+  max_length: 2
+  description: Country the [MaterialPackageInstance](terminology) was produced in, encoded as a two-letter code according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+
 - key: 15
   name: expiration_date
   type: timestamp
