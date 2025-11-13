@@ -19,6 +19,7 @@ parser.add_argument("-v", "--validate", action=argparse.BooleanOptionalAction, d
 parser.add_argument("-f", "--extra-required-fields", type=str, default=None, help="Check that all fields from the specified YAML file are present in the record")
 parser.add_argument("--unhex", action=argparse.BooleanOptionalAction, default=False, help="Interpret the stdin as a hex string instead of raw bytes")
 parser.add_argument("--opt-check", action=argparse.BooleanOptionalAction, default=False, help="Perform semantic checks (using opt_check.py)")
+parser.add_argument("--tag-uid", type=str, default=None, help="UID of the tag for deriving the instance_uuid with --opt-check. Hex format, NFC-V UIDs should start with 'E0'")
 
 args = parser.parse_args()
 
@@ -112,7 +113,12 @@ if args.extra_required_fields:
             assert req_field_name in region_data, f"Missing field '{req_field_name}' in region '{region_name}'"
 
 if args.opt_check:
-    output["opt_check"] = opt_check(record)
+    if args.tag_uid:
+        tag_uid = bytes.fromhex(args.tag_uid)
+    else:
+        tag_uid = None
+
+    output["opt_check"] = opt_check(record, tag_uid)
 
 
 def yaml_hex_bytes_representer(dumper: yaml.SafeDumper, data: bytes):
