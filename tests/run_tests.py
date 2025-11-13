@@ -115,6 +115,9 @@ for file in tests_dir.glob("encode_decode/*_input.yaml"):
         if val := yml.get("extra_required_fields", "sample_requirements.yaml"):
             info_args += ["--extra-required-fields", val]
 
+        if val := yml.get("tag_uid"):
+            info_args += ["--tag-uid", val]
+
     utils_test(
         init_args=init_args,
         update_args=[str(file)],
