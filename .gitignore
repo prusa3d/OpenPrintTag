@@ -1,4 +1,63 @@
+### Python
+# virtualenv
+.venv
+venv/
+ENV/
+
+# pyenv
+.python-version
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+### Generated documentation
 docs/
-**/__pycache__
-**/venv
+
+### Logs
 tests/logs/
+
+### Editors
+# JetBrains
+.idea
+
+# VSCode settings
+.vscode
+
+### Operating System pollution
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+.Trash-*
+*~
+.directory
+
+# Windows
+[Dd]esktop.ini
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
