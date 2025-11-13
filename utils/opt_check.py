@@ -129,6 +129,9 @@ def opt_check(rec: Record, tag_uid: bytes = None):
 
     deduce_uuid("package_uuid", package_generated_uuid)
 
+    if tag_uid and tag_uid[0] != 0xE0:
+        warnings.append(f"Tag UID {tag_uid.hex()} doesn't start with 0xE0")
+
     if (brand_uuid := uuids["brand_uuid"]) and tag_uid:
         assert tag_uid[0] == 0xE0, "Make sure tag_uid is in the correct byte order"
         instance_generated_uuid = generate_uuid("31062f81-b5bd-4f86-a5f8-46367e841508", tag_uid)
