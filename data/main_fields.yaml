@@ -3,35 +3,38 @@
   type: uuid
   description:
     - Unique identifier of the package instance.
-    - If not specified, can be deduced from `brand_uuid` + NFC tag UID. See UUID section for more details.
+    - If not specified, can be deduced from `brand_uuid` + NFC tag UID.
+    - See _UUID_ section for more details.
 
 - key: 1
   name: package_uuid
   type: uuid
   description:
     - Universally unique identifier of the package (product)
-    - If not specified, can be deduced from `brand_uuid` + `gtin`. See UUID section for more details.
+    - If not specified, can be deduced from `brand_uuid` + `gtin`.
+    - See _UUID_ section for more details.
 
 - key: 2
   name: material_uuid
   type: uuid
   description:
-    - Universally unique identifier of the material
-    - If not specified, can be deduced from `brand_uuid` + `material_name`. See UUID section for more details.
+    - Universally unique identifier of the material.
+    - If not specified, can be deduced from `brand_uuid` + `material_name`.
+    - See _UUID_ section for more details.
 
 - key: 3
   name: brand_uuid
   type: uuid
   description:
     - Universally unique identifier of the brand
-    - If not specified, can be deduced from the `brand_name` string. See UUID section for more details.
+    - If not specified, can be deduced from the `brand_name` string.
+    - See _UUID_ section for more details.
 
 - key: 4
   name: gtin
   type: number
   required: recommended
-  description:
-    - Global Trade Item Number
+  description: Global Trade Item Number.
 
 - key: 5
   name: brand_specific_instance_id
@@ -46,7 +49,7 @@
   type: string
   max_length: 16
   description:
-    - Brand-specific identifier of the package (product ID)
+    - Brand-specific identifier of the package (product ID).
     - Not much use cases at this moment, possibly just for URL deduction
 
 - key: 7
@@ -54,8 +57,8 @@
   type: string
   max_length: 16
   description:
-    - Together with brand uniquely identifies each material
-    - Not much use cases at this moment, possibly just for URL deduction
+    - Together with brand uniquely identifies each material.
+    - Not much use cases at this moment, possibly just for URL deduction.
 
 - key: 8
   name: material_class
@@ -87,7 +90,7 @@
   required: recommended
   description:
     - Brand-specific material display string/identifier.
-    - In the UI, brand_name + material_name should be displayed together, for example "Prusament PLA Galaxy Black"
+    - In the UI, brand_name + material_name should be displayed together, for example "Prusament PLA Galaxy Black".
 
 - key: 52
   name: material_abbreviation
@@ -95,7 +98,7 @@
   max_length: 7
   example: PCCF
   description:
-    - Abbreviation of the material name, for UI purposes (footers, dashboards, ...)
+    - Abbreviation of the material name, for UI purposes (footers, dashboards, ...).
     - If not present, the material inherits the abbreviation from the material type.
 
 - key: 11
@@ -103,7 +106,7 @@
   type: string
   max_length: 31
   required: recommended
-  description: Brand of the material
+  description: Brand of the material.
   example: Prusament
 
 - key: 12
@@ -113,7 +116,9 @@
   name: write_protection
   type: enum
   items_file: write_protection_enum.yaml
-  description: Indicates whether the tag is write protected (everything except aux section, that one should be always writable). See the "Write protection" section.
+  description:
+    - Indicates whether the tag is write protected (everything except aux section, that one should be always writable).
+    - See the _Write protection_ section.
 
 - key: 14
   name: manufactured_date
@@ -124,7 +129,7 @@
   name: country_of_origin
   type: string
   max_length: 2
-  description: Country the [MaterialPackageInstance](terminology) was produced in, encoded as a two-letter code according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+  description: Country the [MaterialPackageInstance](terminology) was produced in, encoded as a two-letter code according to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).
 
 - key: 15
   name: expiration_date
@@ -137,8 +142,8 @@
   unit: g
   example: 1000
   description:
-    - Nominal/advertised weight of the full package of the material, excluding the container
-    - The actual netto weight of a spcific package instance can slightly differ and is specified by `actual_netto_full_weight`
+    - Nominal/advertised weight of the full package of the material, excluding the container.
+    - The actual netto weight of a specific package instance can slightly differ and is specified by `actual_netto_full_weight`.
 
 - key: 17
   name: actual_netto_full_weight
@@ -169,14 +174,14 @@
   example: 351000
   description:
     - Actual filament length of the full spool.
-    - Can slightly differ from `netto_full_length`
+    - Can slightly differ from `netto_full_length`.
 
 - key: 18
   name: empty_container_weight
   required: recommended
   type: number
   unit: g
-  description: Weight of the empty container
+  description: Weight of the empty container.
 
 - key: 19
   name: primary_color
@@ -197,39 +202,35 @@
   unit: "[R, G, B] or [R, G, B, A]"
   description:
     - One of secondary colors of the material.
-    - Data format is the same as for `primary_color`
+    - Data format is the same as for `primary_color`.
 
 - key: 21
   name: secondary_color_1
   type: bytes
   max_length: 4
   unit: "[R, G, B] or [R, G, B, A]"
-  description:
-    - See `secondary_color_0`
+  description: See `secondary_color_0`.
 
 - key: 22
   name: secondary_color_2
   type: bytes
   max_length: 4
   unit: "[R, G, B] or [R, G, B, A]"
-  description:
-    - See `secondary_color_0`
+  description: See `secondary_color_0`.
 
 - key: 23
   name: secondary_color_3
   type: bytes
   max_length: 4
   unit: "[R, G, B] or [R, G, B, A]"
-  description:
-    - See `secondary_color_0`
+  description: See `secondary_color_0`.
 
 - key: 24
   name: secondary_color_4
   type: bytes
   max_length: 4
   unit: "[R, G, B] or [R, G, B, A]"
-  description:
-    - See `secondary_color_0`
+  description: See `secondary_color_0`.
 
 - key: 25
   deprecated: true
@@ -243,7 +244,8 @@
   example: 6.6
   unit: HueForge TD
   description:
-    - Transmission Distance is a number representing material opacity. Value ranges from 0.1 (least transparent/most opaque) to 100 (most transparent/least opaque)
+    - Transmission Distance is a number representing material opacity.
+    - Value ranges from 0.1 (least transparent/most opaque) to 100 (most transparent/least opaque).
     - See [Prusa TD values](https://help.prusa3d.com/article/hueforge-filament-transparency-values-and-hexcodes_762314) or [HueForge website](https://shop.thehueforge.com/blogs/news/what-is-hueforge).
 
 - key: 28
@@ -260,7 +262,7 @@
   unit: g/cm³ (1 g/cm³ = 0.001 g/mm³ = 1000 kg/m³)
   example: 1.24
   required: recommended
-  description: Density of the material
+  description: Density of the material.
 
 - key: 30
   name: filament_diameter
@@ -282,8 +284,8 @@
   example: 95
   category: fff
   description:
-    - Hardness of the material on the Shore A hardness scale (suitable for softer materials)
-    - "Note: There is no 1:1 mapping between A and D scales, different materials can have different values on one scale even though they are the same on the other."
+    - Hardness of the material on the Shore A hardness scale (suitable for softer materials).
+    - "**Note:** There is no 1:1 mapping between A and D scales, different materials can have different values on one scale even though they are the same on the other."
 
 - key: 32
   name: shore_hardness_d
@@ -291,8 +293,8 @@
   example: 30
   category: fff
   description:
-    - Hardness of the material on the Shore D hardness scale (suitable for harder materials)
-    - "Note: There is no 1:1 mapping between A and D scales, different materials can have different values on one scale even though they are the same on the other."
+    - Hardness of the material on the Shore D hardness scale (suitable for harder materials).
+    - "**Note:** There is no 1:1 mapping between A and D scales, different materials can have different values on one scale even though they are the same on the other."
 
 - key: 33
   name: min_nozzle_diameter
@@ -312,7 +314,7 @@
   required: recommended
   category: fff
   description:
-    - Minimum recommended nozzle tempeature for printing.
+    - Minimum recommended nozzle temperature for printing.
     - Also used for loading the filament to the nozzle.
 
 - key: 35
@@ -323,7 +325,7 @@
   required: recommended
   category: fff
   description:
-    - Maximum recommended nozzle tempeature for printing.
+    - Maximum recommended nozzle temperature for printing.
     - Also used for loading the filament to the nozzle.
 
 - key: 36
@@ -334,7 +336,7 @@
   category: fff
   required: recommended
   description:
-    - Recommended nozzle tempeature for preheating/loadcell bed leveling.
+    - Recommended nozzle temperature for preheating/load cell bed leveling.
     - Should be large enough for the material to get soft, but not low enough for it no to drip out of the nozzle.
 
 - key: 37
@@ -345,7 +347,7 @@
   category: fff
   required: recommended
   description:
-    - Minimum recommended heatbed tempeature.
+    - Minimum recommended heatbed temperature.
 
 - key: 38
   name: max_bed_temperature
@@ -355,7 +357,7 @@
   category: fff
   required: recommended
   description:
-    - Maximum recommended heatbed tempeature.
+    - Maximum recommended heatbed temperature.
 
 - key: 39
   name: min_chamber_temperature
@@ -391,7 +393,7 @@
   example: 75
   category: fff
   description:
-    - Width of the filament spool. Can be useful to know for spool holders, dryboxes and such.
+    - Width of the filament spool. Can be useful to know for spool holders, dry boxes and such.
 
 - key: 43
   name: container_outer_diameter
@@ -400,7 +402,7 @@
   example: 200
   category: fff
   description:
-    - Diameter of the spool. Can be useful to know for spool holders, dryboxes and such.
+    - Diameter of the spool. Can be useful to know for spool holders, dry boxes and such.
 
 - key: 44
   name: container_inner_diameter
@@ -425,14 +427,14 @@
   name: viscosity_18c
   type: number
   unit: mPa·s
-  description: Viscosity of the material at 18 °C
+  description: Viscosity of the material at 18 °C.
   category: sla
 
 - key: 47
   name: viscosity_25c
   type: number
   unit: mPa·s
-  description: Viscosity of the material at 25 °C
+  description: Viscosity of the material at 25 °C.
   category: sla
   example: 80
 
@@ -440,14 +442,14 @@
   name: viscosity_40c
   type: number
   unit: mPa·s
-  description: Viscosity of the material at 40 °C
+  description: Viscosity of the material at 40 °C.
   category: sla
 
 - key: 49
   name: viscosity_60c
   type: number
   unit: mPa·s
-  description: Viscosity of the material at 60 °C
+  description: Viscosity of the material at 60 °C.
   category: sla
 
 - key: 50
@@ -464,4 +466,4 @@
   example: 405
   category: sla
   description:
-    - Wavelength of the light the material has been designed to be cured with
+    - Wavelength of the light the material has been designed to be cured with.
