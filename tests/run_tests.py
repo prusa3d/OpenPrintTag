@@ -112,8 +112,8 @@ for file in tests_dir.glob("encode_decode/*_input.yaml"):
         if uri := yml.get("uri"):
             init_args += ["--ndef-uri", uri]
 
-        if yml.get("extra_required_fields", "sample_requirements.yaml"):
-            info_args += ["--extra-required-fields", "sample_requirements.yaml"]
+        if val := yml.get("extra_required_fields", "sample_requirements.yaml"):
+            info_args += ["--extra-required-fields", val]
 
     utils_test(
         init_args=init_args,
