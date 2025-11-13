@@ -3,7 +3,7 @@
   type: number
   unit: g
   description:
-    - Amount of material that was used up from the container
+    - Amount of material that was used up from the container.
     - "`remaining_weight` = `instance_netto_full_weight` - `consumed_weight`"
 
 - key: 1
@@ -11,7 +11,8 @@
   type: string
   max_length: 8
   description:
-    - Workgroup identifier, used for detecting first usage of the material. See the "write protection" section.
+    - Workgroup identifier, used for detecting first usage of the material.
+    - See the _write protection_ section.
 
 - key: 2
   name: general_purpose_range_user
@@ -20,8 +21,8 @@
   max_length: 8
   description:
     - Determines semantics of the fields in the general purpose key range.
-    - MUST be filled if any of the general purpose keys is used.
-    - See "Vendor-specific fields"
+    - "MUST be filled if any of the general purpose keys is used."
+    - See _Vendor-specific fields_.
 
 - key: 3
   name: last_stir_time
