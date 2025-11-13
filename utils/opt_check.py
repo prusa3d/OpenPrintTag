@@ -131,7 +131,7 @@ def opt_check(rec: Record, tag_uid: bytes = None):
 
     if (brand_uuid := uuids["brand_uuid"]) and tag_uid:
         assert tag_uid[0] == 0xE0, "Make sure tag_uid is in the correct byte order"
-        instance_generated_uuid = generate_uuid("31062f81-b5bd-4f86-a5f8-46367e841508", uuid.UUID(brand_uuid).bytes, tag_uid)
+        instance_generated_uuid = generate_uuid("31062f81-b5bd-4f86-a5f8-46367e841508", tag_uid)
     else:
         instance_generated_uuid = None
 
