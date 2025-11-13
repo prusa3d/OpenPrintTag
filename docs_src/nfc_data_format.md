@@ -89,8 +89,26 @@
 1. The `X` in the `string:X` or `bytes:X` notation defines maximum permissible length of the data in bytes.
 
 ### 3.2 UUIDs
-Some entities referenced in the data (see [Terminology](terminology.md)) can be identified by a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). The UUID MAY be explicitly specified through a `XX_uuid`, however that might not be desirable due to space constraints. As an alternative, the following algorithm defines a way to derive UUIDs from other fields. The derivation mechanism SHALL be used only if the relevant `XX_uuid` field is not present in the data; otherwise the field value MUST be used.
+Some entities referenced in the data (see [Terminology](terminology.md)) can be identified by a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier). The UUID MAY be explicitly specified through a `XX_uuid` field, however that might not be desirable due to space constraints. As an alternative, the following algorithm defines a way to derive UUIDs from other fields.
 
+#### 3.2.0.1 When reading a UUID
+1. First, the program MUST check if an appropriate `XX_uuid` field is present in the data. If so, the program MUST use that UUID.
+1. If the field is not present, the program SHOULD derive the UUID using the algorithm described below, and use it.
+1. If the derivation algorithm is not implemented or if the fields required for the derivation are not present and cannot be derived, the UUID is considered not defined and the entity CANNOT be uniquely referenced.
+
+#### 3.2.0.2 When preparing/writing main region data
+1. The program MAY omit the `XX_uuid` field from the data if the value is equal to the auto-derived UUID (and thus if the reader would return the same result in both cases).
+1. Unless guaranteed that a tag is being used for the first time, the program SHOULD assign a new, unique `instance_uuid` (presumably UUIDv4) and include it in the data. This is to prevent `instance_uuid` collisions when a tag is being reused.
+   1. If there is a possibility that the same generated data would get written to multiple tags, the program SHOULD NOT include `instance_uuid`, and instead rely on the auto-derivation mechanism that would yield different UUIDs for different tags.
+
+#### 3.2.0.3 Example: Brand renaming
+If a brand decides to change name but wants to keep the original `brand_uuid` that was auto-derived from its name, it needs to start adding `brand_uuid` field with the original UUID:
+1. `brand_name = Prusament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (not present, can be automatically derived)
+1. Brand gets renamed to `Pepament`
+1. `brand_name = Pepament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (present in the data)
+
+
+### 3.2.1 UUID derivation algorithm
 UUIDs are derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3), according to the following table.
 1. UUIDs are hashed in the binary form.
 1. Strings are encoded as UTF-8.
@@ -134,13 +152,6 @@ nfc_tag_uid = b"\xE0\x04\x01\x08\x66\x2F\x6F\xBC"
 material_package_instance_uuid = generate_uuid(material_package_instance_namespace, nfc_tag_uid)
 print(f"material_package_instance_uuid = {material_package_instance_uuid}")
 {% endpython %}
-
-UUIDs MAY thus be omitted from the in most cases. In the case that a brand changes its name, it SHOULD add `brand_uuid` field with the original UUID whenever the new brand name is used:
-1. `brand_name = Prusament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (not present, can be automatically computed)
-1. Brand gets renamed to `Pepament`
-1. `brand_name = Pepament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (present in the data)
-
-NFC tags have a hardcoded UID (referenced as `nfc_tag_uid` in the table above), which can be used for deriving the `instance_uuid`. This is only admissible when the NFC tag is being filled with data for the first time; when reusing the NFC tag for a different material, a new `instance_uuid` MUST be generated and present in the tag to indicate that the package now holds a different material.
 
 ## 4. Meta section
 
