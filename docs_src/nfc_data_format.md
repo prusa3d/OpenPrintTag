@@ -84,6 +84,7 @@
 1. `enum_array` fields are encoded as CBOR arrays of integers, according to the field mapping
 1. `timestamp` fields are encoded as UNIX timestamp integers
 1. `bytes` and `uuid` types are encoded as CBOR byte string (type 2)
+1. `color_rgba` fields are encoded as a CBOR byte string (type 2) with 3 to 4 bytes representing `[R, G, B]` or `[R, G, B, A]` values
 1. `number` types can be encoded as either unsigned integers (type 0), signed integers (type 1), half floats or floats
 1. `string` types are encoded as CBOR text string (type 3, UTF-8 is enforced by the CBOR specification)
 1. The `X` in the `string:X` or `bytes:X` notation defines maximum permissible length of the data in bytes.
