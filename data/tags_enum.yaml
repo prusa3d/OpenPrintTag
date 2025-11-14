@@ -286,7 +286,6 @@
 
 # Materials
 # =====================================
-# Can be combined with `particles_X` tags, for example `contains_carbon` + `particles_fiber` → contains carbon fibers
 
 - key: 30
   name: contains_carbon
@@ -309,8 +308,7 @@
   display_name: Contains carbon nano tubes
   implies: [contains_carbon]
   description:
-    - Contains carbon nano tubes
-    - "Note: The name 'nano tubes' describes the diameter, but the tubes are typically several micrometers long, so this tag actually implies 'particles_micro'"
+    - Contains carbon nano tubes.
 
 - key: 33
   name: contains_glass
