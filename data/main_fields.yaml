@@ -185,10 +185,8 @@
 
 - key: 19
   name: primary_color
-  type: bytes
-  max_length: 4
+  type: color_rgba
   required: recommended
-  unit: "[R, G, B] or [R, G, B, A]"
   example: "`\\xff\\x00\\x00\\x7f`"
   description:
     - Primary color of the material in the RGB(A) format, intended for UI purposes.
@@ -197,39 +195,29 @@
 
 - key: 20
   name: secondary_color_0
-  type: bytes
-  max_length: 4
-  unit: "[R, G, B] or [R, G, B, A]"
+  type: color_rgba
   description:
     - One of secondary colors of the material.
     - Data format is the same as for `primary_color`.
 
 - key: 21
   name: secondary_color_1
-  type: bytes
-  max_length: 4
-  unit: "[R, G, B] or [R, G, B, A]"
+  type: color_rgba
   description: See `secondary_color_0`.
 
 - key: 22
   name: secondary_color_2
-  type: bytes
-  max_length: 4
-  unit: "[R, G, B] or [R, G, B, A]"
+  type: color_rgba
   description: See `secondary_color_0`.
 
 - key: 23
   name: secondary_color_3
-  type: bytes
-  max_length: 4
-  unit: "[R, G, B] or [R, G, B, A]"
+  type: color_rgba
   description: See `secondary_color_0`.
 
 - key: 24
   name: secondary_color_4
-  type: bytes
-  max_length: 4
-  unit: "[R, G, B] or [R, G, B, A]"
+  type: color_rgba
   description: See `secondary_color_0`.
 
 - key: 25
