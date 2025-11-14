@@ -189,6 +189,15 @@ class BytesField(Field):
         return result
 
 
+class ColorRGBAField(BytesField):
+    def __init__(self, config, config_dir):
+        if "max_length" not in config:
+            # default to RGBA, but
+            # leave the door open for RGB or other formats in the future
+            config["max_length"] = 4
+        super().__init__(config, config_dir)
+
+
 class UUIDField(Field):
     def decode(self, data):
         return str(uuid.UUID(bytes=data))
@@ -206,6 +215,7 @@ field_types = {
     "enum_array": EnumArrayField,
     "timestamp": IntField,
     "bytes": BytesField,
+    "color_rgba": ColorRGBAField,
     "uuid": UUIDField,
 }
 
