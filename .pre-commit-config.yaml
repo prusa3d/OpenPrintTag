@@ -11,3 +11,9 @@ repos:
     rev: v0.14.5
     hooks:
       - id: ruff-format
+
+  - repo: https://github.com/editorconfig-checker/editorconfig-checker.python
+    rev: 3.4.1
+    hooks:
+      - id: editorconfig-checker
+        alias: ec
