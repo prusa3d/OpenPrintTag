@@ -1,0 +1,116 @@
+$schema: "https://json-schema.org/draft-07/schema"
+$id: "https://specs.openprinttag.org/schema/fields.yaml"
+
+title: Fields definition
+description: Schema for OpenPrintTag section field definitions.
+
+type: array
+items:
+  oneOf:
+    - $ref: "#/definitions/deprecatedField"
+    - $ref: "#/definitions/basicField"
+    - $ref: "#/definitions/arrayField"
+    - $ref: "#/definitions/enumField"
+
+definitions:
+  deprecatedField:
+    type: object
+    additionalProperties: false
+    description: Deprecated field.
+
+    required: [ key, deprecated ]
+
+    properties:
+      key:
+        type: integer
+        minimum: 0
+        description: Index of the field in CBOR.
+      deprecated:
+        type: boolean
+        const: true
+        description: Indicates that the field is deprecated.
+
+  baseField:
+    type: object
+    additionalProperties: false
+
+    required: [ key, type, name ]
+
+    not:
+      required: [ deprecated ]
+
+    properties:
+      key:
+        type: integer
+        minimum: 0
+        description: Identifier of the field in CBOR.
+      name:
+        type: string
+        pattern: "^[a-z0-9_]*$"
+        description: Name of the field.
+      unit:
+        type: string
+        description: Unit of measurement for the field.
+      example:
+        type: [ integer, number, string ]
+        description: Example value for the field.
+      required:
+        oneOf:
+          - type: boolean
+          - type: string
+            enum: [recommended]
+        description: Whether the field is required.
+      description:
+        oneOf:
+          - type: string
+          - type: array
+            items: { type: string }
+        description: Description of the field.
+      category:
+        type: string
+        description: Category of the field.
+
+  basicField:
+    allOf:
+      - $ref: "#/definitions/baseField"
+      - description: A basic value.
+
+        required: [ type ]
+
+        properties:
+          type:
+            type: string
+            enum: [ int, number, boolean, uuid, timestamp, color ]
+            description: Type of the field.
+
+  arrayField:
+    allOf:
+      - $ref: "#/definitions/baseField"
+      - description: An array of basic values.
+
+        required: [ type, max_length ]
+
+        properties:
+          type:
+            type: string
+            enum: [ bytes, string ]
+            description: Type of the field.
+          max_length:
+            type: integer
+            minimum: 1
+            description: Maximum number of elements in the array.
+
+  enumField:
+    allOf:
+      - $ref: "#/definitions/baseField"
+        description: An enumerated value.
+
+        required: [ items_file ]
+
+        properties:
+          type:
+            type: string
+            enum: [ enum, enum_array ]
+          items_file:
+            type: string
+            description: Path to the definition containing the list of enum values.

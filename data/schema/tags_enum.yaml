@@ -1,0 +1,53 @@
+$schema: "https://json-schema.org/draft-07/schema"
+$id: "https://specs.openprinttag.org/schema/tags_enum.yaml"
+
+title: Tag variant definition
+description: Schema for OpenPrintTag tag variant definitions.
+
+type: array
+items:
+  type: object
+  description: Material tag variant.
+  additionalProperties: false
+
+  required: [ key, name, category, display_name, category ]
+
+  properties:
+    key:
+      type: integer
+      minimum: 0
+      description: Identifier of the tag in CBOR.
+    name:
+      type: string
+      pattern: "^[a-z0-9_]*$"
+      description: Name of the tag.
+    display_name:
+      type: string
+      description: The human-readable name of the tag.
+    description:
+      oneOf:
+        - type: string
+        - type: array
+          items: { type: string }
+      description: Description of the tag.
+    deprecated:
+      type: boolean
+      description: Whether the tag is deprecated.
+    category:
+      type: string
+      pattern: "^[a-z0-9_]*$"
+      description:
+        Tag category name.
+        See the `tag_category` enum for valid categories.
+    implies:
+      type: array
+      items:
+        type: string
+        pattern: "^[a-z0-9_]*$"
+      description: List of tags, by name, that are implied by the tag.
+    hints:
+      type: array
+      items:
+        type: string
+        pattern: "^[a-z0-9_]*$"
+      description: List of tags, by name, that are hinted to with the tag.

@@ -1,0 +1,33 @@
+$schema: "https://json-schema.org/draft-07/schema"
+$id: "https://specs.openprinttag.org/schema/write_protection_enum.yaml"
+
+title: Write-protection variant definition
+description: Schema for OpenPrintTag write-protection variant definitions.
+
+type: array
+
+items:
+  type: object
+  description: Write-protection variant.
+  additionalProperties: false
+
+  required: [ key, name ]
+
+  properties:
+    key:
+      type: integer
+      minimum: 0
+      description: Identifier of the write-protection variant in CBOR.
+    name:
+      type: string
+      pattern: "^[a-z0-9_+-]*$"
+      description: Write-protection status name.
+    description:
+      oneOf:
+        - type: string
+        - type: array
+          items: { type: string }
+      description: Description of the write-protection status.
+    deprecated:
+      type: boolean
+      description: Whether the write-protection status is deprecated.

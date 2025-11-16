@@ -1,0 +1,32 @@
+$schema: "https://json-schema.org/draft-07/schema"
+$id: "https://specs.openprinttag.org/schema/material_class_enum.yaml"
+
+title: Material class variant definition
+description: Schema for OpenPrintTag material class variant definitions.
+
+type: array
+items:
+  type: object
+  description: Material class variant.
+  additionalProperties: false
+
+  required: [ key, name ]
+
+  properties:
+    key:
+      type: integer
+      minimum: 0
+      description: Identifier of the material class in CBOR.
+    name:
+      type: string
+      pattern: "^[A-Z0-9_+-]*$"
+      description: Material class name.
+    description:
+      oneOf:
+        - type: string
+        - type: array
+          items: { type: string }
+      description: Description of the material class.
+    deprecated:
+      type: boolean
+      description: Whether the material class is deprecated.

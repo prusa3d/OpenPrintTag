@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./schema/fields.yaml
 - key: 0
   name: main_region_offset
   type: int

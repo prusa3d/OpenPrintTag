@@ -1,0 +1,29 @@
+$schema: "https://json-schema.org/draft-07/schema"
+$id: "https://specs.openprinttag.org/schema/tag_category_enum.yaml"
+
+title: Tag category variant definition
+description: Schema for OpenPrintTag tag category variant definitions.
+
+type: array
+items:
+  type: object
+  description: Tag category variant.
+  additionalProperties: false
+
+  required: [ name, display_name ]
+
+  properties:
+    name:
+      type: string
+      pattern: "^[a-z0-9_+-]*$"
+      description: Tag category name.
+    display_name:
+      type: string
+      description: The human-readable name of the tag category.
+    emoji:
+      type: string
+      pattern: "^[\\p{So}\\p{Sk}\\p{Sm}\\p{Sc}]\\uFE0F?$"
+      description: Emoji pictogram for this tag category variant.
+    deprecated:
+      type: boolean
+      description: Whether the tag category is deprecated.
