@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./schema/tag_categories_enum.yaml
 - name: biological
   display_name: Biological
   emoji: 🧬

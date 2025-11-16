@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./schema/write_protection_enum.yaml
 - key: 0
   name: "no"
   description: The tag is not write protected.
