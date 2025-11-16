@@ -1,0 +1,33 @@
+$schema: "https://json-schema.org/draft-07/schema"
+$id: "https://specs.openprinttag.org/schema/config.yaml"
+
+title: Configuration root definition
+description: Schema for OpenPrintTag configuration root definitions.
+
+type: object
+required: [ mime_type, meta_fields, main_fields ]
+properties:
+  mime_type:
+    type: string
+    # this pattern enables vendored and versioned mime types, e.g.,
+    # - application/vnd.openprinttag.v2
+    # - application/vnd.openprinttag+cool-feature
+    pattern: "^application/vnd\\.openprinttag(\\.[a-z0-9]+|\\+[a-z0-9]+)*$"
+    description: The mime type of the configuration.
+
+  root:
+    type: string
+    enum: [nfcv, none]
+    description: The root container of the OpenPrintTag.
+
+  meta_fields:
+    type: string
+    description: Path to the definitions of the Meta Section fields.
+
+  main_fields:
+    type:  string
+    description: Path to the definitions of the Main Region fields.
+
+  aux_fields:
+    type: string
+    description: Path to the definitions of the Auxiliary Section fields.

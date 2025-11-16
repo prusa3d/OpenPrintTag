@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./schema/material_type_enum.yaml
 - key: 0
   abbreviation: PLA
   name: Polylactic Acid

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./schema/fields.yaml
 - key: 0
   name: instance_uuid
   type: uuid
