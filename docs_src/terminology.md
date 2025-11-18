@@ -1,7 +1,7 @@
 # Terminology
 The OpenPrintTag format is based on the following entity model (not all fields are present):
 
-<img src="class_diagram.svg" style="max-width: 500px; max-height: 500px;"/>
+<img src="media/class_diagram.svg" style="max-width: 500px; max-height: 500px;"/>
 
 1. `Material` represents a material with some color and properties.
 	1. For example "Prusament PLA Prusa Galaxy Black".
