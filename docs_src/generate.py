@@ -92,6 +92,7 @@ gen_doc_file("contributing")
 gen_doc_file("material_types")
 gen_doc_file("material_tags")
 gen_doc_file("material_certifications")
+gen_doc_file("physical_spec")
 
 shutil.copytree(f"{dir}/media", f"{out_dir}/media", dirs_exist_ok=True)
 
