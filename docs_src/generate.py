@@ -93,4 +93,4 @@ gen_doc_file("material_types")
 gen_doc_file("material_tags")
 gen_doc_file("material_certifications")
 
-shutil.copyfile(f"{dir}/class_diagram.svg", f"{out_dir}/class_diagram.svg")
+shutil.copytree(f"{dir}/media", f"{out_dir}/media", dirs_exist_ok=True)
