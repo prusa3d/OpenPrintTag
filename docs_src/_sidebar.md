@@ -5,5 +5,6 @@
 - [Material tags](/material_tags)
 - [Material certifications](/material_certifications)
 - [Technical details](/nfc_technical_details)
+- [Physical specification](/physical_spec)
 - [Examples](/examples)
 - [Contributing](/contributing)
