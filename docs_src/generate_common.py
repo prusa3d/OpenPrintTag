@@ -109,7 +109,7 @@ def show_file(file, language="yaml"):
     r.write(f"> ```bash\n> cat {file}\n> ```\n\n")
 
     r.write("<details><summary><b>Commmand output</b></summary>\n\n")
-    with open(f"{dir}/{file}", "r") as f:
+    with open(f"{dir}/{file}", "r", encoding="utf-8") as f:
         r.write(f"```{language}\n{f.read()}\n```\n")
     r.write("</details>\n\n")
 

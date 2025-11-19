@@ -41,7 +41,7 @@ class Args:
 
 def nfc_initialize(args: Args):
     config_dir = os.path.dirname(args.config_file)
-    with open(args.config_file, "r") as f:
+    with open(args.config_file, "r", encoding="utf-8") as f:
         config = types.SimpleNamespace(**yaml.safe_load(f))
 
     assert config.root == "nfcv", "nfc_initialize only supports NFC-V tags"
