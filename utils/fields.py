@@ -105,7 +105,7 @@ class EnumFieldBase(Field):
         self.items_by_key = dict()
         self.items_by_name = dict()
 
-        self.items_yaml = yaml.safe_load(open(os.path.join(config_dir, config["items_file"]), "r"))
+        self.items_yaml = yaml.safe_load(open(os.path.join(config_dir, config["items_file"]), "r", encoding="utf-8"))
         for item in self.items_yaml:
             if item.get("deprecated", False):
                 continue
@@ -239,7 +239,7 @@ class Fields:
 
     def from_file(file: str):
         r = Fields()
-        r.init_from_yaml(yaml.safe_load(open(file, "r")), os.path.dirname(file))
+        r.init_from_yaml(yaml.safe_load(open(file, "r", encoding="utf-8")), os.path.dirname(file))
 
         return r
 

@@ -106,7 +106,7 @@ for file in tests_dir.glob("encode_decode/*_input.yaml"):
     init_args = ["--size=312", "--aux-region=32"]
     info_args = ["--validate", "--show-all", "--show-raw-data", "--opt-check"]
 
-    with open(file, "r") as f:
+    with open(file, "r", encoding="utf-8") as f:
         yml = yaml.safe_load(f).get("test_config", {})
 
         if uri := yml.get("uri"):
