@@ -11,8 +11,8 @@ def gen_material_tag_table():
     r.write("<table>")
     r.write("<tr><th>ID</th><th>Name</th><th>Display name</th><th>Info</th>")
 
-    tags = yaml.safe_load(open(os.path.join(vars.data_dir, "tags_enum.yaml"), "r"))
-    categories = yaml.safe_load(open(os.path.join(vars.data_dir, "tag_categories_enum.yaml"), "r"))
+    tags = yaml.safe_load(open(os.path.join(vars.data_dir, "tags_enum.yaml"), "r", encoding="utf-8"))
+    categories = yaml.safe_load(open(os.path.join(vars.data_dir, "tag_categories_enum.yaml"), "r", encoding="utf-8"))
 
     categories_keys = {c["name"] for c in categories}
 

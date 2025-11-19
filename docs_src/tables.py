@@ -59,7 +59,7 @@ class Column(typing.NamedTuple):
 
 
 def generate_table(yaml_file: str, columns: typing.List[Column], filter: any = None):
-    src = open(yaml_file, "r")
+    src = open(yaml_file, "r", encoding="utf-8")
     data = yaml.safe_load(src)
 
     tgt = io.StringIO("")

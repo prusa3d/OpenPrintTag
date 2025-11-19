@@ -102,7 +102,7 @@ class Record:
         self.encode_config = EncodeConfig()
 
         self.config_dir = os.path.dirname(config_file)
-        with open(config_file, "r") as f:
+        with open(config_file, "r", encoding="utf-8") as f:
             self.config = types.SimpleNamespace(**yaml.safe_load(f))
 
         # Decode the root and find payload

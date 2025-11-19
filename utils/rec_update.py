@@ -18,7 +18,7 @@ record = Record(args.config_file, memoryview(bytearray(sys.stdin.buffer.read()))
 record.encode_config.canonical = args.canonical
 record.encode_config.indefinite_containers = args.indefinite_containers
 
-update_data = yaml.safe_load(open(args.update_data, "r"))
+update_data = yaml.safe_load(open(args.update_data, "r", encoding="utf-8"))
 for region_name, region in record.regions.items():
     region.update(
         update_fields=update_data.get("data", dict()).get(region_name, dict()),

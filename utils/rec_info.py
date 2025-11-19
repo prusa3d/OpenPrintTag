@@ -100,7 +100,7 @@ if args.validate:
         region.fields.validate(region.read())
 
 if args.extra_required_fields:
-    with open(args.extra_required_fields, "r") as f:
+    with open(args.extra_required_fields, "r", encoding="utf-8") as f:
         req_fields = yaml.safe_load(f)
 
     for region_name, region_req_fields in req_fields.items():
