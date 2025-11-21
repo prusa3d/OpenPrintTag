@@ -1,0 +1,19 @@
+### Force text normalization and LF line endings
+# Shell Scripts
+*.sh       text=auto eol=lf working-tree-encoding=UTF-8
+
+# Python
+*.py       text=auto eol=lf working-tree-encoding=UTF-8
+
+# YAML
+*.yaml     text=auto eol=lf working-tree-encoding=UTF-8
+*.yml      text=auto eol=lf working-tree-encoding=UTF-8
+
+# Markdown
+*.md       text=auto eol=lf working-tree-encoding=UTF-8
+
+# Mermaid
+*.mermaid  text=auto eol=lf working-tree-encoding=UTF-8
+
+### Force detection of binaries
+*.bin      binary

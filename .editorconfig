@@ -17,11 +17,7 @@ indent_style = space
 indent_size = 4
 max_line_length = 320 # matches `ruff` configuration
 
-[*.{yml,yaml}]
-indent_style = space
-indent_size = 2
-
-[*.json]
+[*.{yml,yaml,json}]
 indent_style = space
 indent_size = 2
 
