@@ -1,0 +1,34 @@
+name: Update `pre-commit`
+
+on:
+  # Weekdays at 10:00 AM in Czech Republic (Europe/Prague)
+  # - 09:00 UTC = 10:00 in winter (CET, UTC+1)
+  # - 09:00 UTC = 11:00 in summer (CEST, UTC+2)
+  schedule:
+    - cron: "0 9 * * 1-5"
+  # On demand
+  workflow_dispatch:
+
+jobs:
+  auto-update:
+    name: Auto-update `pre-commit` hooks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+
+      - name: Auto-update `pre-commit` hooks
+        uses: browniebroke/pre-commit-autoupdate-action@f5c3ec85103b9f8f9be60b9c006cec763d2bdd02
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: update/pre-commit-hooks
+          title: Update pre-commit hooks
+          commit-message: "chore: update pre-commit hooks"
+          body: Update versions of pre-commit hooks to latest version.
