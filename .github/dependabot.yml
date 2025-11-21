@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    open-pull-requests-limit: 1
+    commit-message:
+      # Skip CI when updating, well, CI.
+      # See: https://github.blog/changelog/2021-02-08-github-actions-skip-pull-request-and-push-workflows-with-skip-ci/
+      prefix: '[skip ci] '
+    schedule:
+      time: "10:00"
+      timezone: "Europe/Prague"
+      interval: "daily"
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    open-pull-requests-limit: 1
+    schedule:
+      time: "10:00"
+      timezone: "Europe/Prague"
+      interval: "daily"
