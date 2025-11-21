@@ -1,0 +1,41 @@
+$schema: "https://json-schema.org/draft-07/schema"
+$id: "https://specs.openprinttag.org/schema/material_type_enum.yaml"
+
+title: Material type variant definition
+description: Schema for OpenPrintTag material type variant definitions.
+
+type: array
+items:
+  type: object
+  description: Material type variant.
+  additionalProperties: false
+
+  required: [ key, abbreviation, name, category ]
+
+  properties:
+    key:
+      type: integer
+      minimum: 0
+      description: Identifier of the material type in CBOR.
+    abbreviation:
+      type: string
+      pattern: "^[A-Z0-9_+-]*$"
+      description: Material type abbreviation.
+    name:
+      type: string
+      description: Human-readable material type name.
+    category:
+      type: string
+      pattern: "^[A-Z0-9_+-]*$"
+      description:
+        Material type category name.
+        See the `material_class` enum for valid categories.
+    description:
+      oneOf:
+        - type: string
+        - type: array
+          items: { type: string }
+      description: Description of the material class.
+    deprecated:
+      type: boolean
+      description: Whether the material class is deprecated.

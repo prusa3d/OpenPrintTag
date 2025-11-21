@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./schema/material_class_enum.yaml
 - key: 0
   name: FFF
   description: Filament

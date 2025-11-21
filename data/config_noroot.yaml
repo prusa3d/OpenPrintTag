@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./schema/config.yaml
 mime_type: application/vnd.openprinttag
 root: none
 meta_fields: meta_fields.yaml
