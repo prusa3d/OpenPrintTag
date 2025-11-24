@@ -1,0 +1,12 @@
+- key: 0
+  name: ul_2818
+  display_name: UL 2818
+  description:
+    - GREENGUARD Certification Program For Chemical Emissions For Building Materials, Finishes And Furnishings.
+
+- key: 1
+  name: ul_94_v0
+  display_name: UL 94 V0
+  description:
+    - Standard for Safety of Flammability of Plastic Materials for Parts in Devices and Appliances testing.
+    - Indicates a flame-retardant material.
