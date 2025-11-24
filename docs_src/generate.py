@@ -73,6 +73,13 @@ env.globals["material_type_columns"] = [
     Column(field="description", title="Description"),
 ]
 
+env.globals["material_certification_columns"] = [
+    Column(field="key", title="Key"),
+    Column(field="name", title="Name", transform=lambda x: f"`{x}`"),
+    Column(field="display_name", title="Display name"),
+    Column(field="description", title="Description"),
+]
+
 gen_doc_file("_navbar")
 gen_doc_file("_sidebar")
 gen_doc_file("README")
@@ -82,7 +89,8 @@ gen_doc_file("nfc_data_format")
 gen_doc_file("nfc_technical_details")
 gen_doc_file("examples")
 gen_doc_file("contributing")
-gen_doc_file("material_tags")
 gen_doc_file("material_types")
+gen_doc_file("material_tags")
+gen_doc_file("material_certifications")
 
 shutil.copyfile(f"{dir}/class_diagram.svg", f"{out_dir}/class_diagram.svg")

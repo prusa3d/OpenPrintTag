@@ -244,6 +244,13 @@
   required: recommended
   description: Properties of the material. Can have multiple tags at once.
 
+- key: 56
+  name: certifications
+  type: enum_array
+  items_file: material_certifications_enum.yaml
+  example: "`ul_2818`"
+  description: Certifications the material has.
+
 - key: 29
   name: density
   type: number
