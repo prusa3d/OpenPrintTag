@@ -8,6 +8,7 @@ on:
 jobs:
   trigger-gitlab-deployment:
     runs-on: ubuntu-latest
+    if: github.repository == 'prusa3d/OpenPrintTag'
     steps:
       - name: Send trigger to WebDev GitLab
         run: |
