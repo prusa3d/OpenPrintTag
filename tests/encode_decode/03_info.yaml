@@ -58,6 +58,8 @@ uri: null
 opt_check:
   warnings:
   - Missing recommended field 'brand_name'
+  - Missing recommended field 'color_name'
+  - Failed to deduce 'full_material_name'
   errors:
   - 'Fields preheat_temperature (300), min_print_temperature (240): a <= b'
   - 'Fields preheat_temperature (300), max_print_temperature (210): a <= b'
@@ -70,7 +72,11 @@ opt_check:
   - Failed to deduce material_uuid
   - Failed to deduce package_uuid
   notes: []
-  uuids:
+  deductions:
+    material_abbreviation: PETG
+    material_name: PETG Jet Black
+    extended_material_name: PETG Jet Black
+    full_material_name: null
     brand_uuid: null
     material_uuid: null
     package_uuid: null

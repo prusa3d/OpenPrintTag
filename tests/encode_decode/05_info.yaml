@@ -8,7 +8,7 @@ regions:
     payload_offset: 4
     absolute_offset: 70
     size: 206
-    used_size: 148
+    used_size: 145
   aux:
     payload_offset: 210
     absolute_offset: 276
@@ -18,8 +18,8 @@ root:
   data_size: 312
   payload_size: 245
   overhead: 67
-  payload_used_size: 153
-  total_used_size: 220
+  payload_used_size: 150
+  total_used_size: 217
 data:
   meta:
     aux_region_offset: 210
@@ -28,7 +28,6 @@ data:
     brand_specific_instance_id: 334c54f088
     material_class: FFF
     material_type: PLA
-    material_name: PLA Prusa Galaxy Black
     brand_name: Prusament
     manufactured_date: 1758709719
     nominal_netto_full_weight: 1000
@@ -54,20 +53,21 @@ data:
     certifications:
     - ul_2818
     - ul_94_v0
+    color_name: Prusa Galaxy Black
   aux: {}
 raw_data:
   meta: a10218d2
-  main: bf041b000007d0fcab45f9056a33333463353466303838080009000a76504c412050727573612047616c61787920426c61636b0b6950727573616d656e740e1a68d3c7d7101903e8111903f41219011813433d3e3d181c9f17ff181df93cf6182218cd182318e1182418aa182518281826183c18271218281828182914182a1840182b18c8182c1864182d183418389f0001ffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  main: bf041b000007d0fcab45f9056a33333463353466303838080009000b6950727573616d656e740e1a68d3c7d7101903e8111903f41219011813433d3e3d181c9f17ff181df93cf6182218cd182318e1182418aa182518281826183c18271218281828182914182a1840182b18c8182c1864182d183418389f0001ff18397250727573612047616c61787920426c61636bff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   aux: a000000000000000000000000000000000000000000000000000000000000000000000
 uri: https://3dtag.org/s/334c54f088
 opt_check:
   warnings:
-  - Missing recommended field 'color_name'
+  - Missing recommended field 'material_name'
   errors: []
   notes: []
   deductions:
     material_abbreviation: PLA
-    material_name: PLA Prusa Galaxy Black
+    material_name: PLA
     extended_material_name: PLA Prusa Galaxy Black
     full_material_name: Prusament PLA Prusa Galaxy Black
     brand_uuid: ae5ff34e-298e-50c9-8f77-92a97fb30b09

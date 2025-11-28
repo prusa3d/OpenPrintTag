@@ -14,7 +14,7 @@ def opt_check(rec: Record, tag_uid: bytes = None):
     warnings = list()
     errors = list()
     notes = list()
-    uuids = dict()
+    deductions = dict()
 
     main_data = rec.main_region.read()
 
@@ -83,6 +83,54 @@ def opt_check(rec: Record, tag_uid: bytes = None):
 
     check_relation(["container_hole_diameter", "container_inner_diameter", "container_outer_diameter"], lambda a, b: a <= b)
 
+    # Deduce material name
+    if deduced_abbreviation := main_data.get("material_abbreviation"):
+        pass
+
+    elif deduced_abbreviation := main_data.get("material_type"):
+        pass
+
+    else:
+        warnings.append("Failed to deduce `material_abbreviation`")
+
+    deductions["material_abbreviation"] = deduced_abbreviation
+
+    if deduced_material_name := main_data.get("material_name"):
+        pass
+
+    elif deduced_material_name := deduced_abbreviation:
+        pass
+
+    else:
+        warnings.append("Failed to deduce `material_name`")
+
+    deductions["material_name"] = deduced_material_name
+
+    def deduce_extended_material_name():
+        result = []
+
+        if deduced_material_name:
+            result.append(deduced_material_name)
+        else:
+            warnings.append("Failed to deduce 'extended_material_name': missing 'material_name'")
+            return None
+
+        if color_name := main_data.get("color_name"):
+            result.append(color_name)
+
+        return " ".join(result)
+
+    extended_material_name = deduce_extended_material_name()
+    deductions["extended_material_name"] = extended_material_name
+
+    if (brand_name := main_data.get("brand_name")) and extended_material_name:
+        full_material_name = f"{brand_name} {extended_material_name}"
+    else:
+        full_material_name = None
+        warnings.append("Failed to deduce 'full_material_name'")
+
+    deductions["full_material_name"] = full_material_name
+
     # Check and deduce UUIDs
     def generate_uuid(namespace, *args):
         return uuid.uuid5(uuid.UUID(namespace), b"".join(args))
@@ -106,7 +154,7 @@ def opt_check(rec: Record, tag_uid: bytes = None):
         if generated_uuid and result != generated_uuid:
             notes.append(f"{field} ({result}) differes from auto-generated {generate_uuid}")
 
-        uuids[field] = str(result) if result else None
+        deductions[field] = str(result) if result else None
 
     if brand_name := main_data.get("brand_name"):
         brand_generated_uuid = generate_uuid("5269dfb7-1559-440a-85be-aba5f3eff2d2", brand_name.encode("utf-8"))
@@ -115,14 +163,14 @@ def opt_check(rec: Record, tag_uid: bytes = None):
 
     deduce_uuid("brand_uuid", brand_generated_uuid)
 
-    if (brand_uuid := uuids["brand_uuid"]) and (material_name := main_data.get("material_name")):
-        material_generated_uuid = generate_uuid("616fc86d-7d99-4953-96c7-46d2836b9be9", uuid.UUID(brand_uuid).bytes, material_name.encode("utf-8"))
+    if (brand_uuid := deductions["brand_uuid"]) and extended_material_name:
+        material_generated_uuid = generate_uuid("616fc86d-7d99-4953-96c7-46d2836b9be9", uuid.UUID(brand_uuid).bytes, extended_material_name.encode("utf-8"))
     else:
         material_generated_uuid = None
 
     deduce_uuid("material_uuid", material_generated_uuid)
 
-    if (brand_uuid := uuids["brand_uuid"]) and (gtin := main_data.get("gtin")):
+    if (brand_uuid := deductions["brand_uuid"]) and (gtin := main_data.get("gtin")):
         package_generated_uuid = generate_uuid("6f7d485e-db8d-4979-904e-a231cd6602b2", uuid.UUID(brand_uuid).bytes, str(gtin).encode("utf-8"))
     else:
         package_generated_uuid = None
@@ -132,7 +180,7 @@ def opt_check(rec: Record, tag_uid: bytes = None):
     if tag_uid and tag_uid[0] != 0xE0:
         warnings.append(f"Tag UID {tag_uid.hex()} doesn't start with 0xE0")
 
-    if (brand_uuid := uuids["brand_uuid"]) and tag_uid:
+    if (brand_uuid := deductions["brand_uuid"]) and tag_uid:
         assert tag_uid[0] == 0xE0, "Make sure tag_uid is in the correct byte order"
         instance_generated_uuid = generate_uuid("31062f81-b5bd-4f86-a5f8-46367e841508", tag_uid)
     else:
@@ -144,7 +192,7 @@ def opt_check(rec: Record, tag_uid: bytes = None):
         "warnings": warnings,
         "errors": errors,
         "notes": notes,
-        "uuids": uuids,
+        "deductions": deductions,
     }
 
 
