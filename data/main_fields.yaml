@@ -239,6 +239,7 @@
 - key: 28
   name: tags
   type: enum_array
+  max_length: 16
   items_file: tags_enum.yaml
   example: "glitter + dual_color"
   required: recommended
@@ -247,6 +248,7 @@
 - key: 56
   name: certifications
   type: enum_array
+  max_length: 8
   items_file: material_certifications_enum.yaml
   example: "`ul_2818`"
   description: Certifications the material has.
