@@ -132,8 +132,11 @@ class EnumField(EnumFieldBase):
 
 
 class EnumArrayField(EnumFieldBase):
+    max_len: int
+
     def __init__(self, config, config_dir):
         super().__init__(config, config_dir)
+        self.max_len = config["max_length"]
 
     def decode(self, data):
         assert type(data) is list
@@ -151,6 +154,7 @@ class EnumArrayField(EnumFieldBase):
         for item in data:
             result.append(self.items_by_name[item])
 
+        assert len(result) <= self.max_len
         return result
 
 
