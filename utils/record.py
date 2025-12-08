@@ -63,12 +63,18 @@ class Region:
     def write(self, data: dict[str, any]):
         return self.update(data, clear=True)
 
-    def update(self, update_fields: dict[str, any], remove_fields: list[str] = [], clear: bool = False):
+    def update(self, update_fields: dict[str, any], update_unknown_fields: dict[str, str] = {}, remove_fields: list[str] = [], clear: bool = False):
         if len(update_fields) == 0 and len(remove_fields) == 0 and not clear:
             # Nothing to do
             return
 
-        encoded = self.fields.update(original_data=io.BytesIO(self.memory) if not clear else None, update_fields=update_fields, remove_fields=remove_fields, config=self.record.encode_config)
+        encoded = self.fields.update(
+            original_data=io.BytesIO(self.memory) if not clear else None,
+            update_fields=update_fields,
+            remove_fields=remove_fields,
+            update_unknown_fields=update_unknown_fields,
+            config=self.record.encode_config,
+        )
         encoded_len = len(encoded)
 
         assert encoded_len <= len(self.memory), f"Data of size {encoded_len} does not fit into region of size {len(self.memory)}"

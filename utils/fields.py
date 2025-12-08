@@ -42,6 +42,14 @@ class CompactFloat:
             self.value = num
 
 
+# Represent a raw CBOR data that are to be encoded verbatim
+class RawCBORData:
+    data: bytes
+
+    def __init__(self, data: bytes):
+        self.data = data
+
+
 class Field:
     key: int
     name: str
@@ -253,7 +261,14 @@ class Fields:
     def encode(self, data: dict[str, any], config: EncodeConfig = EncodeConfig()) -> bytes:
         return self.update(update_fields=data, config=config)
 
-    def update(self, original_data: typing.IO[bytes] = None, update_fields: dict[str, any] = {}, remove_fields: list[str] = [], config: EncodeConfig = EncodeConfig()) -> bytes:
+    def update(
+        self,
+        original_data: typing.IO[bytes] = None,
+        update_fields: dict[str, any] = {},
+        update_unknown_fields: dict[str, str] = {},
+        remove_fields: list[str] = [],
+        config: EncodeConfig = EncodeConfig(),
+    ) -> bytes:
         if original_data:
             result = cbor2.load(original_data)
         else:
@@ -280,11 +295,19 @@ class Fields:
             if isinstance(value, float):
                 result[field_name] = CompactFloat(value)
 
+        # Unknown fields pass verbatim
+        for key, value in update_unknown_fields.items():
+            result[RawCBORData(bytes.fromhex(key))] = RawCBORData(bytes.fromhex(value))
+
         def default_enc(enc: cbor2.CBOREncoder, data: typing.Any):
             if isinstance(data, CompactFloat):
                 # Always encode floats canonically
                 # Noncanonically, floats would always be encoded in 8 B, which is a lot of wasted space
                 cbor2.CBOREncoder(enc.fp, canonical=True).encode(data.value)
+
+            elif isinstance(data, RawCBORData):
+                enc.fp.write(data.data)
+
             else:
                 raise RuntimeError(f"Unsupported type {type(data)} to encode")
 
