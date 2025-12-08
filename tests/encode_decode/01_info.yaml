@@ -34,8 +34,7 @@ data:
     nominal_netto_full_weight: 1000
     actual_netto_full_weight: 1012
     empty_container_weight: 280
-    primary_color:
-      hex: 3d3e3d
+    primary_color: '#3d3e3d'
     tags:
     - glitter
     density: 1.24

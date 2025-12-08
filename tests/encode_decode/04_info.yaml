@@ -32,8 +32,7 @@ data:
     nominal_netto_full_weight: 750
     actual_netto_full_weight: 756
     empty_container_weight: 310
-    primary_color:
-      hex: '303030'
+    primary_color: '#303030'
     tags:
     - abrasive
     - contains_carbon_fiber
