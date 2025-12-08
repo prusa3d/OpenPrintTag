@@ -72,11 +72,11 @@ if args.show_data:
         if name == "meta" and not args.show_meta:
             continue
 
-        unknown_fields = dict()
-        data[name] = region.read(out_unknown_fields=unknown_fields)
+        region_unknown_fields = dict()
+        data[name] = region.read(out_unknown_fields=region_unknown_fields)
 
-        if len(unknown_fields) > 0:
-            unknown_fields[name] = unknown_fields
+        if len(region_unknown_fields) > 0:
+            unknown_fields[name] = region_unknown_fields
 
     output["data"] = data
 
