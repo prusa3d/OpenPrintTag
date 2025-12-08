@@ -159,41 +159,6 @@ class EnumArrayField(EnumFieldBase):
         return result
 
 
-class BytesField(Field):
-    max_len: int | None
-
-    def __init__(self, config, config_dir):
-        super().__init__(config, config_dir)
-        assert "max_length" in config, f"max_length not specified for '{config['name']}'"
-        self.max_len = config["max_length"]
-
-    def decode(self, data):
-        assert isinstance(data, bytes)
-        return {"hex": data.hex()}
-
-    def encode(self, data):
-        if isinstance(data, bytes):
-            result = data
-
-        elif isinstance(data, str):
-            result = data.encode("utf-8")
-
-        elif isinstance(data, int):
-            return data.to_bytes(64, "little").rstrip(b"\x00")
-
-        elif isinstance(data, list):
-            result = bytearray(data)
-
-        elif isinstance(data, dict):
-            result = bytearray.fromhex(data["hex"])
-
-        else:
-            assert False, f"Cannot encode type {type(data)} to bytes"
-
-        assert self.max_len is None or len(result) <= self.max_len
-        return result
-
-
 class ColorRGBAField(Field):
     def decode(self, data):
         assert isinstance(data, bytes)
@@ -222,7 +187,6 @@ field_types = {
     "enum": EnumField,
     "enum_array": EnumArrayField,
     "timestamp": IntField,
-    "bytes": BytesField,
     "color_rgba": ColorRGBAField,
     "uuid": UUIDField,
 }
