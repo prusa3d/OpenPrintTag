@@ -46,6 +46,7 @@ class Field:
     key: int
     name: str
     required: bool
+    type_name: str
 
     def __init__(self, config, config_dir):
         self.type_name = config["type"]
