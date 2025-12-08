@@ -34,8 +34,7 @@ data:
     nominal_netto_full_weight: 1000
     actual_netto_full_weight: 1050
     empty_container_weight: 280
-    primary_color:
-      hex: 24292a
+    primary_color: '#24292a'
     tags: []
     density: 1.27
     min_print_temperature: 240

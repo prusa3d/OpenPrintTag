@@ -7,6 +7,7 @@ import typing
 import cbor2
 import io
 import dataclasses
+import re
 
 
 @dataclasses.dataclass
@@ -193,13 +194,16 @@ class BytesField(Field):
         return result
 
 
-class ColorRGBAField(BytesField):
-    def __init__(self, config, config_dir):
-        if "max_length" not in config:
-            # default to RGBA, but
-            # leave the door open for RGB or other formats in the future
-            config["max_length"] = 4
-        super().__init__(config, config_dir)
+class ColorRGBAField(Field):
+    def decode(self, data):
+        assert isinstance(data, bytes)
+        return f"#{data.hex()}"
+
+    def encode(self, data):
+        assert isinstance(data, str)
+        m = re.match(r"^#([0-9a-f]{4}([0-9a-f]{2})?)$", data)
+        assert m
+        return bytes.fromhex(m.group(1))
 
 
 class UUIDField(Field):
