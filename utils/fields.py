@@ -228,14 +228,15 @@ class Fields:
 
     # Decodes the fields and values from the CBOR binary data
     # If out_unknown_fields is provided, unknown fields are written into it instead of asserting
-    def decode(self, binary_data: typing.IO[bytes], out_unknown_fields: dict[any, any] = None):
+    def decode(self, binary_data: typing.IO[bytes], out_unknown_fields: dict[str, str] = None):
         data = cbor2.load(binary_data)
         result = dict()
         for key, value in data.items():
             field = self.fields_by_key.get(key)
 
             if field is None and out_unknown_fields is not None:
-                out_unknown_fields[key] = value
+                # TODO: These would ideally be passed verbatim, avoiding the deserialize-serialize loop
+                out_unknown_fields[cbor2.dumps(key).hex()] = cbor2.dumps(value).hex()
                 continue
 
             assert field, f"Unknown CBOR key '{key}'"
