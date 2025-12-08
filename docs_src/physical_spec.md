@@ -2,7 +2,7 @@
 This document describes the requirements imposed by the OpenPrintTag standard on the physical tag itself, its mechanical and electrical properties. Currently, the **OpenPrintTag standard supports only the reference `OpenPrintTag MK1` tag**. A more generic specification, allowing deviations from the exact reference design and including NFC reader parameters, **will be released later**.
 
 ## Reference `OpenPrintTag MK1` tag
-`OpenPrintTag MK1` is a passive paper-label NFC tag with an embedded coil and NFC integrated circuit, compliant with the ISO/IEC 15693 vicinity-RFID standard (13.56 MHz).
+`OpenPrintTag MK1` is a passive paper-label NFC tag with an embedded antenna and NFC integrated circuit, compliant with the ISO/IEC 15693 vicinity-RFID standard (13.56 MHz).
 
 <a href="media/tag_mk1.pdf">Technical drawing</a>
 
@@ -48,14 +48,14 @@ This document describes the requirements imposed by the OpenPrintTag standard on
 <td>mm</td>
 </tr>
 <tr>
-<td>Coil outer diameter (Ø)</td>
+<td>Antenna outer diameter (Ø)</td>
 <td align="right">78.6</td>
 <td align="right">79.1</td>
 <td align="right">79.6</td>
 <td>mm</td>
 </tr>
 <tr>
-<td>Coil loop inner diameter (Ø)</td>
+<td>Antenna inner diameter (Ø)</td>
 <td align="right">73.5</td>
 <td align="right">74</td>
 <td align="right">74.5</td>
@@ -180,7 +180,7 @@ This document describes the requirements imposed by the OpenPrintTag standard on
 <td>MHz</td>
 </tr>
 <tr>
-<td>Coil type</td>
+<td>Antenna type</td>
 <td colspan="4">Printed coil</td>
 </tr>
 <tr>
@@ -191,21 +191,21 @@ This document describes the requirements imposed by the OpenPrintTag standard on
 <td></td>
 </tr>
 <tr>
-<td>Coil inductance at 13.56 MHz</td>
+<td>Antenna inductance at 13.56 MHz</td>
 <td align="right">TBD</td>
 <td align="right">6.91</td>
 <td align="right">TBD</td>
 <td>μH</td>
 </tr>
 <tr>
-<td>Coil DC resistance</td>
+<td>Antenna DC resistance</td>
 <td align="right">TBD</td>
 <td align="right">4.565</td>
 <td align="right">TBD</td>
 <td>Ohm</td>
 </tr>
 <tr>
-<td>Minimum operating voltage on unloaded coil</td>
+<td>Minimum operating voltage on unloaded antenna</td>
 <td align="right">1</td>
 <td align="right">1.1</td>
 <td align="right">1.3</td>
