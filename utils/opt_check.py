@@ -16,7 +16,9 @@ def opt_check(rec: Record, tag_uid: bytes = None):
     notes = list()
     uuids = dict()
 
-    main_data = rec.main_region.read()
+    # Pass empty dict to out_unknown_fields so that the script does not crash if the tag has unkown fields
+    # Unknown fields should by reported by rec_info --validate
+    main_data = rec.main_region.read(out_unknown_fields={})
 
     # Aux region checks
     if rec.aux_region is None:
