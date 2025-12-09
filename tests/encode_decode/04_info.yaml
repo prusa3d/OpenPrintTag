@@ -62,8 +62,8 @@ opt_check:
   warnings:
   - Missing recommended field 'gtin'
   - Missing recommended field 'preheat_temperature'
-  errors:
   - Failed to deduce package_uuid
+  errors: []
   notes: []
   uuids:
     brand_uuid: 0d616a90-9d18-567b-92f9-ce471171f898

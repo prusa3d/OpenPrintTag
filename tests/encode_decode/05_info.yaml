@@ -53,10 +53,10 @@ opt_check:
   - Missing recommended field 'preheat_temperature'
   - Missing recommended field 'min_bed_temperature'
   - Missing recommended field 'max_bed_temperature'
-  errors:
   - Failed to deduce brand_uuid
   - Failed to deduce material_uuid
   - Failed to deduce package_uuid
+  errors: []
   notes: []
   uuids:
     brand_uuid: null

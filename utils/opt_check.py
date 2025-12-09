@@ -49,7 +49,8 @@ def opt_check(rec: Record, tag_uid: bytes = None):
 
         for implication in tag_data.get("implies", []):
             if implication not in data_tags:
-                errors.append(f"Tag '{tag_name}' present but implied tag '{implication}' not")
+                # Not an error, just a warning - if the data is older, the implied tag might not have existed
+                warnings.append(f"Tag '{tag_name}' present but implied tag '{implication}' not")
 
         for hint in tag_data.get("hints", []):
             if hint not in data_tags:
@@ -101,7 +102,7 @@ def opt_check(rec: Record, tag_uid: bytes = None):
 
         else:
             if report_deduce_fail:
-                errors.append(f"Failed to deduce {field}")
+                warnings.append(f"Failed to deduce {field}")
 
             result = None
 

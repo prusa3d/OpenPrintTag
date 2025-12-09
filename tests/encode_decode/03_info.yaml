@@ -57,6 +57,9 @@ uri: null
 opt_check:
   warnings:
   - Missing recommended field 'brand_name'
+  - Failed to deduce brand_uuid
+  - Failed to deduce material_uuid
+  - Failed to deduce package_uuid
   errors:
   - 'Fields preheat_temperature (300), min_print_temperature (240): a <= b'
   - 'Fields preheat_temperature (300), max_print_temperature (210): a <= b'
@@ -65,9 +68,6 @@ opt_check:
   - 'Fields min_chamber_temperature (90), max_chamber_temperature (60): a <= b'
   - 'Fields container_hole_diameter (210), container_inner_diameter (100): a <= b'
   - 'Fields container_hole_diameter (210), container_outer_diameter (200): a <= b'
-  - Failed to deduce brand_uuid
-  - Failed to deduce material_uuid
-  - Failed to deduce package_uuid
   notes: []
   uuids:
     brand_uuid: null
