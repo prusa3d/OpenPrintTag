@@ -5,6 +5,12 @@ import yaml
 from record import Record
 from common import default_config_file
 from opt_check import opt_check
+from pathlib import Path
+import referencing
+import urllib.parse
+import jsonschema
+import jsonschema.validators
+import json
 
 parser = argparse.ArgumentParser(prog="rec_info", description="Reads a record from the STDIN and prints various information about it in the YAML format")
 parser.add_argument("-c", "--config-file", type=str, default=default_config_file, help="Record configuration YAML file")
@@ -127,6 +133,24 @@ if args.opt_check:
 
     if len(opt_check_result["errors"]) > 0:
         return_fail = True
+
+
+# Check that the output of this utility is up to the spec
+def validate_output_with_json_schema():
+    def file_retrieve(uri):
+        path = Path(__file__).parent / "schema" / urllib.parse.urlparse(uri).path
+        result = json.loads(path.read_text(encoding="utf-8"))
+        return referencing.Resource.from_contents(result)
+
+    registry = referencing.Registry(retrieve=file_retrieve)
+    entry = "opt_json.schema.json"
+
+    schema = registry.get_or_retrieve(entry).value.contents
+    validator = jsonschema.validators.validator_for(schema)(schema, registry=registry)
+    validator.validate(output)
+
+
+validate_output_with_json_schema()
 
 
 def yaml_hex_bytes_representer(dumper: yaml.SafeDumper, data: bytes):
