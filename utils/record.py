@@ -170,6 +170,34 @@ class Record:
         assert type(self.payload) is memoryview
         self._setup_regions()
 
+    # Validates the region and reports possible errors
+    def validate(self):
+        warnings = list()
+        errors = list()
+
+        # Check we have all required & recommended fields
+        for region_name, region in self.regions.items():
+            unknown_fields = {}
+            region_data = region.read(out_unknown_fields=unknown_fields)
+
+            if len(unknown_fields) > 0:
+                warnings.append(f"Region '{region_name}' contains unknown fields")
+
+            for field in region.fields.fields_by_name.values():
+                if field.name in region_data:
+                    pass  # Has the field, no problem
+
+                elif field.required == "recommended":
+                    warnings.append(f"Missing recommended field '{field.name}'")
+
+                elif field.required:
+                    errors.append(f"Missing required field '{field.name}'")
+
+        return {
+            "warnings": warnings,
+            "errors": errors,
+        }
+
     def _setup_regions(self):
         if "meta_fields" not in self.config.__dict__:
             # If meta region is not present, we only have the main region which spans the entire payload

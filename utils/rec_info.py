@@ -96,10 +96,12 @@ if args.show_raw_data:
 if args.show_uri:
     output["uri"] = record.uri
 
-if args.validate:
-    for name, region in record.regions.items():
-        unknown_fields = {}
-        region.fields.validate(region.read(out_unknown_fields=unknown_fields))
+if args.validate or args.opt_check:
+    validate_result = record.validate()
+    output["validate"] = validate_result
+
+    if len(validate_result["errors"]) > 0:
+        return_fail = True
 
 if args.extra_required_fields:
     with open(args.extra_required_fields, "r", encoding="utf-8") as f:

@@ -27,15 +27,6 @@ def opt_check(rec: Record, tag_uid: bytes = None):
         if len(rec.aux_region.memory) < 16:
             warnings.append("Aux region is smaller than 16 bytes")
 
-    # Check we have all required & recommended fields
-    for field in rec.main_region.fields.fields_by_name.values():
-        if field.name in main_data:
-            pass  # Has the field, no problem
-        elif field.required == "recommended":
-            warnings.append(f"Missing recommended field '{field.name}'")
-        elif field.required:
-            errors.append(f"Missing required field '{field.name}'")
-
     # Check tag transitivities
     data_tags = main_data.get("tags", [])
     for tag_data in rec.main_region.fields.fields_by_name["tags"].items_yaml:

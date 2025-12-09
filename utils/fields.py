@@ -321,21 +321,3 @@ class Fields:
 
         encoder.encode(result)
         return data_io.getvalue()
-
-    def validate(self, decoded_data):
-        for field_name, field in self.fields_by_name.items():
-            if field_name in decoded_data:
-                continue
-
-            match field.required:
-                case False:
-                    pass
-
-                case True:
-                    assert False, f"Missing required field '{field.name}'"
-
-                case "recommended":
-                    print(f"Missing recommended field '{field.name}'", file=sys.stderr)
-
-                case _:
-                    assert False, f"Invalid field '{field.name}' 'required' value '{field.required}'"
