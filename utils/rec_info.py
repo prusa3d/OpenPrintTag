@@ -41,6 +41,7 @@ else:
 
 record = Record(args.config_file, memoryview(data))
 output = {}
+return_fail = False
 
 if args.show_region_info or args.show_root_info:
     regions_info = dict()
@@ -119,7 +120,11 @@ if args.opt_check:
     else:
         tag_uid = None
 
-    output["opt_check"] = opt_check(record, tag_uid)
+    opt_check_result = opt_check(record, tag_uid)
+    output["opt_check"] = opt_check_result
+
+    if len(opt_check_result["errors"]) > 0:
+        return_fail = True
 
 
 def yaml_hex_bytes_representer(dumper: yaml.SafeDumper, data: bytes):
@@ -132,3 +137,5 @@ class InfoDumper(yaml.SafeDumper):
 
 InfoDumper.add_representer(bytes, yaml_hex_bytes_representer)
 yaml.dump(output, stream=sys.stdout, Dumper=InfoDumper, sort_keys=False)
+
+sys.exit(1 if return_fail else 0)

@@ -1,5 +1,6 @@
 test_config:
   extra_required_fields: null
+  expect_success: false
 data:
   main:
     # Material information

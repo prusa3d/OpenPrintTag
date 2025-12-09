@@ -118,12 +118,15 @@ for file in tests_dir.glob("encode_decode/*_input.yaml"):
         if val := yml.get("tag_uid"):
             info_args += ["--tag-uid", val]
 
+        expect_success = yml.get("expect_success", True)
+
     utils_test(
         init_args=init_args,
         update_args=[str(file)],
         info_args=info_args,
         expected_info_fn=fn_info,
         expected_data_fn=f"{fn_base}_data.bin",
+        expect_success=expect_success,
     )
 
 
