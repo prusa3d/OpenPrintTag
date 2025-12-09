@@ -62,11 +62,16 @@ uri: https://www.3dxtech.com/
 opt_check:
   warnings:
   - Missing recommended field 'gtin'
+  - Missing recommended field 'color_name'
   - Missing recommended field 'preheat_temperature'
   errors:
   - Failed to deduce package_uuid
   notes: []
-  uuids:
+  deductions:
+    material_abbreviation: PEKK-CF
+    material_name: CarbonX PEKK-A+CF15 Black
+    extended_material_name: CarbonX PEKK-A+CF15 Black
+    full_material_name: 3DXTech CarbonX PEKK-A+CF15 Black
     brand_uuid: 0d616a90-9d18-567b-92f9-ce471171f898
     material_uuid: 09d4c3e3-f13c-5867-bee3-88eeccb48c6f
     package_uuid: null

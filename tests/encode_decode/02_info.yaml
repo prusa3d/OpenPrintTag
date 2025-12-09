@@ -57,10 +57,15 @@ raw_data:
   aux: a000000000000000000000000000000000000000000000000000000000000000000000
 uri: https://3dtag.org/s/7ab2acb509
 opt_check:
-  warnings: []
+  warnings:
+  - Missing recommended field 'color_name'
   errors: []
   notes: []
-  uuids:
+  deductions:
+    material_abbreviation: PETG
+    material_name: PETG Jet Black
+    extended_material_name: PETG Jet Black
+    full_material_name: Prusament PETG Jet Black
     brand_uuid: ae5ff34e-298e-50c9-8f77-92a97fb30b09
     material_uuid: 1378e978-35ed-534c-9dfa-a65525bf8649
     package_uuid: 6f957b59-9725-5068-9102-15bb77807534

@@ -19,7 +19,7 @@
   type: uuid
   description:
     - Universally unique identifier of the material.
-    - If not specified, can be deduced from `brand_uuid` + `material_name`.
+    - If not specified, can be deduced from `brand_uuid` + `material_name` + `color_name`.
     - See _UUID_ section for more details.
 
 - key: 3
@@ -81,16 +81,20 @@
     - Coarse classification of the material.
     - Useful for determining default parameters for preheat an such that are not explicitly specified in the data.
     - If the material does not match any of the proposed material types, can be left unspecified.
+    - Also see Material naming guidelines.
 
 - key: 10
   name: material_name
   type: string
   max_length: 31
-  example: PC Blend Carbon Fiber Black
+  example: PC Blend Carbon Fiber
   required: recommended
   description:
     - Brand-specific material display string/identifier.
-    - In the UI, brand_name + material_name should be displayed together, for example "Prusament PLA Galaxy Black".
+    - In the UI, `brand_name` + `material_name` + `color_name` should be displayed together, for example "Prusament PLA Carbon Fiber Black".
+    - MAY contain color name as well (for example `PC Blend Carbon Fiber Black`), but it is recommended to store the color name separate in the `color_name` field.
+    - Defaults to `material_abbreviation` if not present.
+    - Also see Material naming guidelines.
 
 - key: 52
   name: material_abbreviation
@@ -182,6 +186,16 @@
   type: number
   unit: g
   description: Weight of the empty container.
+
+- key: 57
+  name: color_name
+  type: string
+  max_length: 32
+  required: recommended
+  example: Galaxy Black
+  description:
+    - Display/brand/marketing name of the material color.
+    - Also see Material naming guidelines.
 
 - key: 19
   name: primary_color

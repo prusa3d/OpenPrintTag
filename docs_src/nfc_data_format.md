@@ -109,7 +109,7 @@ If a brand decides to change name but wants to keep the original `brand_uuid` th
 1. `brand_name = Pepament` (present in the data), `brand_uuid = ae5ff34e-298e-50c9-8f77-92a97fb30b0` (present in the data)
 
 
-### 3.2.1 UUID derivation algorithm
+#### 3.2.1 UUID derivation algorithm
 UUIDs are derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash, as specified in [RFC 4122, section 4.3](https://datatracker.ietf.org/doc/html/rfc4122#section-4.3), according to the following table.
 1. UUIDs are hashed in the binary form.
 1. Strings are encoded as UTF-8.
@@ -117,11 +117,13 @@ UUIDs are derived from the brand-specific IDs using UUIDv5 with the `SHA1` hash,
 1. `+` represents binary concatenation.
 1. NFC tag UID is represented as a bytestream with the MSB being the first byte in the bytestream.
    * **Important:** Various apps/readers report these UIDs in various byte orders, and sometimes as hex strings instead of bytestreams. For NFCV, the UID MUST be a 8 bytes long bytestream with `0xE0` as the **first** byte (SLIX2 then follows with `0x04, 0x01`).
+1. If `material_name` is not present, it defaults to `material_abbreviation`, which in turn defaults to abbreviation of `material_type`.
+1. The space between `material_name` and `color_name` SHALL be omitted if `color_name` is empty.
 
 | UID | Derviation formula | Namespace (`N`) |
 | --- | --- | --- |
 | `brand_uuid` | `N + brand_name` | `5269dfb7-1559-440a-85be-aba5f3eff2d2` |
-| `material_uuid` | `N + brand_uuid + material_name` | `616fc86d-7d99-4953-96c7-46d2836b9be9` |
+| `material_uuid` | `N + brand_uuid + material_name + [" " + color_name]` | `616fc86d-7d99-4953-96c7-46d2836b9be9` |
 | `package_uuid` | `N + brand_uuid + gtin` | `6f7d485e-db8d-4979-904e-a231cd6602b2` |
 | `instance_uuid` | `N + nfc_tag_uid` | `31062f81-b5bd-4f86-a5f8-46367e841508` |
 
@@ -143,6 +145,12 @@ material_name = "PLA Prusa Galaxy Black"
 material_uuid = generate_uuid(material_namespace, brand_uuid.bytes, material_name.encode("utf-8"))
 print(f"material_uuid = {material_uuid}")
 
+material_namespace = "616fc86d-7d99-4953-96c7-46d2836b9be9"
+material_name = "PLA"
+color_name = "Prusa Galaxy Black"
+material_uuid = generate_uuid(material_namespace, brand_uuid.bytes, material_name.encode("utf-8"), " ".encode("utf-8"), color_name.encode("utf-8"))
+print(f"material_uuid = {material_uuid}")
+
 material_package_namespace = "6f7d485e-db8d-4979-904e-a231cd6602b2"
 gtin = "1234"
 material_package_uuid = generate_uuid(material_package_namespace, brand_uuid.bytes, gtin.encode("utf-8"))
@@ -153,6 +161,28 @@ nfc_tag_uid = b"\xE0\x04\x01\x08\x66\x2F\x6F\xBC"
 material_package_instance_uuid = generate_uuid(material_package_instance_namespace, nfc_tag_uid)
 print(f"material_package_instance_uuid = {material_package_instance_uuid}")
 {% endpython %}
+
+### 3.3 Material naming guidelines
+The full material name is defined as `brand_name + " " + material_name + " " + color_name`. For some materials, it can be difficult to determine how to split the full name to the individual fields. It is recommended to follow these guidelines:
+1.  Material "families" (such as PolyLite or PolySonic from Polymaker) SHOULD be part of `material_name`. One company SHOULD generally have a single `brand_name` entry.
+   1. __Note: This is to have a single `brand_uuid` for the brand__
+1. `material_name` SHOULD contain terms that affect primarily material physical properties, such as "high speed", "carbon fiber", "recycled" and so on.
+   1. Case study: If the material name contains the "carbon fiber" term to indicate visual imitation without actually containing carbon fibers (should also be reflected by not having the `contains_carbon_fiber` tag), the term SHOULD be part of the `color_name` instead.
+1. `color_name` SHOULD contain terms that affect primarily material visual properties, such as "matte", "silk", "glow", "rainbow" and individual color names.
+1. If the separation between `material_name` and `color_name` is unclear or if the separation would break product name word order, `color_name` MAY be omitted and all terms (excluding brand name) MAY be stored in `material_name`.
+1. Please note that the defaulting mechanics of `material_name` and `material_abbreviation` fields apply for both material name and UUID derivation.
+
+#### 3.3.1 Naming examples
+| `brand_name` | `material_name` | `color_name` | `abbreviation` | Notes |
+| - | - | - | - |
+| Prusament | PLA | Prusa Galaxy Black | PLA | |
+| Prusament | PC Blend Cabron Fiber | Black | PCCF | |
+| Prusament | rPLA | Algae Pigment | rPLA | |
+| Prusament | PETG V0 | Natural | PETGV0 | |
+| Prusament | PLA Recycled | | rPLA | It is unclear whether "Recycled" stands for color or material name → defaulting everything to `material_name` |
+| Polymaker | PolyLite PLA | White | PLA |
+| Polymaker | PolySonic PLA | White | PLA |
+| Polymaker | PolyLite Luminous PLA Rainbow | | PLA | "Luminous" should technically be a part of `color_name`, defaulting everything to `material_name` to preserve word order. |
 
 ## 4. Meta section
 
