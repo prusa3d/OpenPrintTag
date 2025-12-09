@@ -97,7 +97,8 @@ if args.show_uri:
 
 if args.validate:
     for name, region in record.regions.items():
-        region.fields.validate(region.read())
+        unknown_fields = {}
+        region.fields.validate(region.read(out_unknown_fields=unknown_fields))
 
 if args.extra_required_fields:
     with open(args.extra_required_fields, "r", encoding="utf-8") as f:
