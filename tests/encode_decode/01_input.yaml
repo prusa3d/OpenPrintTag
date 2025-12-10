@@ -8,7 +8,7 @@ data:
     material_type: PLA
     brand_name: Prusament
     material_name: PLA Prusa Galaxy Black
-    primary_color: "#3d3e3d"
+    primary_color: "#3d3e3dff"
     tags: [glitter]
     certifications: [ul_2818, ul_94_v0]
     density: 1.24

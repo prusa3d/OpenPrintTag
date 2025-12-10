@@ -41,7 +41,7 @@
         "color_rgba": {
             "type": "string",
             "description": "RGB(A) color in a standard hex notation '#RRGGBB(AA)'",
-            "pattern": "^#[0-9a-f]{4}([0-9a-f]{2})?$"
+            "pattern": "^#[0-9a-f]{6}([0-9a-f]{2})?$"
         }
     }
 }

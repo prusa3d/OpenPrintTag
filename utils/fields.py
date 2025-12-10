@@ -175,7 +175,7 @@ class ColorRGBAField(Field):
 
     def encode(self, data):
         assert isinstance(data, str)
-        m = re.match(r"^#([0-9a-f]{4}([0-9a-f]{2})?)$", data)
+        m = re.match(r"^#([0-9a-f]{6}([0-9a-f]{2})?)$", data)
         assert m
         return bytes.fromhex(m.group(1))
 
