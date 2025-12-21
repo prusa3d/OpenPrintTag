@@ -185,6 +185,12 @@
                 },
                 "cure_wavelength": {
                     "$ref": "field_types.schema.json#/definitions/int"
+                },
+                "drying_temperature": {
+                    "$ref": "field_types.schema.json#/definitions/int"
+                },
+                "drying_time": {
+                    "$ref": "field_types.schema.json#/definitions/int"
                 }
             },
             "unevaluatedProperties": false
