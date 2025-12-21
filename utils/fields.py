@@ -129,16 +129,27 @@ class EnumFieldBase(Field):
             self.items_by_key[key] = name
             self.items_by_name[name] = key
 
+    def decode(self, data):
+        if not isinstance(data, int):
+            raise ValueError("Enum item not integer")
+
+        return self.items_by_key.get(data, data)
+
+    def encode(self, data):
+        if isinstance(data, str):
+            return self.items_by_name[data]
+
+        elif isinstance(data, int):
+            # Pass unkown items verbatim
+            return data
+
+        else:
+            raise ValueError("Enum values must be either")
+
 
 class EnumField(EnumFieldBase):
     def __init__(self, config, config_dir):
         super().__init__(config, config_dir)
-
-    def decode(self, data):
-        return self.items_by_key[data]
-
-    def encode(self, data):
-        return self.items_by_name[data]
 
 
 class EnumArrayField(EnumFieldBase):
@@ -151,18 +162,12 @@ class EnumArrayField(EnumFieldBase):
     def decode(self, data):
         assert type(data) is list
 
-        result = []
-        for item in data:
-            result.append(self.items_by_key[item])
-
-        return result
+        return [EnumFieldBase.decode(self, item) for item in data]
 
     def encode(self, data):
         assert type(data) is list
 
-        result = []
-        for item in data:
-            result.append(self.items_by_name[item])
+        result = [EnumFieldBase.encode(self, item) for item in data]
 
         assert len(result) <= self.max_len
         return result

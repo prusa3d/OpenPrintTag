@@ -3,6 +3,12 @@ test_config:
 data:
   main:
     material_class: FFF
+
+    # Test unknown enum items
+    tags:
+      - glitter
+      - 9429
+
 unknown_fields:
   main:
     # 27 (= transmission distance): 5.1
