@@ -202,3 +202,8 @@
   abbreviation: OBC
   name: Olefin Block Copolymer
   description: A lightweight flexible material that has good dimensional stability and is weather, UV, and chemical resistant.
+
+- key: 41
+  abbreviation: EVA
+  name: Ethylene Vinyl Acetate
+  description: A flexible, soft material with rubber-like properties, known for its toughness and resistance to UV radiation and stress cracking.
