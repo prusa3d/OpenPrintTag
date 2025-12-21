@@ -77,6 +77,7 @@
    1. All data sections SHALL be at most 512 bytes long.
    1. All fields MUST follow this specification. Using custom or vendor-specific keys is not permitted (with the exception described in the Aux Region section).
    1. New keys can be added to the specification at any time, implementations SHALL be able to skip unknown keys, of any type. Unknown fields SHALL NOT be removed when updating a known field (or in any update proces in general) unless explicitly intended.
+      1. This applies to unknown items of `enum` and `enum_array` as well, provided that they are represented as integer values in the range of <0, 65535>.
    1. Keys can be deprecated at any time. Deprecated keys will never be reused.
    1. The keys MAY be arbitrarily ordered within the CBOR map. Implementations SHALL support unsorted (non-canonical) CBOR maps.
 1. CBOR maps and arrays SHOULD be encoded as indefinite containers.
