@@ -48,6 +48,8 @@ validate:
   - Missing recommended field 'manufactured_date'
   - Missing recommended field 'nominal_netto_full_weight'
   - Missing recommended field 'actual_netto_full_weight'
+  - Missing recommended field 'nominal_full_length'
+  - Missing recommended field 'actual_full_length'
   - Missing recommended field 'empty_container_weight'
   - Missing recommended field 'primary_color'
   - Missing recommended field 'density'

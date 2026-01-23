@@ -56,7 +56,9 @@ raw_data:
   aux: a000000000000000000000000000000000000000000000000000000000000000000000
 uri: https://3dtag.org/s/7ab2acb509
 validate:
-  warnings: []
+  warnings:
+  - Missing recommended field 'nominal_full_length'
+  - Missing recommended field 'actual_full_length'
   errors: []
 opt_check:
   warnings: []
