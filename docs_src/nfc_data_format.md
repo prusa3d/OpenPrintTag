@@ -67,6 +67,7 @@
    1. **Auxiliary section** (optional, CBOR map)
       1. Positioned at the beginning of the auxiliary region.
       1. Intended for dynamic information, intended to be updated by the printers.
+      1. SHALL have at least 16 B allocated if present. 32 B is recommended.
 1. Unused space in the sections (outside of the region CBOR) SHALL NOT contain any meaningful working data. It SHOULD be filled with zeroes on tag initialization, but there are no requirements on upkeeping that afterwards. Users CAN update the regions with smaller data, leaving remnants of the original data behind.
 
 ## 3. Specification common to all sections
