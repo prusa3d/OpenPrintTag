@@ -15,6 +15,9 @@ regions:
     size: 35
     used_size: 1
 root:
+  cc_capacity: 312
+  ndef_tlv_payload_start: 8
+  ndef_tlv_payload_size: 303
   data_size: 312
   payload_size: 269
   overhead: 43

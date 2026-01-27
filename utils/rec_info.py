@@ -1,16 +1,16 @@
 import argparse
+import json
 import sys
-import yaml
-
-from record import Record
-from common import default_config_file
-from opt_check import opt_check
-from pathlib import Path
-import referencing
 import urllib.parse
+from pathlib import Path
+
 import jsonschema
 import jsonschema.validators
-import json
+import referencing
+import yaml
+from common import default_config_file
+from opt_check import opt_check
+from record import Record
 
 parser = argparse.ArgumentParser(prog="rec_info", description="Reads a record from the STDIN and prints various information about it in the YAML format")
 parser.add_argument("-c", "--config-file", type=str, default=default_config_file, help="Record configuration YAML file")
@@ -64,6 +64,7 @@ if args.show_region_info or args.show_root_info:
     if args.show_root_info:
         overhead = len(record.data) - len(record.payload)
         output["root"] = {
+            **record.root_info,
             "data_size": len(record.data),
             "payload_size": len(record.payload),
             "overhead": overhead,

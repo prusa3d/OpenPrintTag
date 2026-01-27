@@ -1,12 +1,12 @@
-import os
-import ndef
-import yaml
-import cbor2
 import io
+import os
 import types
 import typing
 
-from fields import Fields, EncodeConfig
+import cbor2
+import ndef
+import yaml
+from fields import EncodeConfig, Fields
 
 
 class Region:
@@ -99,6 +99,9 @@ class Record:
 
     regions: dict[str, Region] = None
 
+    # Debug information about the record - to be shown in the CLI if the user demands it
+    root_info: dict[str, typing.Any]
+
     encode_config: EncodeConfig
 
     def __init__(self, config_file: str, data: memoryview):
@@ -106,6 +109,7 @@ class Record:
 
         self.data = data
         self.encode_config = EncodeConfig()
+        self.root_info = dict()
 
         self.config_dir = os.path.dirname(config_file)
         with open(config_file, "r", encoding="utf-8") as f:
@@ -123,6 +127,8 @@ class Record:
 
                 # TODO: Support 8-byte CC (with a different magic)
                 assert cc[0] == 0xE1, "Capability container magic number does not match"
+
+                self.root_info["cc_capacity"] = cc[2] * 8
 
                 # Find the NDEF TLV
                 while True:
@@ -143,7 +149,10 @@ class Record:
 
                     # 0x03 = NDEF TLV
                     if tag == 0x03:
-                        # Found it -
+                        # Found it
+
+                        self.root_info["ndef_tlv_payload_start"] = data_io.tell()
+                        self.root_info["ndef_tlv_payload_size"] = tlv_len
                         break
                     else:
                         # Skip the TLV block
